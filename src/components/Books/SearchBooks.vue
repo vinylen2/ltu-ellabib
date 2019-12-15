@@ -7,20 +7,23 @@
       :key="genre.id">
       <v-tooltip bottom color="blue">
         <template v-slot:activator="{on}">
-          <a v-on="on">
-            <img class="genre-icon"
-              @click="toggleSelected(genre);"
-              v-bind:class="{ selected: selected == genre }"
-              :src="`${imagesUrl}${genre.slug}.png`"/>
-          </a>
+          <v-btn fab v-on="on" class="ma-2">
+            <v-avatar
+              size="55">
+              <img class="genre-icon"
+                @click="toggleSelected(genre);"
+                v-bind:class="{ selected: selected == genre }"
+                :src="`${imagesUrl}${genre.slug}.png`"/>
+            </v-avatar>
+          </v-btn>
         </template>
         <span>{{genre.name}}</span>
       </v-tooltip>
     </v-col>
     <v-col
       xs="12">
-      <v-btn class="mx" 
-        fab 
+      <v-btn class="ma-2" 
+      fab
         dark 
         color="blue"
         @click="toggleSearch">

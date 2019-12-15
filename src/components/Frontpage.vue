@@ -31,7 +31,6 @@
   </v-carousel>
   <v-container fluid>
       <book-list class="list"
-        title="Topplistan"
         :books="$store.state.highestRatedBooks">
       </book-list>
       <book-list class="list"

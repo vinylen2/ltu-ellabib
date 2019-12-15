@@ -1,4 +1,5 @@
 <template>
+<v-container>
   <div class="add-author flex-box">
     <h3>Logga in</h3>
     <div class="flex-container">
@@ -30,6 +31,7 @@
         </div>
     </div>
   </div>
+</v-container>
 </template>
 
 
