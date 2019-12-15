@@ -1,11 +1,6 @@
 <template>
 <div class="container">
-  <!-- <h1>{{ reviewLocal.books[0].title }}</h1>  -->
   <div class="review-header flex-container">
-    <!-- To-do: link to page for reviewer -->
-    <!-- <div class="review-title">
-      <span>Av: recencent den {{ formattedDate(reviewLocal.createdAt) }} &nbsp;</span>
-    </div> -->
   </div>
   <h2>Beskrivning</h2>
   <audio-editor class="editor"
@@ -33,7 +28,6 @@
 
 <script>
 /* eslint no-param-reassign: ["error", { "props": false }]*/
-import StarRating from 'vue-star-rating';
 import Reviews from '@/api/services/reviews';
 import AudioEditor from '@/components/AudioEditor';
 import Urls from '@/assets/urls';
@@ -42,7 +36,6 @@ import moment from 'moment';
 export default {
   name: 'edit-review-audio',
   components: {
-    StarRating,
     'audio-editor': AudioEditor,
   },
   data() {
@@ -69,9 +62,9 @@ export default {
       },
     };
   },
-  props: {
-    review: '',
-  },
+  // props: {
+  //   review: '',
+  // },
   computed: {
     reviewFormData() {
       const formdata = new FormData();

@@ -4,7 +4,6 @@ import Books from '@/components/Books';
 import Frontpage from '@/components/Frontpage';
 import BookDescription from '@/components/BookDescription';
 import PublishReview from '@/components/PublishReview';
-import Scanner from '@/components/Scanner';
 import ActivateReviews from '@/components/ActivateReviews';
 import PostBook from '@/components/PostBook';
 import About from '@/components/About';
@@ -12,7 +11,6 @@ import Login from '@/components/Login';
 import Admin from '@/components/Admin';
 import QrCodes from '@/components/QrCodes';
 import Store from '@/stores/store';
-import VueAnalytics from 'vue-analytics';
 import Meta from 'vue-meta';
 
 Vue.use(Router);
@@ -42,11 +40,6 @@ const router = new Router({
       name: 'publish-review',
       component: PublishReview,
       props: true,
-    },
-    {
-      path: '/scanner',
-      name: 'scanner',
-      component: Scanner,
     },
     {
       path: '/about',
@@ -104,21 +97,6 @@ router.beforeEach((to, from, next) => {
     }
   }
   next();
-});
-
-Vue.use(VueAnalytics, {
-  // id: 'UA-110562368-1', // demo
-  id: 'UA-110562368-3', // real
-  router,
-  autoTracking: {
-    pageviewTemplate(route) {
-      return {
-        page: route.path,
-        title: document.title,
-        location: window.location.href,
-      };
-    },
-  },
 });
 
 export default router;

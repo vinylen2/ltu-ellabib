@@ -3,17 +3,14 @@
     <router-link to="/">
       <img :src="`${imagesUrl}ellabib.png`">
     </router-link>
-    <!-- <router-link to="/">Hem</router-link> -->
     <router-link to="/books">Böcker</router-link>
-    <router-link to ="/scanner"
-      v-show="isDeviceWithWebRTC">Scanner</router-link>
     <router-link to="/about">Om</router-link>
     <div class="admin">
       <router-link to ="/admin"
         v-show="isAdmin"><icon name="cog" scale="2" color="#2c3e50"></icon></router-link>
       <div class="login"
         v-show="isAdmin"
-        @click="logout"><icon name="sign-out" scale="2" color="#2c3e50"></icon></div>
+        @click="logout">Logga ut</div>
     </div>
   </div>
 </template>

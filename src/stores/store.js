@@ -14,10 +14,6 @@ export default new Vuex.Store({
     userAgent: {
       isMobile: null,
     },
-    cordova: {
-      isApp: false,
-      isActive: false,
-    },
     books: [],
     genres: [],
     highestRatedBooks: [],
@@ -58,9 +54,6 @@ export default new Vuex.Store({
     changeAdminState: (state) => {
       state.isAdmin = !state.isAdmin;
     },
-    // isAndroid: (state) => {
-    //   state.isAndroid = /(android)/i.test(navigator.userAgent);
-    // },
     isAllowedIp: (state) => {
       state.isAllowedIp = true;
     },

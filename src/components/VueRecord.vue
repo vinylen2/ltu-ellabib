@@ -162,19 +162,6 @@ export default {
       // removed this to fix getBlob() function above
       // this._recordRTC = null
     },
-    // using component audio-editor for playback
-    // playbackAudio() {
-    //   // implement toggle playback here
-    //   var audio = new Audio()
-    //   audio.src = this.dataUrl();
-    //   audio.controls = true
-    //
-    //   audio.play();
-    //
-    //   audio.onended = function() {
-    //     audio.pause();
-    //   };
-    // },
     deleteRecording() {
       this.isEditing = false;
     },
