@@ -119,10 +119,10 @@ a {
   color: #2c3e50;
   cursor: pointer;
 }
-.container {
+/* .container {
   margin: 0;
   display: block;
-}
+} */
 
 .header-text {
   position: absolute;

@@ -1,24 +1,18 @@
 <template>
-  <div id="app">
+<v-app id="app">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <nav v-sticky="{ zIndex: 21 }">
-      <nav-bar></nav-bar>
-    </nav>
+      <navbar-two></navbar-two>
     <router-view></router-view>
-  </div>
+</v-app>
 </template>
 
 <script>
-import Navbar from '@/components/Navbar';
-import VueSticky from 'vue-sticky';
+import Navbar2 from '@/components/Navbar2';
 
 export default {
   name: 'app',
-  directives: {
-    sticky: VueSticky,
-  },
   components: {
-    'nav-bar': Navbar,
+    'navbar-two': Navbar2,
   },
 };
 </script>
