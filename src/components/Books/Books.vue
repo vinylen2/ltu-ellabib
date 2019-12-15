@@ -6,6 +6,7 @@
     </div>
     <div class="genre-search" v-else>
       <a v-for="genre in $store.state.genres" class="genre tooltip"
+        :key="genre.id"
         v-tooltip.bottom="{ content: genre.name, classes: 'genre-tooltip'}">
         <img class="genre-icon"
           @click="toggleSelected(genre); gaGenre(genre);"
@@ -27,6 +28,7 @@
     </transition>
     <div class="wrapper flex-container">
       <div v-for="book in paginatedBooks"
+        :key="book.id"
         class="book">
         <router-link class ="link" :to="{ name: 'bok', params: { slug: book.slug }}">
           <img class="front-img"

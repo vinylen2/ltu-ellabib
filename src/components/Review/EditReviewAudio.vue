@@ -29,7 +29,7 @@
 <script>
 /* eslint no-param-reassign: ["error", { "props": false }]*/
 import Reviews from '@/api/services/reviews';
-import AudioEditor from '@/components/AudioEditor';
+import AudioEditor from '@/components/Audio/AudioEditor';
 import Urls from '@/assets/urls';
 import moment from 'moment';
 

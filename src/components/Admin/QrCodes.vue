@@ -7,6 +7,7 @@
     <div class="qr-container">
       <div class="code"
         v-for="book in books"
+        v-bind:key="book.id"
         @click="toggleQr(book)">
         <p>{{short(book.title)}}</p>
         <qriously :value="`https://ellabib.se/book/${book.slug}`"

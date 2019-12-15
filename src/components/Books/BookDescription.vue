@@ -32,7 +32,7 @@
           @click="changeDescription">
           <img class="front-img"
             v-if="currentBook.localImage"
-            :src="`${imagesUrl}${currentBook.imageUrl}`" />
+            :src="`${imagesUrl}${currentBook.imageUrl}`" />
           <img class="front-img"
             v-if="!currentBook.localImage"
             :src="currentBook.imageUrl"/>
@@ -105,7 +105,8 @@
         <h2>Recensioner</h2>
         <div class="review"
           v-for="review in reviews"
-          v-if="review.review.length > 0">
+          :key="review.id">
+          <!-- v-if="review.review.length > 0"> -->
           <header class="review-header flex-container">
             <!-- To-do: link to page for reviewer -->
             <div class="review-text">
@@ -147,15 +148,14 @@
 import Books from '@/api/services/books';
 import Reviews from '@/api/services/reviews';
 import Urls from '@/assets/urls';
-import AudioPlayer from '@/components/AudioPlayer';
-import EditBook from '@/components/EditBook';
+import AudioPlayer from '@/components/Audio/AudioPlayer';
+import EditBook from '@/components/Admin/EditBook';
 import StarRating from 'vue-star-rating';
 
 import Vue from 'vue';
 import moment from 'moment';
 import VModal from 'vue-js-modal';
 import _ from 'lodash';
-import Icon from 'vue-awesome';
 import 'moment/locale/sv';
 
 Vue.use(VModal);
@@ -165,7 +165,6 @@ export default {
     'audio-player': AudioPlayer,
     EditBook,
     StarRating,
-    Icon,
   },
   data() {
     return {

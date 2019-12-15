@@ -62,7 +62,7 @@
 import Books from '@/api/services/books';
 import Reviews from '@/api/services/reviews';
 import StarRating from 'vue-star-rating';
-import VueRecord from '@/components/VueRecord';
+import VueRecord from '@/components/Audio/VueRecord';
 import SyncLoader from 'vue-spinner/src/SyncLoader';
 
 export default {

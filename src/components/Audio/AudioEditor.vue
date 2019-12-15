@@ -57,9 +57,9 @@ export default {
     };
   },
   props: {
-    dataUrl: '',
-    source: '',
-    isEditing: false,
+    dataUrl: String,
+    source: String,
+    isEditing: Boolean,
   },
   computed: {
     roundedTime() {

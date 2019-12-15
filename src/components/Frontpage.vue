@@ -53,7 +53,7 @@
 
 <script>
 import Books from '@/api/services/books';
-import BookList from '@/components/BookList';
+import BookList from '@/components/Books/BookList';
 import Vue from 'vue';
 import VueParallaxJs from 'vue-parallax-js';
 import VueAwesomeSwiper from 'vue-awesome-swiper';

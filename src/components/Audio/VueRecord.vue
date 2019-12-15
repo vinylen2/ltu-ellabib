@@ -31,7 +31,7 @@
 import RecordRTC from 'recordrtc';
 import Store from '@/stores/store';
 import timer from 'minimal-timer';
-import AudioEditor from '@/components/AudioEditor';
+import AudioEditor from '@/components/Audio/AudioEditor';
 import Icon from 'vue-awesome';
 
 export default {

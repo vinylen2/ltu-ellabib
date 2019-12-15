@@ -16,7 +16,7 @@
   </template>
 
   <script>
-  import AudioPlayer from '@/components/AudioPlayer';
+  import AudioPlayer from '@/components/Audio/AudioPlayer';
   import Urls from '@/assets/urls';
 
   export default {
