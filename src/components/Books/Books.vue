@@ -17,7 +17,7 @@
 
   <mugen-scroll :handler="incrementPage"
     v-if="!allBooksFetched"
-    :should-handle="!loading">
+    :should-handle="!$store.getters.isLoading">
   </mugen-scroll>
 </v-container>
 </template>
@@ -62,7 +62,6 @@ export default {
       queryParams: { genre: [] },
       page: 1,
       booksToDisplay: 10,
-      loading: false,
     };
   },
   computed: {
@@ -78,9 +77,7 @@ export default {
   },
   methods: {
     incrementPage() {
-      this.loading = true;
       this.page += 1;
-      this.loading = false;
     },
   },
 };

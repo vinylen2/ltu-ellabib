@@ -145,6 +145,7 @@
 </template>
 
 <script>
+/* eslint-disable no-console */
 import Books from '@/api/services/books';
 import Reviews from '@/api/services/reviews';
 import Urls from '@/assets/urls';

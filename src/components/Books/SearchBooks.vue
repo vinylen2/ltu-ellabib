@@ -1,21 +1,25 @@
 <template>
 <v-container>
-  <v-progress-linear class="ma-0" :color="'green lighten-2'"
-    :indeterminate="true"
-    v-if="$store.state.genres.length == 0">
-  </v-progress-linear>
-  <v-row>
+  <v-row justify="center"
+    no-gutters>
     <v-col v-for="genre in $store.state.genres"
+      xs="12"
       :key="genre.id">
-      <a>
-        <img class="genre-icon"
-          @click="toggleSelected(genre);"
-          v-bind:class="{ selected: selected == genre }"
-          :src="`${imagesUrl}${genre.slug}.png`"/>
-      </a>
+      <v-tooltip bottom color="blue">
+        <template v-slot:activator="{on}">
+          <a v-on="on">
+            <img class="genre-icon"
+              @click="toggleSelected(genre);"
+              v-bind:class="{ selected: selected == genre }"
+              :src="`${imagesUrl}${genre.slug}.png`"/>
+          </a>
+        </template>
+        <span>{{genre.name}}</span>
+      </v-tooltip>
     </v-col>
-    <v-col>
-      <v-btn class="mx-2" 
+    <v-col
+      xs="12">
+      <v-btn class="mx" 
         fab 
         dark 
         color="blue"
@@ -61,6 +65,7 @@ export default {
     }, 500),
   },
   created() {
+    this.$store.commit('isLoading');
     this.getGenres();
     if (this.$route.params.genre) {
       this.addGenreToQuery(this.$route.params.genre);
@@ -71,7 +76,6 @@ export default {
     } else {
       this.getBooks();
     }
-
   },
   methods: {
     toggleSelected(genre) {
@@ -112,6 +116,7 @@ export default {
       Books.getAll()
         .then((result) => {
           this.$store.commit('books', result.data);
+          this.$store.commit('isNotLoading');
         });
     },
     searchBooks() {

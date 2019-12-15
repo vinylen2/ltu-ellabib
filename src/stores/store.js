@@ -10,6 +10,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     isAdmin: false,
+    isLoading: false,
     isAllowedIp: false,
     userAgent: {
       isMobile: null,
@@ -40,6 +41,13 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+/* eslint-disable no-console */
+    isLoading: (state) => {
+      state.isLoading = true;
+    },
+    isNotLoading: (state) => {
+      state.isLoading = false;
+    },
     count: (state, data) => {
       state.count = data;
     },
