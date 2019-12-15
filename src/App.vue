@@ -1,8 +1,9 @@
 <template>
 <v-app id="app">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <navbar-two></navbar-two>
+  <navbar-two></navbar-two>
+  <v-content>
     <router-view></router-view>
+  </v-content>
 </v-app>
 </template>
 

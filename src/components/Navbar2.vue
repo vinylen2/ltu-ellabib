@@ -3,36 +3,35 @@
       color="green lighten-3"
       dark
       fixed
+      app
     >
-      <v-toolbar-items>
-        <v-btn text
-          to="/">
-          <v-icon class="mr-3">mdi-home</v-icon>
-          Hem
-        </v-btn>
-      </v-toolbar-items>
+    <v-toolbar-items>
+      <v-btn text
+        to="/">
+        <v-icon class="mr-3">mdi-home</v-icon>
+        Hem
+      </v-btn>
+    </v-toolbar-items>
+    <v-toolbar-items>
+      <v-btn to="/books" text>Böcker</v-btn>
+    </v-toolbar-items>
+    <v-spacer></v-spacer>
+    <v-toolbar-items>
+      <v-btn to="/about" text>Om</v-btn>
+    </v-toolbar-items>
 
-
-      <v-toolbar-items>
-        <v-btn to="/books" text>Böcker</v-btn>
-      </v-toolbar-items>
-      <v-spacer></v-spacer>
-      <v-toolbar-items>
-        <v-btn to="/about" text>Om</v-btn>
-      </v-toolbar-items>
-
-      <v-toolbar-items
-        v-show="isAdmin">
-        <v-btn icon
-          to="/admin">
-          <v-icon>mdi-settings</v-icon>
-        </v-btn>
-        <v-btn text
-          @click="logout">
-          Logga ut
-        </v-btn>
-      </v-toolbar-items>
-    </v-app-bar>
+    <v-toolbar-items
+      v-show="isAdmin">
+      <v-btn icon
+        to="/admin">
+        <v-icon>mdi-settings</v-icon>
+      </v-btn>
+      <v-btn text
+      @click="logout">
+      Logga ut
+    </v-btn>
+  </v-toolbar-items>
+</v-app-bar>
 </template>
 
 <script>
