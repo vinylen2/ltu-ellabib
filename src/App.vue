@@ -1,6 +1,6 @@
 <template>
 <v-app id="app">
-  <navbar-two></navbar-two>
+  <navbar></navbar>
   <v-content>
     <v-progress-linear class="ma-0" :color="'green lighten-2'"
       :indeterminate="true"
@@ -12,12 +12,12 @@
 </template>
 
 <script>
-import Navbar2 from '@/components/Navbar2';
+import Navbar from '@/components/Navbar';
 
 export default {
   name: 'app',
   components: {
-    'navbar-two': Navbar2,
+    'navbar': Navbar,
   },
 };
 </script>

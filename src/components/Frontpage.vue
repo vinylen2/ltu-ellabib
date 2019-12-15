@@ -1,44 +1,35 @@
 <template>
-  <div class="container">
-    <swiper ref="swiper"
-      class="header-swiper"
-      :options="swiperOptions">
-      <swiper-slide>
-        <div class="header">
-          <router-link to="/books">
-            <div class="header-text"
-              v-if="$store.state.count.books != 0">
-              <span class="one">
-                {{$store.state.count.books}}
-              </span>
-              <span>böcker</span>
-            </div>
-          </router-link>
+<v-container fluid class="pa-0">
+  <v-carousel
+    height="300px"
+    continuos
+    cycle
+    hide-delimiters
+    :show-arrows-on-hover="true">
+    <v-carousel-item class="green lighten-4">
+      <router-link to="/books">
+        <div class="header-text"
+          v-if="$store.state.count.books != 0">
+          <span class="one">
+            {{$store.state.count.books}}
+          </span>
+          <span>böcker</span>
         </div>
-      </swiper-slide>
-      <swiper-slide>
-        <div class="header">
-          <router-link to="/books">
-            <div class="header-text"
-              v-if="$store.state.count.books != 0">
-              <span class="one">
-                {{$store.state.count.reviews}}
-              </span>
-              <span>recensioner</span>
-            </div>
-          </router-link>
+      </router-link>
+    </v-carousel-item>
+    <v-carousel-item class="green lighten-4">
+      <router-link to="/books">
+        <div class="header-text"
+          v-if="$store.state.count.books != 0">
+          <span class="one">
+            {{$store.state.count.reviews}}
+          </span>
+          <span>recensioner</span>
         </div>
-      </swiper-slide>
-    <div class="swiper-button-prev swiper-button-black"
-      slot="button-prev"
-      v-if="!$store.state.userAgent.isMobile">
-    </div>
-    <div class="swiper-button-next swiper-button-black"
-      slot="button-next"
-      v-if="!$store.state.userAgent.isMobile">
-    </div>
-    </swiper>
-    <div class="flex-container">
+      </router-link>
+    </v-carousel-item>
+  </v-carousel>
+  <v-container fluid>
       <book-list class="list"
         title="Topplistan"
         :books="$store.state.highestRatedBooks">
@@ -47,8 +38,8 @@
         title="Nyligen recenserade"
         :books="$store.state.recentlyReviewedBooks">
       </book-list>
-    </div>
-  </div>
+  </v-container>
+</v-container>
 </template>
 
 <script>
@@ -129,6 +120,7 @@ a {
   top: 20%;
   left: 20%;
   vertical-align: center;
+  color: #2c3e50;
 }
 .one {
   font-size: 3em;
@@ -138,39 +130,5 @@ a {
 span {
   display:inline-block;
   font-size: 2em;
-}
-
-.header {
-  height: 300px;
-  width: 100%;
-  background-color: #d4ecc5;
-}
-
-.container {
-}
-
-.flex-container {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.list {
-  padding: 10px;
-  box-sizing: border-box;
-  flex: 0 0 98%;
-  margin: 0 1% 30px;
-}
-
-
-@media (min-width: 600px) {
-    .list {
-      flex: 0 0 48%;
-    }
-    header {
-      height: 300px;
-    }
 }
 </style>

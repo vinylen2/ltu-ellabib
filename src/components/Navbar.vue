@@ -1,29 +1,46 @@
 <template>
-  <div class="app-container">
-    <router-link to="/">
-      <img :src="`${imagesUrl}ellabib.png`">
-    </router-link>
-    <router-link to="/books">Böcker</router-link>
-    <router-link to="/about">Om</router-link>
-    <div class="admin">
-      <router-link to ="/admin"
-        v-show="isAdmin"><icon name="cog" scale="2" color="#2c3e50"></icon></router-link>
-      <div class="login"
-        v-show="isAdmin"
-        @click="logout">Logga ut</div>
-    </div>
-  </div>
+<v-app-bar
+      color="green lighten-3"
+      dark
+      fixed
+      app
+    >
+    <v-toolbar-items>
+      <v-btn text
+        to="/">
+        <v-icon class="mr-3">mdi-home</v-icon>
+        Hem
+      </v-btn>
+    </v-toolbar-items>
+    <v-toolbar-items>
+      <v-btn to="/books" text>Böcker</v-btn>
+    </v-toolbar-items>
+    <v-spacer></v-spacer>
+    <v-toolbar-items>
+      <v-btn to="/about" text>Om</v-btn>
+    </v-toolbar-items>
+
+    <v-toolbar-items
+      v-show="isAdmin">
+      <v-btn icon
+        to="/admin">
+        <v-icon>mdi-settings</v-icon>
+      </v-btn>
+      <v-btn text
+      @click="logout">
+      Logga ut
+    </v-btn>
+  </v-toolbar-items>
+</v-app-bar>
 </template>
 
 <script>
 import Auth from '@/api/services/auth';
-import Icon from 'vue-awesome';
 import Urls from '@/assets/urls';
 
 export default {
   name: 'navbar',
   components: {
-    Icon,
   },
   data() {
     return {
@@ -61,59 +78,10 @@ export default {
 </script>
 
 <style scoped>
-.app-container {
-  width: 100%;
-  background-color: #addb91;
-  display: block;
-  height: 60px;
-}
-
-img {
-  height: 40px;
-  vertical-align: middle;
-}
-
-a {
-  float: left;
-  display: block;
-  color: black;
-  text-align: center;
-  padding-left: 20px;
-  font-size: 1.5em;
-  text-decoration: none;
-  line-height:60px;
-}
-
-.login {
-  cursor: pointer;
-  float: left;
-  /* display: block; */
-  color: black;
-  padding-left: 20px;
-  font-size: 1.5em;
-  text-decoration: none;
-  line-height:60px;
-  vertical-align: middle;
-}
-
-.fa-icon {
-  vertical-align: middle;
-}
-
-.login:hover {
+/* a:hover {
   color: black;
   font-weight: bold;
-}
-
-.admin {
-  float: right;
-  margin-right: 20px;
-}
-
-a:hover {
-  color: black;
-  font-weight: bold;
-}
+} */
 
 @media print {
   .app-container {
