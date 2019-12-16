@@ -1,147 +1,141 @@
 <template>
-  <div class="container">
-    <div class="admin-nav"
-      v-if="$store.state.isAdmin">
-        <a class="admin-anchor"
-          @click="editBook">Ändra bokinfo
-        </a>
-        <modal name="edit-book"
-          :height="350">
-          <edit-book
-            @leaveModal="leaveModal"
-            :bookId="currentBook.id"
-            :author="author"
-            :genre="genre"
-            :title="currentBook.title"
-            :pages="currentBook.pages">
-          </edit-book>
-        </modal>
-        <a class="admin-anchor"
-          @click="$store.commit('toggleQr', {
-              title: currentBook.title,
-              slug: currentBook.slug,
-              id: currentBook.id
-            })">
-            <p v-if="!inQr(currentBook.id)">+QR</p>
-            <p v-else>-QR</p>
-        </a>
-    </div>
-    <div class="wrapper">
-      <div class="description flex-container">
-        <div class="image"
-          @click="changeDescription">
-          <img class="front-img"
-            v-if="currentBook.localImage"
-            :src="`${imagesUrl}${currentBook.imageUrl}`" />
-          <img class="front-img"
-            v-if="!currentBook.localImage"
-            :src="currentBook.imageUrl"/>
-        </div>
-        <div class="text">
-          <header class="book-header">
-            <h1>{{ currentBook.title }}</h1>
-            <!-- To-do: link to page with books from author -->
-             <p class="author">av:
-               <router-link class="authorlink"
-                :to="{ name: 'books', params: { forceSearch: author.fullName }}">
-                {{author.fullName }}
-               </router-link>
-             </p>
-          </header>
-          <div class="description-body">
-            <p class="no-review"
-              v-if="reviews.length == 0 && $store.getters.isAllowedToPublish">Bli den första att recensera boken genom att trycka på stjärnan!</p>
-            <p class="no-review"
-              v-if="reviews.length == 0 && !$store.getters.isAllowedToPublish">Det finns ingen recension för boken.</p>
-            <p v-if="reviews.length > 0"
-              >{{ randomDescription.description }}</p>
-            <div class="buttons flex-container">
-              <audio-player class="audio-player btn"
-                v-if="randomDescription.descriptionAudioUrl"
-                :sources="formattedAudioUrl(randomDescription.descriptionAudioUrl)"
-                :audioInfo="{
-                  book: {
-                    title: currentBook.title,
-                    id: currentBook.id,
-                  },
-                  type: 'description',
-                  id: randomDescription.id,
-                }">
-              </audio-player>
-              <router-link :to="{ name: 'books', params: { genre: genre }}"
-                class="btn">
-                <img class="genre-icon"
-                  :src="`${imagesUrl}${genre.slug}.png`">
-              </router-link>
-              <router-link class="review-a btn"
-                v-if="$store.getters.isAllowedToPublish"
-                :to="{ name: 'publish-review', params: { book: currentBook }}">
-                <div class="button review-button">&#9733;</div>
-              </router-link>
-            </div>
-            <div class="book-information flex-container">
-                <div class="flex-left">Genre</div>
-                <div class="flex-right">{{ genre.name }}</div>
-                <div class="flex-left">Sidor</div>
-                <div class="flex-right">{{ currentBook.pages }}</div>
-                <div class="flex-left">Betyg</div>
-                <div class="flex-right">
-                  <star-rating v-bind:read-only="true"
-                     v-bind:max-rating="5"
-                     inactive-color="#c2c7c9"
-                     active-color="#c98bdb"
-                     v-bind:star-size="20"
-                     :rtl="true"
-                     :increment="0.5"
-                     v-model="currentBook.rating">
-                  </star-rating>
-                </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="reviews"
-        v-if="reviews.length > 0">
-        <h2>Recensioner</h2>
-        <div class="review"
-          v-for="review in reviews"
-          :key="review.id">
-          <!-- v-if="review.review.length > 0"> -->
-          <header class="review-header flex-container">
-            <!-- To-do: link to page for reviewer -->
-            <div class="review-text">
-              <span>
-                Publicerad den {{ formattedDate(review.createdAt) }} &nbsp;
-              </span>
-            </div>
-            <star-rating class="review-rating" :read-only="true"
-                  :max-rating="5"
-                  inactive-color="#c2c7c9"
-                  active-color="#c98bdb"
-                  :star-size="20"
-                  v-model="review.rating">
+<v-container>
+  <v-row justify="center">
+    <v-col :align="'center'" cols="12" md="4">
+      <v-img
+        :src="imageUrl"
+        height="300px"
+        max-width="220px">
+      </v-img>
+    </v-col>
+    <v-col cols="12" md="8" l="10">
+      <v-card flat color="rgb(255, 0, 0, 0)">
+        <v-card-title> {{ currentBook.title }}</v-card-title>
+        <v-card-subtitle class="text-left">av: 
+          <router-link class="authorlink"
+            :to="{ name: 'books', params: { forceSearch: author.fullName }}">
+            {{author.fullName }}
+          </router-link>
+        </v-card-subtitle>
+        <v-card-text class="text-left">
+          <p class="no-review"
+            v-if="reviews.length == 0 && $store.getters.isAllowedToPublish">
+            Bli den första att recensera boken genom att trycka på stjärnan!
+          </p>
+          <p class="no-review"
+            v-if="reviews.length == 0 && !$store.getters.isAllowedToPublish">
+            Det finns ingen recension för boken.
+          </p>
+          <p v-if="reviews.length > 0">
+            {{ randomDescription.description }}
+          </p>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <audio-player class="audio-player btn"
+            v-if="randomDescription.descriptionAudioUrl"
+            :sources="formattedAudioUrl(randomDescription.descriptionAudioUrl)"
+            :audioInfo="{
+              book: {
+                title: currentBook.title,
+                id: currentBook.id,
+              },
+              type: 'description',
+              id: randomDescription.id,
+            }">
+          </audio-player>
+          <router-link :to="{ name: 'books', params: { genre: genre }}"
+            class="btn">
+            <img class="genre-icon"
+              :src="`${imagesUrl}${genre.slug}.png`">
+          </router-link>
+          <router-link class="review-a btn"
+            v-if="$store.getters.isAllowedToPublish"
+            :to="{ name: 'publish-review', params: { book: currentBook }}">
+            <div class="button review-button">&#9733;</div>
+          </router-link>
+        </v-card-actions>
+      </v-card>
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-col cols="12">
+      <v-list color="rgb(255, 0, 0, 0)">
+        <v-list-item>
+          <v-list-item-content class="pa-0">Genre</v-list-item-content>
+          <v-list-item-content class="pa-0">
+            <p class="text-right">
+              {{ genre.name }}
+            </p>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-content class="pa-0">Sidor</v-list-item-content>
+          <v-list-item-content class="pa-0">
+            <p class="text-right">
+              {{ currentBook.pages }}
+            </p>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-content class="pa-0">Betyg</v-list-item-content>
+          <v-list-item-content class="pa-0">
+            <star-rating v-bind:read-only="true"
+                v-bind:max-rating="5"
+                inactive-color="#c2c7c9"
+                active-color="#c98bdb"
+                v-bind:star-size="20"
+                :rtl="true"
+                :increment="0.5"
+                v-model="currentBook.rating">
             </star-rating>
-          </header>
-          <div class="review-body">
-            <p>{{ review.review }}</p>
-            <audio-player class="review-audio player"
-              v-if="review.reviewAudioUrl"
-              :sources="formattedAudioUrl(review.reviewAudioUrl)"
-              :audioInfo="{
-                book: {
-                  title: currentBook.title,
-                  id: currentBook.id,
-                },
-                type: 'review',
-                id: randomDescription.id,
-              }">
-            </audio-player>
-          </div>
-        <hr v-if="reviews.length > 0">
-        </div>
-      </div>
-    </div>
-  </div>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-col>
+  </v-row>
+  <v-row v-if="reviews.length > 0">
+    <v-col cols="12">
+      <h1 class="text-left">Recensioner</h1>
+    <v-divider></v-divider>
+    </v-col>
+    <v-col v-for="review in reviews"
+      :key="review.id"
+      cols="12">
+      <v-card class="text-left"
+       flat color="rgb(255, 0, 0, 0)">
+        <v-card-title>
+          Publicerad den {{ formattedDate(review.createdAt) }}
+          <v-spacer></v-spacer>
+          <star-rating class="review-rating" :read-only="true"
+            :max-rating="5"
+            inactive-color="#c2c7c9"
+            active-color="#c98bdb"
+            :star-size="20"
+            v-model="review.rating">
+          </star-rating>
+        </v-card-title>
+        <v-card-text class="text-left"> {{ review.review }} </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <audio-player class="review-audio player"
+            v-if="review.reviewAudioUrl"
+            :sources="formattedAudioUrl(review.reviewAudioUrl)"
+            :audioInfo="{
+              book: {
+                title: currentBook.title,
+                id: currentBook.id,
+              },
+              type: 'review',
+              id: randomDescription.id,
+            }">
+          </audio-player>
+        </v-card-actions>
+      </v-card>
+      <v-divider v-if="reviews.length > 0"></v-divider>
+    </v-col>
+  </v-row>
+</v-container>
 </template>
 
 <script>
@@ -150,7 +144,6 @@ import Books from '@/api/services/books';
 import Reviews from '@/api/services/reviews';
 import Urls from '@/assets/urls';
 import AudioPlayer from '@/components/Audio/AudioPlayer';
-import EditBook from '@/components/Admin/EditBook';
 import StarRating from 'vue-star-rating';
 
 import Vue from 'vue';
@@ -164,7 +157,6 @@ Vue.use(VModal);
 export default {
   components: {
     'audio-player': AudioPlayer,
-    EditBook,
     StarRating,
   },
   data() {
@@ -193,6 +185,15 @@ export default {
     return {
       title: this.currentBook.title,
     };
+  },
+  computed: {
+    imageUrl: function() {
+      if (this.currentBook.localImage) {
+        return `${this.imagesUrl}${this.currentBook.imageUrl}`;
+      } else {
+        return this.currentBook.imageUrl;
+      }
+    }
   },
   created() {
     this.$nextTick(() => {
@@ -266,18 +267,6 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  margin: 0;
-}
-
-.description {
-  margin-top: 20px;
-}
-.wrapper {
-  margin: 0 auto;
-  max-width: 950px;
-}
-
 .admin-nav {
   width: 100%;
   background-color: #9ddad8;
@@ -305,13 +294,6 @@ export default {
 .authorlink {
   color: #2c3e50;
   font-weight: bold;
-}
-hr {
-  margin-top: 25px;
-}
-
-.center {
-  justify-content:center;
 }
 
 .btn {
@@ -343,71 +325,12 @@ hr {
   color: #ff585d;
 }
 
-.author {
-  margin-bottom:10px;
-}
-.review-header {
-  line-height: 20px;
-  margin-bottom: 10px;
-}
-
-.flex-left {
-  margin-top: 5px;
-  width: 48%;
-  font-weight: bold;
-}
-
-.flex-right {
-  margin-top: 5px;
-  width: 48%;
-  text-align: right;
-}
-
 .genre-icon {
   border-radius: 100%;
   width: 70px;
   cursor: pointer;
 }
 
-.audio-player {
-  float:left;
-}
-
-.buttons {
-  align-items:center;
-  margin: 10px 0;
-}
-
-.flex-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: left;
-}
-
-.image {
-  padding: 10px;
-  box-sizing: border-box;
-  width: 200px;
-  flex: 0 0 98%;
-  margin: 0 1% 0px;
-}
-
-.text {
-  text-align: left;
-  padding: 10px;
-  box-sizing: border-box;
-  flex: 0 0 98%;
-  margin: 0 1% 0px;
-}
-
-.description-audio {
-  margin: 10px 0 10px 0;
-}
-
-.player {
-  margin: 10px 0 10px 0;
-}
 
 
 h1 {
@@ -416,13 +339,6 @@ h1 {
   font-weight: bold;
 }
 
-h2 {
-  font-size: 1.5em;
-  font-weight: bold;
-  text-align: left;
-  padding-left: 10px;
-  margin: 0 1% 0;
-}
 
 .review {
   padding: 10px;

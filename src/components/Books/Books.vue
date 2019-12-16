@@ -2,14 +2,15 @@
 <v-container>
   <search-books></search-books>
   <v-container>
-    <v-row>
-      <v-col v-for="book in paginatedBooks"
+    <v-row >
+      <v-col
+        v-for="book in paginatedBooks"
         :key="book.id"
         xs="12"
         sm="6"
         md="4"
         >
-        <book-small :book="book"
+        <book-small :book="book" :align="'center'"
           class="justify-center"></book-small>
       </v-col>
     </v-row>
