@@ -1,32 +1,36 @@
 <template>
 <v-container>
-  <v-row justify="center">
-    <v-col :align="'center'" cols="12" md="4">
-      <v-img
-        :src="imageUrl"
-        height="300px"
-        max-width="220px">
-      </v-img>
-    </v-col>
-    <v-col cols="12" md="8" l="10">
-      <v-card flat color="rgb(255, 0, 0, 0)">
-        <v-card-title> {{ currentBook.title }}</v-card-title>
-        <v-card-subtitle class="text-left">av: 
-          <router-link class="authorlink"
-            :to="{ name: 'books', params: { forceSearch: author.fullName }}">
-            {{author.fullName }}
-          </router-link>
-        </v-card-subtitle>
-        <v-card-text class="text-left">
-          <p class="no-review"
-            v-if="reviews.length == 0 && $store.getters.isAllowedToPublish">
-            Bli den första att recensera boken genom att trycka på stjärnan!
-          </p>
-          <p class="no-review"
-            v-if="reviews.length == 0 && !$store.getters.isAllowedToPublish">
-            Det finns ingen recension för boken.
-          </p>
-          <p v-if="reviews.length > 0">
+  <v-dialog v-model="dialog"
+    @closeModal="dialog = false">
+      <edit-book :book="currentBook"></edit-book>
+    </v-dialog>
+    <v-row justify="center">
+      <v-col :align="'center'" cols="12" md="4">
+        <v-img
+          :src="imageUrl"
+          height="300px"
+          max-width="220px">
+        </v-img>
+      </v-col>
+      <v-col cols="12" md="8" l="10">
+        <v-card flat color="rgb(255, 0, 0, 0)">
+          <v-card-title> {{ currentBook.title }}</v-card-title>
+          <v-card-subtitle class="text-left">av: 
+            <router-link class="authorlink"
+              :to="{ name: 'books', params: { forceSearch: author.fullName }}">
+              {{author.fullName }}
+            </router-link>
+          </v-card-subtitle>
+          <v-card-text class="text-left">
+            <p class="no-review"
+              v-if="reviews.length == 0 && $store.getters.isAllowedToPublish">
+              Bli den första att recensera boken genom att trycka på stjärnan!
+            </p>
+            <p class="no-review"
+              v-if="reviews.length == 0 && !$store.getters.isAllowedToPublish">
+              Det finns ingen recension för boken.
+            </p>
+            <p v-if="reviews.length > 0">
             {{ randomDescription.description }}
           </p>
         </v-card-text>
@@ -54,6 +58,13 @@
             :to="{ name: 'publish-review', params: { book: currentBook }}">
             <div class="button review-button">&#9733;</div>
           </router-link>
+          <v-btn class="ma-2"
+            fab
+            dark 
+            @click.stop="dialog = true"
+            color="blue">
+            <v-icon dark>mdi-magnify</v-icon>
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-col>
@@ -141,26 +152,26 @@
 <script>
 /* eslint-disable no-console */
 import Books from '@/api/services/books';
+import EditBook from '@/components/Admin/EditBook';
 import Reviews from '@/api/services/reviews';
 import Urls from '@/assets/urls';
 import AudioPlayer from '@/components/Audio/AudioPlayer';
 import StarRating from 'vue-star-rating';
 
-import Vue from 'vue';
 import moment from 'moment';
-import VModal from 'vue-js-modal';
 import _ from 'lodash';
 import 'moment/locale/sv';
 
-Vue.use(VModal);
 
 export default {
   components: {
     'audio-player': AudioPlayer,
+    EditBook,
     StarRating,
   },
   data() {
     return {
+      dialog: false,
       imagesUrl: Urls.images,
       audioUrl: Urls.audio,
       reviews: [],
@@ -206,14 +217,6 @@ export default {
         return true;
       }
       return false;
-    },
-    // pauseOtherPlayers(data) {
-    //   console.log(data.id);
-    //   this.pausePlayer.status = data.status;
-    //   this.pausePlayer.id += data.id;
-    // },
-    editBook() {
-      this.$modal.show('edit-book');
     },
     leaveModal(data) {
       if (data) {

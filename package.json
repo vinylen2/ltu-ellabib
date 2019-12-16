@@ -69,6 +69,7 @@
     ],
     "rules": {},
     "parserOptions": {
+      "no-console": 0,
       "parser": "babel-eslint",
       "sourceType": "module"
     }

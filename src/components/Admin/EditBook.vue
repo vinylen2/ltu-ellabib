@@ -1,92 +1,74 @@
 <template>
-  <div class="wrapper"
-    @keyup.enter="editBook">
-    <h3>Redigera bok</h3>
-    <form class="manual post flex-container"
-      id="edit-book">
-      <div class="flex-left">
-        Titel
-      </div>
-      <div class="flex-right">
-        <input v-model="local.title"
-          :class="{'has-error': errors.has('title') }"
-          name="title"
-          placeholder="Titel">
-      </div>
-      <div class="flex-left">
-        Sidor
-      </div>
-      <div class="flex-right">
-        <input v-model="local.pages"
-          :class="{'has-error': errors.has('isbn') }"
-          name="pages"
-          placeholder="Antal sidor">
-      </div>
-      <div class="flex-left">
-        Genre
-      </div>
-      <div class="flex-right">
-        <v-select class="select-style"
-          :max-height="'150px'"
-          :transition="'none'"
-          :value="genre"
-          v-model="local.genre"
-          :options="$store.state.genres"
-          label="name">
-        </v-select>
-      </div>
-      <div class="flex-left">
-        Författare
-      </div>
-      <div class="flex-right">
-        <v-select class="select-style"
-          :max-height="'100px'"
-          :transition="'none'"
-          :value="author"
-          v-model="local.author"
-          :options="authors"
-          label="fullName">
-        </v-select>
-      </div>
-    </form>
-    <div class="menu"
-      v-if="loading">
-      <sync-loader class="sync-loader"
-        :color="'#71c5e8'">
-      </sync-loader>
-    </div>
-    <div class="menu"
-      v-else>
-      <button class="button float add"
-        @click="editBook">Spara
-      </button>
-      <button class="button float close"
-        @click="leaveModal">Stäng
-      </button>
-    </div>
-  </div>
+<v-row justify="center">
+  <v-card>
+    <v-card-title>
+      <span class="headline">Redigera bok</span>
+    </v-card-title>
+    <v-card-text>
+      <v-container>
+        <v-row>
+          <v-col cols="12">
+            <v-text-field label="Titel" required v-model="this.book.title"></v-text-field>
+          </v-col>
+          <v-col cols="12">
+            <v-text-field label="Antal sidor" required v-model="this.book.pages"></v-text-field>
+          </v-col>
+          <v-col cols="12">
+            <v-text-field
+              label="Legal last name*"
+              hint="example of persistent helper text"
+              persistent-hint
+              required
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12">
+            <v-text-field label="Email*" required></v-text-field>
+          </v-col>
+          <v-col cols="12">
+            <v-text-field label="Password*" type="password" required></v-text-field>
+          </v-col>
+          <v-col cols="12" sm="6">
+            <v-select
+              :items="['0-17', '18-29', '30-54', '54+']"
+              label="Age*"
+              required
+            ></v-select>
+          </v-col>
+          <v-col cols="12" sm="6">
+            <v-autocomplete
+              :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
+              label="Interests"
+              multiple
+            ></v-autocomplete>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-card-text>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn color="red darken-1" text @click="this.$emit('closeModal')">Stäng</v-btn>
+      <v-btn color="blue darken-1" text @click="dialog = false">Spara</v-btn>
+    </v-card-actions>
+  </v-card>
+</v-row>
 </template>
 
 <script>
 import Books from '@/api/services/books';
 import Authors from '@/api/services/authors';
-import vSelect from 'vue-select';
-import SyncLoader from 'vue-spinner/src/SyncLoader';
-
 
 export default {
   name: 'edit-book',
-  components: {
-    vSelect,
-    SyncLoader,
+  props: {
+    book: Object,
   },
-  props: [
-    'bookId',
-    'author',
-    'genre',
-    'title',
-    'pages',
-  ],
+  // props: [
+  //   'bookId',
+  //   'author',
+  //   'genre',
+  //   'title',
+  //   'pages',
+  // ],
   data() {
     return {
       loading: false,
@@ -108,9 +90,6 @@ export default {
     });
   },
   methods: {
-    leaveModal() {
-      this.$emit('leaveModal', false);
-    },
     editBook() {
       this.loading = true;
       Books.edit({
