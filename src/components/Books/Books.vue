@@ -6,9 +6,10 @@
       <v-col
         v-for="book in paginatedBooks"
         :key="book.id"
-        xs="12"
-        sm="6"
+        cols="12"
         md="4"
+        lg="3"
+        xl="2"
         >
         <book-small :book="book" :align="'center'"
           class="justify-center"></book-small>

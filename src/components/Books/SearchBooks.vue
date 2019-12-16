@@ -3,7 +3,6 @@
   <v-row justify="center"
     no-gutters>
     <v-col v-for="genre in $store.state.genres"
-      xs="12"
       :key="genre.id">
       <v-tooltip bottom color="blue">
         <template v-slot:activator="{on}">
