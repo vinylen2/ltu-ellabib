@@ -23,8 +23,8 @@ export default {
     const isbn = rawIsbn.replace(/\D/g, '');
     return api.post('books/publish/isbn', { isbn, genreId }).then(response => response.data);
   },
-  publishBookFromManualInput(isbn, genreId, title, pages, authorId, imageUrl) {
-    return api.post('books/publish/manual', { isbn, genreId, title, pages, authorId, imageUrl }).then(response => response.data);
+  publishBook(book) {
+    return api.post('books/publish/manual', book).then(response => response.data);
   },
   search(queries) {
     return api.get(`books/search?query=${queries}`).then(response => response.data);

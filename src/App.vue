@@ -6,18 +6,39 @@
       :indeterminate="true"
       v-if="$store.state.isLoading">
   </v-progress-linear>
-    <router-view></router-view>
+  <router-view></router-view>
+  <v-snackbar
+    :timeout="snackbar.timeout"
+    :color="snackbar.color"
+    v-model="snackbar.status">
+    <div v-if="!snackbar.hasLink">
+      {{snackbar.value}}
+    </div>
+    <div v-else>
+      <a target="_blank"
+        class="white--text"
+        :href="snackbar.linkUrl">{{snackbar.value}}
+      </a>
+    </div>
+    <v-btn text @click.native="$store.commit('hideSnackbar')">Stäng</v-btn>
+  </v-snackbar>
   </v-content>
 </v-app>
 </template>
 
 <script>
 import Navbar from '@/components/Navbar';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'app',
   components: {
     'navbar': Navbar,
+  },
+  computed: {
+    ...mapGetters([
+      'snackbar',
+    ]),
   },
 };
 </script>

@@ -9,6 +9,14 @@ Vue.use(Vuex);
 /* eslint no-param-reassign: ["error", { "props": false }]*/
 export default new Vuex.Store({
   state: {
+    snackbar: {
+      status: true,
+      value: 'Felmeddelandetext',
+      color: 'green lighten-2',
+      timeout: 5000,
+      hasLink: false,
+      linkUrl: '',
+    },
     isAdmin: false,
     isLoading: false,
     isAllowedIp: false,
@@ -16,6 +24,7 @@ export default new Vuex.Store({
       isMobile: null,
     },
     books: [],
+    authors: Array[Object],
     genres: Array[ Object ],
     highestRatedBooks: [],
     recentlyReviewedBooks: [],
@@ -24,6 +33,7 @@ export default new Vuex.Store({
     isMobile: null,
   },
   getters: {
+    snackbar: state => state.snackbar,
     isAllowedToPublish: (state) => {
       if (state.isAdmin || state.isAllowedIp) {
         return true;
@@ -42,6 +52,12 @@ export default new Vuex.Store({
   },
   mutations: {
 /* eslint-disable no-console */
+    hideSnackbar: (state) => {
+      state.snackbar.status = false;
+    },
+    showSnackbar: (state, data) => {
+      state.snackbar = data;
+    },
     isLoading: (state) => {
       state.isLoading = true;
     },
@@ -70,6 +86,9 @@ export default new Vuex.Store({
     },
     genres: (state, data) => {
       state.genres = data;
+    },
+    authors: (state, data) => {
+      state.authors = data;
     },
     recentlyReviewedBooks: (state, data) => {
       state.recentlyReviewedBooks = data;

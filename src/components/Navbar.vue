@@ -22,10 +22,12 @@
 
     <v-toolbar-items
       v-show="isAdmin">
-      <v-btn icon
+      <v-btn to="/admin/post-book" text>Lägg till bok</v-btn>
+      <v-btn to="/admin/activate-reviews" text>Recensioner</v-btn>
+      <!-- <v-btn icon
         to="/admin">
         <v-icon>mdi-settings</v-icon>
-      </v-btn>
+      </v-btn> -->
       <v-btn text
       @click="logout">
       Logga ut
