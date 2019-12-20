@@ -1,5 +1,8 @@
 <template>
 <v-form v-model="valid">
+  <v-dialog v-model="authorDialog" persistent max-width="300">
+    <add-author @closeDialog="closeDialog"></add-author>
+  </v-dialog>
   <v-container>
     <v-row justify="center">
       <h1>Lägg till bok</h1>
@@ -69,7 +72,7 @@
       <v-col cols="5">
         <v-autocomplete
           append-outer-icon="mdi-plus"
-          @click:append-outer="addAuthor"
+          @click:append-outer="authorDialog = true"
           :items="$store.state.authors"
           item-text="fullName"
           item-value="id"
@@ -94,8 +97,9 @@
 
 <script>
 import Books from '@/api/services/books';
-import Authors from '@/api/services/authors';
 import Urls from '@/assets/urls';
+
+import AddAuthor from '@/components/Admin/AddAuthor';
 
 // import Urls from '@/assets/urls';
 
@@ -103,6 +107,7 @@ import Urls from '@/assets/urls';
 export default {
   name: 'post-book',
   components: {
+    AddAuthor,
   },
   computed: {
     isAdmin() {
@@ -114,6 +119,7 @@ export default {
   },
   data() {
     return {
+      authorDialog: false,
       valid: false,
       rules: [
         v => !!v || 'Fältet måste fyllas i',
@@ -125,18 +131,21 @@ export default {
         genre: '',
         authors: [],
       },
-      selected: '',
-      authors: [],
       imagesUrl: Urls.images,
     };
   },
   methods: {
 /* eslint-disable no-console */
+    closeDialog(data) {
+      if (data) {
+        this.$store.commit('addAuthor', data);
+        this.book.authors = data.id;
+        this.authorDialog = false;
+      }
+      this.authorDialog = false;
+    },
     scan() {
       console.log('scan');
-    },
-    addAuthor() {
-      console.log('new author');
     },
     toggleSelected(genre) {
       if (this.book.genre === genre) {
@@ -173,13 +182,6 @@ export default {
             linkUrl: `localhost:8080/book/${data.slug}`,
           });
           this.resetFields();
-        });
-    },
-    postAuthor(firstname, lastname) {
-      Authors.create(firstname, lastname)
-        .then((result) => {
-          this.authors.push(result.data);
-          this.authorId = result.data.id;
         });
     },
   },

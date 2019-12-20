@@ -230,7 +230,6 @@ export default {
 
         this.author = data.author;
         this.genre = data.genre;
-
       }
       this.dialog = false;
     },

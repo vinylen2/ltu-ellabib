@@ -25,7 +25,7 @@ export default new Vuex.Store({
     },
     books: [],
     authors: Array[Object],
-    genres: Array[ Object ],
+    genres: Array[Object],
     highestRatedBooks: [],
     recentlyReviewedBooks: [],
     qrArray: [],
@@ -86,6 +86,9 @@ export default new Vuex.Store({
     },
     genres: (state, data) => {
       state.genres = data;
+    },
+    addAuthor: (state, data) => {
+      state.authors.push(data);
     },
     authors: (state, data) => {
       state.authors = data;
