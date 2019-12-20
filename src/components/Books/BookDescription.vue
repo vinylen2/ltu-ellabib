@@ -1,6 +1,7 @@
 <template>
 <v-container>
   <v-dialog v-model="dialog"
+    max-width="600px"
     persistent>
     <edit-book :book="currentBook"
       @closeDialog="closeDialog">
@@ -61,11 +62,12 @@
             <div class="button review-button">&#9733;</div>
           </router-link>
           <v-btn class="ma-2"
+            v-if="$store.state.isAdmin"
             fab
             dark 
             @click.stop="dialog = true"
             color="blue">
-            <v-icon dark>mdi-magnify</v-icon>
+            <v-icon dark>mdi-border-color</v-icon>
           </v-btn>
         </v-card-actions>
       </v-card>
