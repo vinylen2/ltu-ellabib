@@ -1,5 +1,4 @@
 <template>
-<v-row justify="center">
   <v-card>
     <v-card-title>
       <span class="headline">Redigera bok</span>
@@ -7,38 +6,28 @@
     <v-card-text>
       <v-container>
         <v-row>
-          <v-col cols="12">
-            <v-text-field label="Titel" required v-model="this.book.title"></v-text-field>
+          <v-col cols="8">
+            <v-text-field label="Titel" required v-model="local.title"></v-text-field>
           </v-col>
-          <v-col cols="12">
-            <v-text-field label="Antal sidor" required v-model="this.book.pages"></v-text-field>
+          <v-col cols="4">
+            <v-text-field label="Antal sidor" required v-model="local.pages"></v-text-field>
           </v-col>
-          <v-col cols="12">
-            <v-text-field
-              label="Legal last name*"
-              hint="example of persistent helper text"
-              persistent-hint
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12">
-            <v-text-field label="Email*" required></v-text-field>
-          </v-col>
-          <v-col cols="12">
-            <v-text-field label="Password*" type="password" required></v-text-field>
-          </v-col>
-          <v-col cols="12" sm="6">
+          <v-col cols="6" sm="6">
             <v-select
-              :items="['0-17', '18-29', '30-54', '54+']"
-              label="Age*"
-              required
+              :items="$store.state.genres"
+              item-text="name"
+              item-value="id"
+              v-model="local.genre"
+              label="Genre"
             ></v-select>
           </v-col>
-          <v-col cols="12" sm="6">
+          <v-col cols="6" sm="6">
             <v-autocomplete
-              :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
-              label="Interests"
-              multiple
+              :items="authors"
+              item-text="fullName"
+              item-value="id"
+              v-model="local.author"
+              label="Författare"
             ></v-autocomplete>
           </v-col>
         </v-row>
@@ -46,68 +35,57 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="red darken-1" text @click="this.$emit('closeModal')">Stäng</v-btn>
-      <v-btn color="blue darken-1" text @click="dialog = false">Spara</v-btn>
+      <v-btn color="red darken-1" text @click="$emit('closeDialog')">Stäng</v-btn>
+      <v-btn color="blue darken-1" text @click="editBook">Spara</v-btn>
     </v-card-actions>
   </v-card>
-</v-row>
 </template>
 
 <script>
 import Books from '@/api/services/books';
 import Authors from '@/api/services/authors';
+import _ from 'lodash';
 
 export default {
+  /* eslint-disable no-console */
   name: 'edit-book',
   props: {
     book: Object,
   },
-  // props: [
-  //   'bookId',
-  //   'author',
-  //   'genre',
-  //   'title',
-  //   'pages',
-  // ],
   data() {
     return {
       loading: false,
       authors: [],
       local: {
-        author: this.author,
-        genre: this.genre,
-        title: this.title,
-        pages: this.pages,
+        bookId: this.book.id,
+        title: this.book.title,
+        pages: this.book.pages,
+        author: this.book.authors[0].id,
+        genre: this.book.genres[0].id,
       },
     };
   },
   created() {
     this.getAuthors();
-    window.addEventListener('keyup', (event) => {
-      if (event.which === 13) {
-        this.editBook();
-      }
-    });
   },
   methods: {
     editBook() {
-      this.loading = true;
       Books.edit({
-        bookId: this.bookId,
-        authorId: this.local.author.id,
-        genreId: this.local.genre.id,
+        bookId: this.local.bookId,
+        authorId: this.local.author,
+        genreId: this.local.genre,
         title: this.local.title,
         pages: this.local.pages,
       })
       .then(() => {
-        setTimeout(() => {
-          this.$emit('leaveModal', {
-            author: this.local.author,
-            genre: this.local.genre,
-            title: this.local.title,
-            pages: this.local.pages,
-          });
-        }, 200);
+        let author = _.find(this.authors, {id: this.local.author});
+        let genre = _.find(this.$store.state.genres, {id: this.local.genre});
+        this.$emit('closeDialog', {
+          title: this.local.title,
+          pages: this.local.pages,
+          author,
+          genre,
+        });
       });
     },
     getAuthors() {

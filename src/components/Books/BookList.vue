@@ -18,7 +18,6 @@
                 :star-size="20"
                 v-model="book.rating">
               </star-rating>
-              <!-- <h3>{{ book.title }}</h3> -->
             </div>
             <img class="front-img"
               v-if="book.localImage"
@@ -28,14 +27,6 @@
               :src="book.imageUrl">
           </router-link>
         </swiper-slide>
-          <div class="swiper-button-prev swiper-button-black"
-          slot="button-prev"
-          v-if="!$store.state.userAgent.isMobile">
-        </div>
-        <div class="swiper-button-next swiper-button-black"
-          slot="button-next"
-          v-if="!$store.state.userAgent.isMobile">
-        </div>
     </swiper>
   </div>
 </template>

@@ -16,7 +16,7 @@ export default new Vuex.Store({
       isMobile: null,
     },
     books: [],
-    genres: [],
+    genres: Array[ Object ],
     highestRatedBooks: [],
     recentlyReviewedBooks: [],
     qrArray: [],

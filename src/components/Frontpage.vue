@@ -59,7 +59,7 @@ export default {
     title: 'Startsida',
   },
   components: {
-    BookList,
+    'book-list': BookList,
   },
   created() {
     this.getRecentlyReviewed();

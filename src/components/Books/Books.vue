@@ -2,11 +2,12 @@
 <v-container>
   <search-books></search-books>
   <v-container>
-    <v-row >
+    <v-row>
       <v-col
         v-for="book in paginatedBooks"
         :key="book.id"
         cols="12"
+        sm="6"
         md="4"
         lg="3"
         xl="2"
@@ -26,15 +27,11 @@
 
 <script>
 /* eslint no-param-reassign: ["error", { "props": false }]*/
-import Vue from 'vue';
-import { VTooltip } from 'v-tooltip';
 import MugenScroll from 'vue-mugen-scroll';
 import Urls from '@/assets/urls';
 
 import SearchBooks from '@/components/Books/SearchBooks';
 import BookSmall from '@/components/Books/BookSmall';
-
-Vue.directive('tooltip', VTooltip);
 
 require('vue2-animate/dist/vue2-animate.min.css');
 

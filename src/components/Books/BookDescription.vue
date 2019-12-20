@@ -1,9 +1,11 @@
 <template>
 <v-container>
   <v-dialog v-model="dialog"
-    @closeModal="dialog = false">
-      <edit-book :book="currentBook"></edit-book>
-    </v-dialog>
+    persistent>
+    <edit-book :book="currentBook"
+      @closeDialog="closeDialog">
+    </edit-book>
+  </v-dialog>
     <v-row justify="center">
       <v-col :align="'center'" cols="12" md="4">
         <v-img
@@ -218,14 +220,17 @@ export default {
       }
       return false;
     },
-    leaveModal(data) {
+    closeDialog(data) {
       if (data) {
+        console.log(data);
         this.currentBook.title = data.title;
         this.currentBook.pages = data.pages;
+
         this.author = data.author;
         this.genre = data.genre;
+
       }
-      this.$modal.hide('edit-book');
+      this.dialog = false;
     },
     formattedAudioUrl(endingOfUrl) {
       return [this.audioUrl + endingOfUrl];
