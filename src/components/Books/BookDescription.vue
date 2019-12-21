@@ -51,22 +51,23 @@
               id: randomDescription.id,
             }">
           </audio-player>
-          <router-link :to="{ name: 'books', params: { genre: genre }}"
-            class="btn">
-            <img class="genre-icon"
-              :src="`${imagesUrl}${genre.slug}.png`">
-          </router-link>
-          <router-link class="review-a btn"
-            v-if="$store.getters.isAllowedToPublish"
-            :to="{ name: 'publish-review', params: { book: currentBook }}">
-            <div class="button review-button">&#9733;</div>
-          </router-link>
+          <v-btn fab :to="{ name: 'books', params: { genre: genre }}">
+            <v-avatar size="50">
+              <img class="genre-icon"
+                :src="`${imagesUrl}${genre.slug}.png`">
+            </v-avatar>
+          </v-btn>
+          <v-btn :to="{ name: 'publish-review', params: { book: currentBook }}"
+            fab
+            color="blue lighten-2"
+            v-if="$store.getters.isAllowedToPublish">
+            <v-icon large>mdi-star</v-icon>
+          </v-btn>
           <v-btn class="ma-2"
             v-if="$store.state.isAdmin"
             fab
-            dark 
             @click.stop="dialog = true"
-            color="blue">
+            color="pink lighten-2">
             <v-icon dark>mdi-border-color</v-icon>
           </v-btn>
         </v-card-actions>
@@ -75,7 +76,7 @@
   </v-row>
   <v-row>
     <v-col cols="12">
-      <v-list color="rgb(255, 0, 0, 0)">
+      <v-list color="rgb(255, 0, 0, 0)" dense>
         <v-list-item>
           <v-list-item-content class="pa-0">Genre</v-list-item-content>
           <v-list-item-content class="pa-0">
@@ -94,16 +95,13 @@
         </v-list-item>
         <v-list-item>
           <v-list-item-content class="pa-0">Betyg</v-list-item-content>
-          <v-list-item-content class="pa-0">
-            <star-rating v-bind:read-only="true"
-                v-bind:max-rating="5"
-                inactive-color="#c2c7c9"
-                active-color="#c98bdb"
-                v-bind:star-size="20"
-                :rtl="true"
-                :increment="0.5"
-                v-model="currentBook.rating">
-            </star-rating>
+          <v-list-item-content class="pa-0 text-right">
+            <v-rating 
+              v-model="currentBook.rating"
+              dense
+              medium
+              half-increments
+            ></v-rating>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -122,13 +120,12 @@
         <v-card-title>
           Publicerad den {{ formattedDate(review.createdAt) }}
           <v-spacer></v-spacer>
-          <star-rating class="review-rating" :read-only="true"
-            :max-rating="5"
-            inactive-color="#c2c7c9"
-            active-color="#c98bdb"
-            :star-size="20"
-            v-model="review.rating">
-          </star-rating>
+          <v-rating 
+            v-model="review.rating"
+            dense
+            medium
+            half-increments
+          ></v-rating>
         </v-card-title>
         <v-card-text class="text-left"> {{ review.review }} </v-card-text>
         <v-card-actions>
@@ -160,7 +157,6 @@ import EditBook from '@/components/Admin/EditBook';
 import Reviews from '@/api/services/reviews';
 import Urls from '@/assets/urls';
 import AudioPlayer from '@/components/Audio/AudioPlayer';
-import StarRating from 'vue-star-rating';
 
 import moment from 'moment';
 import _ from 'lodash';
@@ -171,7 +167,6 @@ export default {
   components: {
     'audio-player': AudioPlayer,
     EditBook,
-    StarRating,
   },
   data() {
     return {
@@ -276,58 +271,11 @@ export default {
 </script>
 
 <style scoped>
-.admin-nav {
-  width: 100%;
-  background-color: #9ddad8;
-  display: block;
-  height: 60px;
-}
-
-.admin-anchor {
-  float: left;
-  display: block;
-  color: black;
-  text-align: center;
-  padding-left: 20px;
-  font-size: 1.5em;
-  text-decoration: none;
-  line-height:60px;
-  cursor: pointer;
-}
-
-.admin-anchor:hover {
-  color: black;
-  font-weight: bold;
-}
-
 .authorlink {
   color: #2c3e50;
   font-weight: bold;
 }
 
-.btn {
-  margin-right: 5px;
-}
-
-.button {
-  padding: 0;
-  border: none;
-  margin-right: 5px;
-  font-weight: bold;
-  font-size: 2em;
-  line-height: 70px;
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
-  color: #2c3e50;
-  background-color: #9ddad8;
-  text-align: center;
-  cursor: pointer;
-}
-
-.button:hover {
-  background-color: #71c5e8;
-}
 
 .no-review {
   font-weight: bold;
@@ -336,7 +284,8 @@ export default {
 
 .genre-icon {
   border-radius: 100%;
-  width: 70px;
+  border: 3px solid transparent;
+  width: 60px;
   cursor: pointer;
 }
 
@@ -349,47 +298,4 @@ h1 {
 }
 
 
-.review {
-  padding: 10px;
-  text-align: left;
-  margin: 0 1% 0;
-}
-
-.review-button {
-  font-size: 3em;
-  background-color: #c98bdb;
-  font-weight: bold;
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
-  text-align: center;
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.review-a {
-  margin-left: 5px;
-  text-decoration: none;
-}
-
-.review-button:hover {
-  background-color: #f277c6;
-}
-
-dt {
-  font-weight: bold;
-}
-
-.front-img {
-  width: 200px;
-}
-
-@media (min-width: 770px) {
-    .image {
-        flex: 0 0 20.0%;
-    }
-    .text {
-        flex: 0 0 70.0%;
-    }
-}
 </style>

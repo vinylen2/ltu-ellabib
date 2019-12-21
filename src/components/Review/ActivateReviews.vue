@@ -1,92 +1,98 @@
 <template>
-<v-container class="pt-0">
-  <v-row>
-    <v-col>
-      <h1>Aktivera recensioner</h1>
-    </v-col>
-  </v-row>
-  <v-row>
-    <v-data-table
-    :hide-default-footer="true"
-      :headers="headers"
-      :items="reviews">
-      <template v-slot:header.selection="{item}">
-          <v-checkbox @change="selectAll"></v-checkbox>
-      </template>
-      <template v-slot:item.rating="{item}">
-        {{item.rating}}/5
-      </template>
-      <template v-slot:item.selection="{item}">
-        <v-checkbox v-model="selectedReviews" :value="item.id"></v-checkbox>
-      </template>
-      <template v-slot:item.title="{item}">
-        <router-link class="link" :to="{ name: 'bok', params: { slug: item.slug }}">{{item.title}}</router-link>
-      </template>
-      <template v-slot:item.description="{item}">
-        <v-container>
-          <v-row>
-            <v-col cols="2"> 
-              <admin-audio-player :type="'description'"
-                :rowData="item"
-              ></admin-audio-player>
-            </v-col>
-            <v-col>
-              <span @click="editReviewText('description', item.description, item.id)">
-                {{item.description}}
-              </span>
-            </v-col>
-          </v-row>
-        </v-container>
-      </template>
-      <template v-slot:item.review="{item}">
-        <v-container>
-          <v-row>
-            <v-col cols="2"> 
-              <admin-audio-player :type="'review'"
-                :rowData="item"
-              ></admin-audio-player>
-            </v-col>
-            <v-col>
-              <span @click="editReviewText('review', item.review, item.id)">
-                {{item.review}}
-              </span>
-            </v-col>
-          </v-row>
-        </v-container>
-      </template>
-      <template v-slot:item.tools="{item}">
-        <v-btn icon
-          v-if="item.reviewAudioUrl || item.descriptionAudioUrl"
-          @click="editAudio(item)">
-          <v-icon>mdi-content-cut</v-icon>
+<v-container>
+  <v-container v-if="reviews.length == 0">
+    <h1>Inga recensioner att aktivera</h1>
+
+  </v-container>
+  <v-container class="pt-0" v-else>
+    <v-row>
+      <v-col>
+        <h1>Aktivera recensioner</h1>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-data-table
+      :hide-default-footer="true"
+        :headers="headers"
+        :items="reviews">
+        <template v-slot:header.selection="{item}">
+            <v-checkbox @change="selectAll"></v-checkbox>
+        </template>
+        <template v-slot:item.rating="{item}">
+          {{item.rating}}/5
+        </template>
+        <template v-slot:item.selection="{item}">
+          <v-checkbox v-model="selectedReviews" :value="item.id"></v-checkbox>
+        </template>
+        <template v-slot:item.title="{item}">
+          <router-link class="link" :to="{ name: 'bok', params: { slug: item.slug }}">{{item.title}}</router-link>
+        </template>
+        <template v-slot:item.description="{item}">
+          <v-container>
+            <v-row>
+              <v-col cols="2"> 
+                <admin-audio-player :type="'description'"
+                  :rowData="item"
+                ></admin-audio-player>
+              </v-col>
+              <v-col>
+                <span @click="editReviewText('description', item.description, item.id)">
+                  {{item.description}}
+                </span>
+              </v-col>
+            </v-row>
+          </v-container>
+        </template>
+        <template v-slot:item.review="{item}">
+          <v-container>
+            <v-row>
+              <v-col cols="2"> 
+                <admin-audio-player :type="'review'"
+                  :rowData="item"
+                ></admin-audio-player>
+              </v-col>
+              <v-col>
+                <span @click="editReviewText('review', item.review, item.id)">
+                  {{item.review}}
+                </span>
+              </v-col>
+            </v-row>
+          </v-container>
+        </template>
+        <template v-slot:item.tools="{item}">
+          <v-btn icon
+            v-if="item.reviewAudioUrl || item.descriptionAudioUrl"
+            @click="editAudio(item)">
+            <v-icon>mdi-content-cut</v-icon>
+          </v-btn>
+          <v-btn icon>
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
+        </template>
+      </v-data-table>
+    </v-row>
+    <v-row justify="center">
+      <v-col>
+        <v-btn @click="activateReviews">
+          Publicera ({{selectedReviews.length}})
         </v-btn>
-        <v-btn icon>
-          <v-icon>mdi-delete</v-icon>
-        </v-btn>
-      </template>
-    </v-data-table>
-  </v-row>
-  <v-row justify="center">
-    <v-col>
-      <v-btn @click="activateReviews">
-        Publicera ({{selectedReviews.length}})
-      </v-btn>
-    </v-col>
-  </v-row>
-  <v-dialog v-model="editReviewTextDialog" max-width="400">
-    <edit-review-text
-      @closeTextDialog="closeTextDialog"
-      :text="modal.text"
-      :type="modal.type"
-      :reviewId="modal.reviewId">
-    </edit-review-text>
-  </v-dialog>
-  <v-dialog v-model="editAudioDialog">
-    <edit-review-audio
-      @closeDialog="closeAudioDialog"
-      :review="modal.review">
-    </edit-review-audio>
-  </v-dialog>
+      </v-col>
+    </v-row>
+    <v-dialog v-model="editReviewTextDialog" max-width="400">
+      <edit-review-text
+        @closeTextDialog="closeTextDialog"
+        :text="modal.text"
+        :type="modal.type"
+        :reviewId="modal.reviewId">
+      </edit-review-text>
+    </v-dialog>
+    <v-dialog v-model="editAudioDialog">
+      <edit-review-audio
+        @closeDialog="closeAudioDialog"
+        :review="modal.review">
+      </edit-review-audio>
+    </v-dialog>
+  </v-container>
 </v-container>
 </template>
 

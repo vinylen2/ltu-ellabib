@@ -4,7 +4,7 @@
   </v-card-title>
   <v-card-text>
     <v-textarea
-      v-model="local.text"
+      v-model="text"
       auto-grow
       filled
       :label="formattedType"
@@ -31,9 +31,6 @@ export default {
   data() {
     return {
       loading: false,
-      local: {
-        text: this.text,
-      },
     };
   },
   computed: {
@@ -50,16 +47,14 @@ export default {
       Reviews.updateText({
         reviewId: this.reviewId,
         type: this.type,
-        text: this.local.text,
+        text: this.text,
       })
       .then(() => {
-        setTimeout(() => {
-          this.$emit('closeTextDialog', {
-            reviewId: this.reviewId,
-            type: this.type,
-            text: this.local.text,
-          });
-        }, 200);
+        this.$emit('closeTextDialog', {
+          reviewId: this.reviewId,
+          type: this.type,
+          text: this.text,
+        });
       });
     },
   },

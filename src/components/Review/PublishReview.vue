@@ -35,14 +35,7 @@
         </vue-record>
       </div>
       <div class="publish flex-container column">
-        <star-rating :increment="1"
-            :max-rating="5"
-            inactive-color="#c2c7c9"
-            active-color="#c98bdb"
-            :star-size="30"
-            v-model="review.rating"
-            :show-rating="false">
-        </star-rating>
+        <v-rating v-model="review.rating" large ripple hover dense/>
         <button class="publish-button"
           v-if="!publishing"
           @click="postReview">Skicka
@@ -61,7 +54,6 @@
 /* es-lint disable*/
 import Books from '@/api/services/books';
 import Reviews from '@/api/services/reviews';
-import StarRating from 'vue-star-rating';
 import VueRecord from '@/components/Audio/VueRecord';
 import SyncLoader from 'vue-spinner/src/SyncLoader';
 
@@ -69,7 +61,6 @@ export default {
   name: 'publish-review',
   components: {
     'vue-record': VueRecord,
-    'star-rating': StarRating,
     SyncLoader,
   },
   props: ['book'],

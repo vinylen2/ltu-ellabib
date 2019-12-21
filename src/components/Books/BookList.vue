@@ -8,17 +8,7 @@
           <router-link
             class="link"
             :to="{ name: 'bok', params: { slug: book.slug }}">
-            <div class="wrap">
-              <star-rating class="book-rating" :read-only="true"
-                :max-rating="5"
-                :inline="true"
-                :show-rating="false"
-                inactive-color="#c2c7c9"
-                active-color="#c98bdb"
-                :star-size="20"
-                v-model="book.rating">
-              </star-rating>
-            </div>
+            <v-rating class="mb-5" dense medium v-model="book.rating" readonly></v-rating>
             <img class="front-img"
               v-if="book.localImage"
               :src="`${imagesUrl}${book.imageUrl}`">
@@ -34,7 +24,6 @@
 <script>
 /* eslint-disable */
 import Vue from 'vue';
-import StarRating from 'vue-star-rating';
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 import Urls from '@/assets/urls';
 
@@ -45,9 +34,6 @@ Vue.use(VueAwesomeSwiper);
 export default {
   name: 'book-list',
   props: ['books', 'title'],
-  components: {
-    StarRating,
-  },
   data() {
     return {
       imagesUrl: Urls.images,

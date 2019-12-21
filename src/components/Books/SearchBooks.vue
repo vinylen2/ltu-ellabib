@@ -31,9 +31,12 @@
     </v-col>
   </v-row>
   <v-slide-x-transition>
-    <v-row v-if=displaySearch>
-      <v-col xs="12">
+    <v-row v-if=displaySearch justify="center">
+      <v-col cols="6">
         <v-text-field
+          clearable
+          solo
+          prepend-inner-icon="mdi-magnify"
           v-model="searchTerm"
           label="Sök..."
         ></v-text-field>
@@ -133,6 +136,7 @@ export default {
             this.$store.commit('books', result.data);
           });
       }
+      this.$store.commit('isNotLoading');
     },
   }
 }
