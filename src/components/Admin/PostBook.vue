@@ -3,6 +3,9 @@
   <v-dialog v-model="authorDialog" persistent max-width="300">
     <add-author @closeDialog="closeDialog"></add-author>
   </v-dialog>
+  <v-dialog v-model="scannerDialog" max-width="500">
+    <barcode-scanner @closeDialog="closeScannerDialog"></barcode-scanner>
+  </v-dialog>
   <v-container>
     <v-row justify="center">
       <h1>Lägg till bok</h1>
@@ -27,7 +30,7 @@
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col cols="2">
+      <v-col cols="4">
         <v-text-field
           label="Genre, välj med knapparna"
           required
@@ -42,14 +45,14 @@
           :rules="rules"
           label="ISBN"
           append-outer-icon="mdi-barcode-scan"
-          @click:append-outer="scan"
+          @click:append-outer="scannerDialog = true"
           required
         >
         </v-text-field>
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col cols="5">
+      <v-col cols="3">
         <v-text-field
           :rules="rules"
           v-model="book.title"
@@ -57,9 +60,7 @@
           required
         ></v-text-field>
       </v-col>
-    </v-row>
-    <v-row justify="center">
-      <v-col cols="5">
+      <v-col cols="2">
         <v-text-field
           :rules="rules"
           v-model="book.pages"
@@ -100,6 +101,7 @@ import Books from '@/api/services/books';
 import Urls from '@/assets/urls';
 
 import AddAuthor from '@/components/Admin/AddAuthor';
+import BarcodeScanner from '@/components/BarcodeScanner';
 
 // import Urls from '@/assets/urls';
 
@@ -108,6 +110,7 @@ export default {
   name: 'post-book',
   components: {
     AddAuthor,
+    BarcodeScanner,
   },
   computed: {
     isAdmin() {
@@ -119,6 +122,7 @@ export default {
   },
   data() {
     return {
+      scannerDialog : false,
       authorDialog: false,
       valid: false,
       rules: [
@@ -136,6 +140,9 @@ export default {
   },
   methods: {
 /* eslint-disable no-console */
+    closeScannerDialog(data) {
+      console.log(data);
+    },
     closeDialog(data) {
       if (data) {
         this.$store.commit('addAuthor', data);
@@ -143,9 +150,6 @@ export default {
         this.authorDialog = false;
       }
       this.authorDialog = false;
-    },
-    scan() {
-      console.log('scan');
     },
     toggleSelected(genre) {
       if (this.book.genre === genre) {

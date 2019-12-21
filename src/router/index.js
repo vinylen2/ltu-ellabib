@@ -7,6 +7,7 @@ import PublishReview from '@/components/Review/PublishReview';
 import ActivateReviews from '@/components/Review/ActivateReviews';
 import PostBook from '@/components/Admin/PostBook';
 import About from '@/components/About';
+import BarcodeScanner from '@/components/BarcodeScanner';
 import Login from '@/components/Admin/Login';
 import Admin from '@/components/Admin/Admin';
 import QrCodes from '@/components/Admin/QrCodes';
@@ -23,6 +24,11 @@ const router = new Router({
       path: '/',
       name: 'frontpage',
       component: Frontpage,
+    },
+    {
+      path: '/scanner',
+      name: 'scanner',
+      component: BarcodeScanner,
     },
     {
       path: '/books',

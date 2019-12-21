@@ -1,36 +1,32 @@
 <template>
 <v-container>
-  <div class="add-author flex-box">
-    <h3>Logga in</h3>
-    <div class="flex-container">
-        <div class="flex-left-modal">
-          Användarnamn
-        </div>
-        <div class="flex-right">
-            <input v-model="username"
-            autofocus
-            placeholder="Användarnamn">
-        </div>
-        <div class="flex-left-modal">
-          Lösenord
-        </div>
-        <div class="flex-right">
-            <input v-model="password"
-              type="password"
-              @keyup.enter="login"
-              placeholder="Lösenord">
-        </div>
-        <div class="modal-menu">
-          <div class="error"
-            v-if="loginFailed">
-            Fel användarnamn eller lösenord.
-          </div>
-          <button class="button"
-            @click="login">Logga in
-          </button>
-        </div>
-    </div>
-  </div>
+  <v-form v-model="valid" @submit.prevent="login">
+    <v-row justify="center">
+      <h1>Logga in</h1>
+    </v-row>
+    <v-row justify="center">
+      <v-col cols="5">
+        <v-text-field label="Användarnamn" 
+          required 
+          :rules="rules"
+          v-model="username">
+        </v-text-field>
+        </v-col>
+    </v-row>
+    <v-row justify="center">
+      <v-col cols="5">
+        <v-text-field label="Password" 
+          required 
+          :rules="rules"
+          :type="'password'"
+          v-model="password">
+        </v-text-field>
+      </v-col>
+    </v-row>
+    <v-row justify="center">
+      <v-btn type="submit" color="blue lighten-1">Logga in</v-btn>
+    </v-row>
+  </v-form>
 </v-container>
 </template>
 
@@ -48,6 +44,10 @@ export default {
   },
   data() {
     return {
+      valid: false,
+      rules: [
+        v => !!v || 'Fältet måste fyllas i',
+      ],
       username: '',
       password: '',
       loginFailed: false,

@@ -18,16 +18,15 @@
     <v-spacer></v-spacer>
     <v-toolbar-items>
       <v-btn to="/about" text>Om</v-btn>
+      <!-- <v-btn icon to="scanner">
+        <v-icon>mdi-barcode-scan</v-icon>
+      </v-btn> -->
     </v-toolbar-items>
 
     <v-toolbar-items
       v-show="isAdmin">
       <v-btn to="/admin/post-book" text>Lägg till bok</v-btn>
       <v-btn to="/admin/activate-reviews" text>Recensioner</v-btn>
-      <!-- <v-btn icon
-        to="/admin">
-        <v-icon>mdi-settings</v-icon>
-      </v-btn> -->
       <v-btn text
       @click="logout">
       Logga ut

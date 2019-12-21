@@ -24,15 +24,13 @@
               </v-text-field>
             </v-col>
         </v-row>
+        <v-row justify="center">
+          <v-btn color="red darken-1" text @click="closeDialog">Stäng</v-btn>
+          <v-btn color="blue darken-1" text @click="addAuthor">Spara</v-btn>
+        </v-row>
       </v-container>
     </v-form>
   </v-card-text>
-  <v-card-actions>
-    <v-row justify="center">
-      <v-btn color="red darken-1" text @click="closeDialog">Stäng</v-btn>
-      <v-btn color="blue darken-1" text @click="addAuthor">Spara</v-btn>
-    </v-row>
-  </v-card-actions>
 </v-card>
 </template>
 
