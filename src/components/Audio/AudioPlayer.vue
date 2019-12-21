@@ -28,7 +28,7 @@
         @click="togglePlayback">
         <v-icon large>mdi-play</v-icon>
       </v-btn>
-      <v-btn v-if="small"
+      <!-- <v-btn v-if="small"
         fab
         small
         color="green lighten-2"
@@ -40,7 +40,7 @@
         color="green lighten-2"
         @click="reset">
         <v-icon large>mdi-skip-backward</v-icon>
-      </v-btn>
+      </v-btn> -->
     </v-col>
   </v-row>
 </v-container>

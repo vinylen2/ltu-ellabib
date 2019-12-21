@@ -33,46 +33,51 @@
               v-if="reviews.length == 0 && !$store.getters.isAllowedToPublish">
               Det finns ingen recension för boken.
             </p>
-            <p v-if="reviews.length > 0">
-            {{ randomDescription.description }}
-          </p>
+            <v-container v-if="reviews.length > 0" class="pa-0">
+              <v-row>
+                <v-col cols="12" sm="2" class="text-center pa-0">
+                  <audio-player class="audio-player btn"
+                    v-if="randomDescription.descriptionAudioUrl"
+                    :sources="formattedAudioUrl(randomDescription.descriptionAudioUrl)"
+                    :audioInfo="{
+                      book: {
+                        title: currentBook.title,
+                        id: currentBook.id,
+                      },
+                      type: 'description',
+                      id: randomDescription.id,
+                    }"/>
+                </v-col>
+                <v-col cols="12" sm="10">
+                  {{ randomDescription.description }}
+                </v-col>
+              </v-row>
+              <v-row justify="center">
+                <v-spacer class="d-none d-sm-flex"></v-spacer>
+                <v-btn icon :to="{ name: 'books', params: { genre: genre }}"
+                  width="auto" height="auto" class="ma-2"
+                  >
+                  <v-avatar size="60">
+                    <img class="genre-icon"
+                      :src="`${imagesUrl}${genre.slug}.png`">
+                  </v-avatar>
+                </v-btn>
+                <v-btn :to="{ name: 'publish-review', params: { book: currentBook }}"
+                  color="blue lighten-2" class="ma-2"
+                  fab
+                  v-if="$store.getters.isAllowedToPublish">
+                  <v-icon large>mdi-star</v-icon>
+                </v-btn>
+                <v-btn class="ma-2"
+                  v-if="$store.state.isAdmin"
+                  fab
+                  @click.stop="dialog = true"
+                  color="pink lighten-2">
+                  <v-icon dark>mdi-border-color</v-icon>
+                </v-btn>
+              </v-row>
+            </v-container>
         </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <audio-player class="audio-player btn"
-            v-if="randomDescription.descriptionAudioUrl"
-            :sources="formattedAudioUrl(randomDescription.descriptionAudioUrl)"
-            :audioInfo="{
-              book: {
-                title: currentBook.title,
-                id: currentBook.id,
-              },
-              type: 'description',
-              id: randomDescription.id,
-            }">
-          </audio-player>
-          <v-btn icon :to="{ name: 'books', params: { genre: genre }}"
-            width="auto" height="auto"
-            >
-            <v-avatar size="60">
-              <img class="genre-icon"
-                :src="`${imagesUrl}${genre.slug}.png`">
-            </v-avatar>
-          </v-btn>
-          <v-btn :to="{ name: 'publish-review', params: { book: currentBook }}"
-            color="blue lighten-2"
-            fab
-            v-if="$store.getters.isAllowedToPublish">
-            <v-icon large>mdi-star</v-icon>
-          </v-btn>
-          <v-btn class="ma-2"
-            v-if="$store.state.isAdmin"
-            fab
-            @click.stop="dialog = true"
-            color="pink lighten-2">
-            <v-icon dark>mdi-border-color</v-icon>
-          </v-btn>
-        </v-card-actions>
       </v-card>
     </v-col>
   </v-row>
@@ -111,12 +116,12 @@
   </v-row>
   <v-row v-if="reviews.length > 0">
     <v-col cols="12">
-      <h1 class="text-left">Recensioner</h1>
+      <h1 class="text-left pa-0">Recensioner</h1>
     <v-divider></v-divider>
     </v-col>
     <v-col v-for="review in reviews"
       :key="review.id"
-      cols="12">
+      cols="12 pt-0">
       <v-card class="text-left"
        flat color="rgb(255, 0, 0, 0)">
         <v-card-title>
@@ -129,23 +134,28 @@
             half-increments
           ></v-rating>
         </v-card-title>
-        <v-card-text class="text-left"> {{ review.review }} </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <audio-player class="review-audio player"
-            v-if="review.reviewAudioUrl"
-            :sources="formattedAudioUrl(review.reviewAudioUrl)"
-            :size="'large'"
-            :audioInfo="{
-              book: {
-                title: currentBook.title,
-                id: currentBook.id,
-              },
-              type: 'review',
-              id: randomDescription.id,
-            }">
-          </audio-player>
-        </v-card-actions>
+        <v-card-text class="text-left"> 
+          <v-container class="pa-0">
+            <v-row>
+              <v-col cols="12" sm="2" la="1" class="pa-0">
+                <audio-player class="text-center pa-0"
+                  v-if="review.reviewAudioUrl"
+                  :sources="formattedAudioUrl(review.reviewAudioUrl)"
+                  :audioInfo="{
+                    book: {
+                      title: currentBook.title,
+                      id: currentBook.id,
+                    },
+                    type: 'review',
+                    id: randomDescription.id,
+                  }"/>
+              </v-col>
+              <v-col cols="12" sm="10" la="11">
+                {{ review.review }} 
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card-text>
       </v-card>
       <v-divider v-if="reviews.length > 0"></v-divider>
     </v-col>
