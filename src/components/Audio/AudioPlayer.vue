@@ -1,49 +1,60 @@
 <template>
-  <div>
-    <div class="book"
-      v-if="admin">
-      <button class="admin-button pause"
-        v-if="playing"
-        @click="togglePlayback"><icon name="pause" scale="1"></icon>
-      </button>
-      <button class="admin-button"
-        v-else
-        @click="togglePlayback"><icon name="play" scale="1"></icon>
-      </button>
-      <button class="admin-button"
-        @click="reset"><icon name="fast-backward" scale="1"></icon>
-      </button>
-    </div>
-    <div class="admin"
-      v-else>
-      <button class="button pause"
-        v-if="playing"
-        @click="togglePlayback"><icon name="pause" scale="2"></icon>
-      </button>
-      <button class="button"
-        v-else
-        @click="togglePlayback();"><icon name="play" scale="2"></icon>
-      </button>
-      <button class="button"
-        @click="reset();"><icon name="fast-backward" scale="2"></icon>
-      </button>
-    </div>
-  </div>
+<v-container>
+  <v-row>
+    <v-col>
+      <v-btn v-if="playing && small"
+        fab
+        small
+        color="green lighten-2"
+        @click="togglePlayback">
+        <v-icon small>mdi-pause</v-icon>
+      </v-btn>
+      <v-btn v-if="playing && !small"
+        fab
+        color="green lighten-2"
+        @click="togglePlayback">
+        <v-icon large>mdi-pause</v-icon>
+      </v-btn>
+      <v-btn v-if="!playing && small"
+        color="green lighten-2"
+        fab
+        small
+        @click="togglePlayback">
+        <v-icon small>mdi-play</v-icon>
+      </v-btn>
+      <v-btn v-if="!playing && !small"
+        color="green lighten-2"
+        fab
+        @click="togglePlayback">
+        <v-icon large>mdi-play</v-icon>
+      </v-btn>
+      <v-btn v-if="small"
+        fab
+        small
+        color="green lighten-2"
+        @click="reset">
+        <v-icon small>mdi-skip-backward</v-icon>
+      </v-btn>
+      <v-btn v-if="!small"
+        fab
+        color="green lighten-2"
+        @click="reset">
+        <v-icon large>mdi-skip-backward</v-icon>
+      </v-btn>
+    </v-col>
+  </v-row>
+</v-container>
 </template>
 
 <script>
 import VueHowler from 'vue-howler';
 import Reviews from '@/api/services/reviews';
-import Icon from 'vue-awesome';
 
 export default {
   mixins: [VueHowler],
-  components: {
-    Icon,
-  },
   props: [
     'audioInfo',
-    'admin',
+    'small',
   ],
   data() {
     return {

@@ -135,6 +135,7 @@
           <audio-player class="review-audio player"
             v-if="review.reviewAudioUrl"
             :sources="formattedAudioUrl(review.reviewAudioUrl)"
+            :size="'large'"
             :audioInfo="{
               book: {
                 title: currentBook.title,

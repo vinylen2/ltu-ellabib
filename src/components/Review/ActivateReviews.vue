@@ -31,9 +31,16 @@
           <v-container>
             <v-row>
               <v-col cols="2"> 
-                <admin-audio-player :type="'description'"
-                  :rowData="item"
-                ></admin-audio-player>
+              <audio-player
+                :sources="formattedAudioUrl(item.descriptionAudioUrl)"
+                :small="true"
+                :audioInfo="{
+                  book: {
+                    title: item.title,
+                    id: item.id,
+                  },
+                  type: 'description',
+                }"/>
               </v-col>
               <v-col>
                 <span @click="editReviewText('description', item.description, item.id)">
@@ -47,9 +54,16 @@
           <v-container>
             <v-row>
               <v-col cols="2"> 
-                <admin-audio-player :type="'review'"
-                  :rowData="item"
-                ></admin-audio-player>
+              <audio-player
+                :sources="formattedAudioUrl(item.reviewAudioUrl)"
+                :small="true"
+                :audioInfo="{
+                  book: {
+                    title: item.title,
+                    id: item.id,
+                  },
+                  type: 'review',
+                }"/>
               </v-col>
               <v-col>
                 <span @click="editReviewText('review', item.review, item.id)">
@@ -101,7 +115,7 @@
 import Vue from 'vue';
 import Reviews from '@/api/services/reviews';
 import Urls from '@/assets/urls';
-import AdminAudioPlayer from '@/components/Audio/AdminAudioPlayer';
+import AudioPlayer from '@/components/Audio/AudioPlayer';
 import EditReviewAudio from '@/components/Review/EditReviewAudio';
 import EditReviewText from '@/components/Review/EditReviewText';
 import _ from 'lodash';
@@ -111,7 +125,7 @@ Vue.use(VModal);
 
 export default {
   components: {
-    'admin-audio-player': AdminAudioPlayer,
+    AudioPlayer,
     EditReviewAudio,
     EditReviewText,
   },
@@ -153,6 +167,9 @@ export default {
   methods: {
     formatText(text) {
       return text.slice(0, 50) + " ...";
+    },
+    formattedAudioUrl(endingOfUrl) {
+      return [this.audioUrl + endingOfUrl];
     },
     selectAll(value) {
       if (value) {
