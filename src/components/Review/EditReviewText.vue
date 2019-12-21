@@ -1,39 +1,28 @@
 <template>
-  <div class="wrapper">
-    <h3>Redigera {{formattedType}}</h3>
-    <div>
-      <textarea class="publish-textarea review"
-        v-model="local.text">
-      </textarea>
-
-    </div>
-    <div class="menu"
-      v-if="loading">
-      <sync-loader class="sync-loader"
-        :color="'#71c5e8'">
-      </sync-loader>
-    </div>
-    <div class="menu"
-      v-else>
-      <button class="button float add"
-        @click="editText">Spara
-      </button>
-      <button class="button float close"
-        @click="closeTextModal">Stäng
-      </button>
-    </div>
-  </div>
+<v-card>
+  <v-card-title>
+  </v-card-title>
+  <v-card-text>
+    <v-textarea
+      v-model="local.text"
+      auto-grow
+      filled
+      :label="formattedType"
+      >
+    </v-textarea>
+    <v-row justify="center">
+      <v-btn color="red darken-1" text @click="$emit('closeTextDialog')">Stäng</v-btn>
+      <v-btn color="blue darken-1" text @click="editText">Spara</v-btn>
+    </v-row>
+  </v-card-text>
+</v-card>
 </template>
 
 <script>
-import SyncLoader from 'vue-spinner/src/SyncLoader';
 import Reviews from '@/api/services/reviews';
 
 export default {
   name: 'edit-review-text',
-  components: {
-    SyncLoader,
-  },
   props: [
     'reviewId',
     'type',
@@ -47,25 +36,15 @@ export default {
       },
     };
   },
-  created() {
-    // window.addEventListener('keyup', (event) => {
-    //   if (event.which === 13) {
-    //     this.editText();
-    //   }
-    // });
-  },
   computed: {
     formattedType() {
       if (this.type === 'description') {
-        return 'beskrivning';
+        return 'Beskrivning';
       }
-      return 'recension';
+      return 'Recension';
     },
   },
   methods: {
-    closeTextModal() {
-      this.$emit('closeTextModal', false);
-    },
     editText() {
       this.loading = true;
       Reviews.updateText({
@@ -75,7 +54,7 @@ export default {
       })
       .then(() => {
         setTimeout(() => {
-          this.$emit('closeTextModal', {
+          this.$emit('closeTextDialog', {
             reviewId: this.reviewId,
             type: this.type,
             text: this.local.text,

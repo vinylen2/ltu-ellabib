@@ -1,28 +1,40 @@
 <template>
-<div class="container">
-  <div class="review-header flex-container">
-  </div>
-  <h2>Beskrivning</h2>
-  <audio-editor class="editor"
-    @cut="updateData"
-    :dataUrl="formattedAudioUrl(local.audio.description, local.source.description)"
-    :source="local.source.description"
-    :isEditing="true">
-  </audio-editor>
-  <h2>Recension</h2>
-  <audio-editor class="editor"
-    @cut="updateData"
-    :dataUrl="formattedAudioUrl(local.audio.review, local.source.review)"
-    :source="local.source.review"
-    :isEditing="true">
-  </audio-editor>
-  <div class="button float save-activate"
-    @click="saveAndClose">Spara
-  </div>
-  <div class="button float close"
-    @click="closeModal">Stäng
-  </div>
-</div>
+<v-container>
+  <v-row>
+    <v-col>
+      <h2>Beskrivning</h2>
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-col>
+      <audio-editor class="editor"
+        @cut="updateData"
+        :dataUrl="formattedAudioUrl(local.audio.description, local.source.description)"
+        :source="local.source.description"
+        :isEditing="true">
+      </audio-editor>
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-col>
+      <h2>Recension</h2>
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-col>
+      <audio-editor class="editor"
+        @cut="updateData"
+        :dataUrl="formattedAudioUrl(local.audio.review, local.source.review)"
+        :source="local.source.review"
+        :isEditing="true">
+      </audio-editor>
+    </v-col>
+  </v-row>
+  <v-row justify="center">
+    <v-btn color="red lighten-2" @click="$emit('closeDialog')">Stäng</v-btn>
+    <v-btn color="blue lighten-2" @click="editReview">Spara</v-btn>
+  </v-row>
+</v-container>
 </template>
 
 
@@ -62,9 +74,9 @@ export default {
       },
     };
   },
-  // props: {
-  //   review: '',
-  // },
+  props: {
+    review: Object,
+  },
   computed: {
     reviewFormData() {
       const formdata = new FormData();
@@ -87,85 +99,16 @@ export default {
       this.local.audio[source] = dataUrl;
       this.local.blobs[source] = blob;
     },
-    closeModal() {
-      this.$emit('close');
-    },
     formattedDate(date) {
       return moment(date).format('Do MMMM');
-    },
-    saveAndClose() {
-      this.editReview();
     },
     editReview() {
       Reviews.editReviewAudio(this.reviewFormData)
         .then(() => {
-          this.closeModal();
+          this.$emit('closeDialog');
         });
         // }).catch(e => console.log(e));
     },
   },
 };
 </script>
-
-<style scoped>
-.container {
-  text-align: center;
-}
-
-.flex-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.review-header{
-  height: 20px;
-  line-height: 20px;
-  margin: 10px 0;
-  margin-left: 25%;
-}
-
-.button {
-  margin: 0 10px;
-  margin-bottom: 10px;
-  padding: 0 5px;
-  width: 150px;
-  height: 2em;
-  line-height: 2em;
-  font-weight: bold;
-  font-size: 1.5em;
-  background-color: #c98bdb;
-  border-radius: 15px;
-  text-align: center;
-  cursor: pointer;
-  display: inline-block;
-}
-
-.close {
-  background-color: #ff585d;
-}
-
-.save-activate {
-  background-color: #71c5e8;
-
-}
-h1 {
-  font-size: 2em;
-  font-weight: bold;
-  margin: 10px 0;
-}
-
-h2 {
-  font-size: 1.5em;
-  font-weight: bold;
-}
-
-textarea {
-  width: 500px;
-  height: 200px;
-  outline: none;
-  resize: none;
-  font-size: 1em;
-  margin-bottom: 20px;
-}
-</style>

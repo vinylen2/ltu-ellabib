@@ -13,16 +13,18 @@
         v-show="isEditing">
         {{roundedTime}}
       </div>
-      <button class="button"
-        @click="cutBlob"><icon name="scissors" scale="2"></icon>
-      </button>
+      <v-btn fab
+        @click="cutBlob">      
+        <v-icon>mdi-content-cut</v-icon>
+      </v-btn>
       <button class="button"
         v-if="history.length > 0"
         @click="undoSlice"><icon name="undo" scale="2"></icon>
       </button>
-      <button class="button"
-        @click="trashRecording"><icon name="trash-o" scale="2"></icon>
-      </button>
+      <v-btn fab
+        @click="trashRecording">      
+        <v-icon>mdi-delete</v-icon>
+      </v-btn>
     </div>
     <div class="waveform"
       :id="waveformId"

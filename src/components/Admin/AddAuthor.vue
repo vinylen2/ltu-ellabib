@@ -1,7 +1,7 @@
 <template>
 <v-card>
   <v-card-title>
-    <span class="headlinge">
+    <span class="headline">
       Lägg till författare
     </span>
     </v-card-title>
