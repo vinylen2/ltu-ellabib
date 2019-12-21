@@ -5,75 +5,66 @@
       <h1>Aktivera recensioner</h1>
     </v-col>
   </v-row>
-  <v-row justify="center">
-    <v-simple-table dense>
-      <template v-slot:default>
-        <thead>
-          <tr>
-            <th class="">
-              <v-checkbox @change="selectAll"></v-checkbox>
-            </th>
-            <th class="">ID</th>
-            <th class="text-left">Titel</th>
-            <th class="text-left">Betyg</th>
-            <th class="text-left">Beskrivning</th>
-            <th class="text-left">Ljudfil</th>
-            <th class="text-left">Recension</th>
-            <th class="text-left">Ljudfil</th>
-            <th class="text-left">Datum</th>
-            <th class="text-left">Klockslag</th>
-            <th class="text-left">Verktyg</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="review in reviews" :key="review.id">
-            <td>
-              <v-checkbox v-model="selectedReviews" :value="review.id"></v-checkbox>
-            </td>
-            <td>{{review.id}}</td>
-            <td>
-              <router-link class="link" :to="{ name: 'bok', params: { slug: review.slug }}">{{review.title}}</router-link>
-            </td>
-            <td>
-              {{review.rating}}
-            </td>
-            <td @click="editReviewText('description', review.description, review.id)">
-              {{review.description}}
-            </td>
-            <td>
-              <admin-audio-player
-                v-if="review.descriptionAudioUrl"
-                :type="'description'"
-                :rowData="review">
-              </admin-audio-player>
-            </td>
-            <td @click="editReviewText('review', review.review, review.id)">
-              {{review.review}}
-            </td>
-            <td>
-              <admin-audio-player
-                v-if="review.reviewAudioUrl"
-                :type="'review'"
-                :rowData="review">
-              </admin-audio-player>
-            </td>
-            <td>{{review.date}}</td>
-            <td>{{review.time}}</td>
-            <td>
-              <v-btn icon
-                v-if="review.reviewAudioUrl || review.descriptionAudioUrl"
-                @click="editAudio(review)">
-                <v-icon>mdi-content-cut</v-icon>
-              </v-btn>
-              <v-btn icon
-                @click="showAlertModal(`Radera recension för ${review.title}`,(review.id))">
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
-            </td>
-          </tr>
-        </tbody>
+  <v-row>
+    <v-data-table
+    :hide-default-footer="true"
+      :headers="headers"
+      :items="reviews">
+      <template v-slot:header.selection="{item}">
+          <v-checkbox @change="selectAll"></v-checkbox>
       </template>
-    </v-simple-table>
+      <template v-slot:item.rating="{item}">
+        {{item.rating}}/5
+      </template>
+      <template v-slot:item.selection="{item}">
+        <v-checkbox v-model="selectedReviews" :value="item.id"></v-checkbox>
+      </template>
+      <template v-slot:item.title="{item}">
+        <router-link class="link" :to="{ name: 'bok', params: { slug: item.slug }}">{{item.title}}</router-link>
+      </template>
+      <template v-slot:item.description="{item}">
+        <v-container>
+          <v-row>
+            <v-col cols="2"> 
+              <admin-audio-player :type="'description'"
+                :rowData="item"
+              ></admin-audio-player>
+            </v-col>
+            <v-col>
+              <span @click="editReviewText('description', item.description, item.id)">
+                {{item.description}}
+              </span>
+            </v-col>
+          </v-row>
+        </v-container>
+      </template>
+      <template v-slot:item.review="{item}">
+        <v-container>
+          <v-row>
+            <v-col cols="2"> 
+              <admin-audio-player :type="'review'"
+                :rowData="item"
+              ></admin-audio-player>
+            </v-col>
+            <v-col>
+              <span @click="editReviewText('review', item.review, item.id)">
+                {{item.review}}
+              </span>
+            </v-col>
+          </v-row>
+        </v-container>
+      </template>
+      <template v-slot:item.tools="{item}">
+        <v-btn icon
+          v-if="item.reviewAudioUrl || item.descriptionAudioUrl"
+          @click="editAudio(item)">
+          <v-icon>mdi-content-cut</v-icon>
+        </v-btn>
+        <v-btn icon>
+          <v-icon>mdi-delete</v-icon>
+        </v-btn>
+      </template>
+    </v-data-table>
   </v-row>
   <v-row justify="center">
     <v-col>
@@ -120,10 +111,21 @@ export default {
   },
   data() {
     return {
+      show: false,
       selectedReviews: [],
       editReviewTextDialog: false,
       editAudioDialog: false,
       reviews: [],
+      headers: [
+        {text: '', value: 'selection'},
+        {text: 'ID', value: 'id'},
+        {text: 'Titel', value: 'title', width: '10%'},
+        {text: 'Beskrivning', value: 'description', width: '30%'},
+        {text: 'Recension', value: 'review', width: '30%'},
+        {text: 'Betyg', value: 'rating'},
+        {text: 'Datum', value: 'date'},
+        {text: 'Verktyg', value: 'tools'},
+      ],
       modal: {
         review: '',
         text: '',
@@ -143,6 +145,9 @@ export default {
   },
 /* eslint-disable no-console */
   methods: {
+    formatText(text) {
+      return text.slice(0, 50) + " ...";
+    },
     selectAll(value) {
       if (value) {
         this.reviews.forEach((review) => {
