@@ -6,7 +6,7 @@
       :key="genre.id">
       <v-tooltip bottom color="blue">
         <template v-slot:activator="{on}">
-          <v-btn fab v-on="on" class="ma-2">
+          <v-btn icon width="auto" height="auto" v-on="on" class="ma-2">
             <v-avatar
               size="55">
               <img class="genre-icon"
@@ -34,7 +34,6 @@
     <v-row v-if=displaySearch justify="center">
       <v-col cols="6">
         <v-text-field
-          clearable
           solo
           prepend-inner-icon="mdi-magnify"
           v-model="searchTerm"
@@ -147,7 +146,6 @@ export default {
 .genre-icon {
   border-radius: 100%;
   border: 3px solid transparent;
-  width: 60px;
   cursor: pointer;
 }
 

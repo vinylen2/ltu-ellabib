@@ -51,15 +51,17 @@
               id: randomDescription.id,
             }">
           </audio-player>
-          <v-btn fab :to="{ name: 'books', params: { genre: genre }}">
-            <v-avatar size="50">
+          <v-btn icon :to="{ name: 'books', params: { genre: genre }}"
+            width="auto" height="auto"
+            >
+            <v-avatar size="60">
               <img class="genre-icon"
                 :src="`${imagesUrl}${genre.slug}.png`">
             </v-avatar>
           </v-btn>
           <v-btn :to="{ name: 'publish-review', params: { book: currentBook }}"
-            fab
             color="blue lighten-2"
+            fab
             v-if="$store.getters.isAllowedToPublish">
             <v-icon large>mdi-star</v-icon>
           </v-btn>
@@ -280,13 +282,6 @@ export default {
 .no-review {
   font-weight: bold;
   color: #ff585d;
-}
-
-.genre-icon {
-  border-radius: 100%;
-  border: 3px solid transparent;
-  width: 60px;
-  cursor: pointer;
 }
 
 

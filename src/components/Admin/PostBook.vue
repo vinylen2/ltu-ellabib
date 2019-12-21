@@ -15,7 +15,8 @@
         :key="genre.id">
         <v-tooltip bottom color="blue">
           <template v-slot:activator="{on}">
-            <v-btn fab v-on="on" class="ma-2">
+            <v-btn v-on="on" class="ma-2" icon
+              width="auto" height="auto">
               <v-avatar
                 size="55">
                 <img class="genre-icon"
@@ -122,6 +123,7 @@ export default {
   },
   data() {
     return {
+      selected: '',
       scannerDialog : false,
       authorDialog: false,
       valid: false,
@@ -196,7 +198,6 @@ export default {
 .genre-icon {
   border-radius: 100%;
   border: 3px solid transparent;
-  width: 60px;
   cursor: pointer;
 }
 
