@@ -22,6 +22,15 @@
         <v-icon>mdi-barcode-scan</v-icon>
       </v-btn> -->
     </v-toolbar-items>
+    <v-toolbar-items>
+      <v-btn to="/profile" text>
+        <v-icon class="mr-3">mdi-account</v-icon>
+        Min profil
+      </v-btn>
+      <!-- <v-btn icon to="scanner">
+        <v-icon>mdi-barcode-scan</v-icon>
+      </v-btn> -->
+    </v-toolbar-items>
 
     <v-toolbar-items
       v-show="isAdmin">

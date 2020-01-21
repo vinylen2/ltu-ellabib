@@ -85,6 +85,14 @@
     <v-col cols="12">
       <v-list color="rgb(255, 0, 0, 0)" dense>
         <v-list-item>
+          <v-list-item-content class="pa-0">Hur många har läst boken?</v-list-item-content>
+          <v-list-item-content class="pa-0">
+            <p class="text-right">
+              5
+            </p>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item>
           <v-list-item-content class="pa-0">Genre</v-list-item-content>
           <v-list-item-content class="pa-0">
             <p class="text-right">

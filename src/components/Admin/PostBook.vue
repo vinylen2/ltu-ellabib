@@ -31,65 +31,94 @@
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col cols="4">
-        <v-text-field
-          label="Genre, välj med knapparna"
-          required
-          disabled
-          v-model="book.genre.name"></v-text-field>
-      </v-col>
-    </v-row>
-    <v-row justify="center">
-      <v-col cols="5">
-        <v-text-field
-          v-model="book.isbn"
-          :rules="rules"
-          label="ISBN"
-          append-outer-icon="mdi-barcode-scan"
-          @click:append-outer="scannerDialog = true"
-          required
-        >
-        </v-text-field>
-      </v-col>
-    </v-row>
-    <v-row justify="center">
-      <v-col cols="3">
-        <v-text-field
-          :rules="rules"
-          v-model="book.title"
-          label="Titel"
-          required
-        ></v-text-field>
-      </v-col>
-      <v-col cols="2">
-        <v-text-field
-          :rules="rules"
-          v-model="book.pages"
-          label="Antal sidor"
-          required
-        ></v-text-field>
-      </v-col>
-    </v-row>
-    <v-row justify="center">
-      <v-col cols="5">
-        <v-autocomplete
-          append-outer-icon="mdi-plus"
-          @click:append-outer="authorDialog = true"
-          :items="$store.state.authors"
-          item-text="fullName"
-          item-value="id"
-          v-model="book.authors"
-          label="Författare"
-        ></v-autocomplete>
-      </v-col>
-    </v-row>
-    <v-row justify="center">
-      <v-col cols="2">
-        <v-btn color="error"
-          @click="resetFields">Återställ fält</v-btn>
-      </v-col>
-      <v-col cols="2">
-        <v-btn @click="publishBook">Lägg till bok</v-btn>
+      <v-slide-x-transition>
+        <v-col cols="12" sm="4"
+          v-if="book.imageUrl.length > 0">
+          <v-img :src="book.imageUrl"
+            height="300px"
+            max-width="220px">
+          </v-img>
+        </v-col>
+      </v-slide-x-transition>
+      <v-col cols="12" sm="6">
+        <v-row>
+          <v-col>
+            <v-text-field
+              label="Genre, välj med knapparna"
+              required
+              disabled
+              v-model="book.genre.name"></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row justify="center">
+          <v-col cols="">
+            <v-text-field
+              v-model="isbn"
+              :rules="rules"
+              label="ISBN"
+              append-outer-icon="mdi-barcode-scan"
+              @click:append-outer="scannerDialog = true"
+              required
+            >
+            </v-text-field>
+          </v-col>
+        </v-row>
+        <!-- <v-row>
+          <v-col v-if="book.isbn.length > 0">
+            <v-btn @click="fetchBookInfo">Hämta automatiskt</v-btn>
+          </v-col>
+        </v-row> -->
+        <v-row justify="center">
+          <v-col cols="">
+            <v-text-field
+              :rules="rules"
+              v-model="book.title"
+              label="Titel"
+              required
+            ></v-text-field>
+          </v-col>
+          <v-col cols="">
+            <v-text-field
+              :rules="rules"
+              v-model="book.pages"
+              label="Antal sidor"
+              required
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row justify="center">
+          <v-col cols="">
+            <v-autocomplete
+              append-outer-icon="mdi-plus"
+              @click:append-outer="authorDialog = true"
+              :items="$store.state.authors"
+              item-text="fullName"
+              item-value="id"
+              v-model="book.authors"
+              label="Författare"
+            ></v-autocomplete>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-textarea
+              :rules="rules"
+              auto-grow
+              v-model="book.originalDescription"
+              label="Beskrivning"
+              required
+            ></v-textarea>
+          </v-col>
+        </v-row>
+        <v-row justify="center">
+          <v-col cols="">
+            <v-btn color="error"
+              @click="resetFields">Återställ fält</v-btn>
+          </v-col>
+          <v-col cols="">
+            <v-btn @click="publishBook">Lägg till bok</v-btn>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
   </v-container>
@@ -100,6 +129,7 @@
 <script>
 import Books from '@/api/services/books';
 import Urls from '@/assets/urls';
+import _ from 'lodash';
 
 import AddAuthor from '@/components/Admin/AddAuthor';
 import BarcodeScanner from '@/components/BarcodeScanner';
@@ -121,8 +151,15 @@ export default {
       return this.selectedGenre.id;
     },
   },
+  watch: {
+    isbn: _.debounce(function () {
+      this.book.isbn = this.isbn;
+      this.fetchBookInfo();
+    }, 500),
+  },
   data() {
     return {
+      isbn: '',
       selected: '',
       scannerDialog : false,
       authorDialog: false,
@@ -136,6 +173,8 @@ export default {
         pages: null,
         genre: '',
         authors: [],
+        imageUrl: '',
+        originalDescription: '',
       },
       imagesUrl: Urls.images,
     };
@@ -144,6 +183,26 @@ export default {
 /* eslint-disable no-console */
     closeScannerDialog(data) {
       console.log(data);
+    },
+    fetchBookInfo() {
+      Books.getFromIsbn(this.book.isbn).then((result) => {
+        if (result.data) {
+          this.book.title = result.data.title;
+          this.book.pages = result.data.pages;
+          this.book.imageUrl = result.data.imageUrl;
+
+          result.data.description.replace(/<br ?\/?>/g, "\n");
+          let regex = /(<([^>]+)>)/ig;
+          this.book.originalDescription = result.data.description.replace(regex, "");
+
+          if (result.data.author.newlyCreated) {
+            this.$store.commit('addAuthor', result.data.author)
+          } 
+          this.book.authors = result.data.author.id
+        } else {
+          this.resetFields();
+        }
+      });
     },
     closeDialog(data) {
       if (data) {
@@ -167,6 +226,7 @@ export default {
         pages: null,
         genre: '',
         authors: [],
+        imageUrl: '',
       };
     },
     publishBook() {
