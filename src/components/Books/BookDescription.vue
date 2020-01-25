@@ -1,12 +1,5 @@
 <template>
 <v-container>
-  <v-dialog v-model="dialog"
-    max-width="600px"
-    persistent>
-    <edit-book :book="currentBook"
-      @closeDialog="closeDialog">
-    </edit-book>
-  </v-dialog>
     <v-row justify="center">
       <v-col :align="'center'" cols="12" md="4">
         <v-img
@@ -27,7 +20,7 @@
           <v-card-text class="text-left">
             <p class="no-review"
               v-if="reviews.length == 0 && $store.getters.isAllowedToPublish">
-              Bli den första att recensera boken genom att trycka på stjärnan!
+              Bli den första att recensera boken genom att trycka på den lila pennan!
             </p>
             <p class="no-review"
               v-if="reviews.length == 0 && !$store.getters.isAllowedToPublish">
@@ -52,29 +45,14 @@
                   {{ randomDescription.description }}
                 </v-col>
               </v-row>
+            </v-container>
+            <v-container>
               <v-row justify="center">
-                <v-spacer class="d-none d-sm-flex"></v-spacer>
-                <v-btn icon :to="{ name: 'books', params: { genre: genre }}"
-                  width="auto" height="auto" class="ma-2"
-                  >
-                  <v-avatar size="60">
-                    <img class="genre-icon"
-                      :src="`${imagesUrl}${genre.slug}.png`">
-                  </v-avatar>
-                </v-btn>
-                <v-btn :to="{ name: 'publish-review', params: { book: currentBook }}"
-                  color="blue lighten-2" class="ma-2"
-                  fab
-                  v-if="$store.getters.isAllowedToPublish">
-                  <v-icon large>mdi-star</v-icon>
-                </v-btn>
-                <v-btn class="ma-2"
-                  v-if="$store.state.isAdmin"
-                  fab
-                  @click.stop="dialog = true"
-                  color="pink lighten-2">
-                  <v-icon dark>mdi-border-color</v-icon>
-                </v-btn>
+                <book-toolbar
+                  :genre="genre"
+                  :currentBook="currentBook"
+                  @bookReviewed="bookReviewed">
+                </book-toolbar>
               </v-row>
             </v-container>
         </v-card-text>
@@ -88,7 +66,7 @@
           <v-list-item-content class="pa-0">Hur många har läst boken?</v-list-item-content>
           <v-list-item-content class="pa-0">
             <p class="text-right">
-              5
+              {{ currentBook.readCount }}
             </p>
           </v-list-item-content>
         </v-list-item>
@@ -174,7 +152,7 @@
 <script>
 /* eslint-disable no-console */
 import Books from '@/api/services/books';
-import EditBook from '@/components/Admin/EditBook';
+import BookToolbar from '@/components/Books/BookToolbar';
 import Reviews from '@/api/services/reviews';
 import Urls from '@/assets/urls';
 import AudioPlayer from '@/components/Audio/AudioPlayer';
@@ -187,7 +165,7 @@ import 'moment/locale/sv';
 export default {
   components: {
     'audio-player': AudioPlayer,
-    EditBook,
+    BookToolbar,
   },
   data() {
     return {
@@ -232,22 +210,21 @@ export default {
     });
   },
   methods: {
+    bookReviewed() {
+      this.getBookFromSlug();
+      this.$store.commit('showSnackbar', {
+        status: true,
+        value: 'Recension publicerad!',
+        color: 'green lighten-2',
+        timeout: 5000,
+        hasLink: false,
+      });
+    },
     inQr(id) {
       if (_.findIndex(this.$store.state.qrArray, { id }) > -1) {
         return true;
       }
       return false;
-    },
-    closeDialog(data) {
-      if (data) {
-        console.log(data);
-        this.currentBook.title = data.title;
-        this.currentBook.pages = data.pages;
-
-        this.author = data.author;
-        this.genre = data.genre;
-      }
-      this.dialog = false;
     },
     formattedAudioUrl(endingOfUrl) {
       return [this.audioUrl + endingOfUrl];
@@ -258,20 +235,20 @@ export default {
     randomizeNumber(max) {
       return Math.floor(Math.random() * (max + 1));
     },
-    changeDescription() {
-      const randomInt = this.randomizeNumber(this.reviews.length - 1);
-      this.randomDescription = this.reviews[randomInt];
-      if (this.randomDescription.description.length < 1) {
-        this.changeDescription();
-      }
-    },
+    // changeDescription() {
+    //   const randomInt = this.randomizeNumber(this.reviews.length - 1);
+    //   this.randomDescription = this.reviews[randomInt];
+    //   if (this.randomDescription.description.length < 1) {
+    //     this.changeDescription();
+    //   }
+    // },
     getBookFromSlug() {
       Books.getFromSlug(this.$route.params.slug)
         .then((result) => {
           if (result.data.reviews.length > 0) {
             const reviews = result.data.reviews;
             this.reviews = reviews;
-            this.changeDescription();
+            // this.changeDescription();
           }
           this.currentBook = result.data;
           this.genre = result.data.genres[0];

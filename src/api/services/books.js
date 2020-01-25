@@ -7,6 +7,9 @@ export default {
   get(id) {
     return api.get(`books/id/${id}`).then(response => response.data);
   },
+  isReviewed(data) {
+    return api.get('books/reviewed', data).then(response => response.data);
+  },
   getFromSlug(slug) {
     return api.get(`books/slug/${slug}`).then(response => response.data);
   },

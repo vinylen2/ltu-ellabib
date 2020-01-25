@@ -116,7 +116,8 @@
               @click="resetFields">Återställ fält</v-btn>
           </v-col>
           <v-col cols="">
-            <v-btn @click="publishBook">Lägg till bok</v-btn>
+            <v-btn v-if="newBook" @click="publishBook">Lägg till bok</v-btn>
+            <v-btn v-else @click="updateBook">Uppdatera bok</v-btn>
           </v-col>
         </v-row>
       </v-col>
@@ -147,9 +148,6 @@ export default {
     isAdmin() {
       return this.$store.state.isAdmin;
     },
-    genreId() {
-      return this.selectedGenre.id;
-    },
   },
   watch: {
     isbn: _.debounce(function () {
@@ -169,6 +167,7 @@ export default {
       ],
       book: {
         isbn: '',
+        id: '',
         title: '',
         pages: null,
         genre: '',
@@ -176,6 +175,7 @@ export default {
         imageUrl: '',
         originalDescription: '',
       },
+      newBook: true,
       imagesUrl: Urls.images,
     };
   },
@@ -184,6 +184,26 @@ export default {
     closeScannerDialog(data) {
       console.log(data);
     },
+    updateBook() {
+      Books.edit({
+        bookId: this.book.id,
+        authorId: this.book.authors,
+        genreId: this.book.genre.id,
+        title: this.book.title,
+        pages: this.book.pages,
+      })
+      .then((result) => {
+        console.log(result);
+        // let author = _.find(this.authors, {id: this.local.author});
+        // let genre = _.find(this.$store.state.genres, {id: this.local.genre});
+        // this.$emit('closeDialog', {
+        //   title: this.local.title,
+        //   pages: this.local.pages,
+        //   author,
+        //   genre,
+        // });
+      });
+    },
     fetchBookInfo() {
       Books.getFromIsbn(this.book.isbn).then((result) => {
         if (result.data) {
@@ -191,14 +211,22 @@ export default {
           this.book.pages = result.data.pages;
           this.book.imageUrl = result.data.imageUrl;
 
-          result.data.description.replace(/<br ?\/?>/g, "\n");
-          let regex = /(<([^>]+)>)/ig;
-          this.book.originalDescription = result.data.description.replace(regex, "");
+          // result.data.originalDescription.replace(/<br ?\/?>/g, "\n");
+          // let regex = /(<([^>]+)>)/ig;
+          // this.book.originalDescription = result.data.originalDescription.replace(regex, "");
 
-          if (result.data.author.newlyCreated) {
-            this.$store.commit('addAuthor', result.data.author)
-          } 
-          this.book.authors = result.data.author.id
+          if (result.newBook) {
+            if (result.data.author.newlyCreated) {
+              this.$store.commit('addAuthor', result.data.author)
+              this.book.authors = result.data.author.id
+              console.log(this.book.authors);
+            } 
+          } else {
+            this.newBook = false;
+            this.book.id = result.data.id;
+            this.book.authors = result.data.authors[0].id;
+            this.book.genre = result.data.genres[0];
+          }
         } else {
           this.resetFields();
         }

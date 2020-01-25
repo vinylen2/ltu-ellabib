@@ -10,7 +10,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     snackbar: {
-      status: true,
+      status: false,
       value: 'Felmeddelandetext',
       color: 'green lighten-2',
       timeout: 5000,
