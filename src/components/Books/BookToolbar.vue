@@ -15,18 +15,18 @@
           :src="`${imagesUrl}${genre.slug}.png`">
       </v-avatar>
     </v-btn>
-    <v-btn :to="{ name: 'publish-review', params: { book: currentBook }}"
-      color="purple lighten-2" class="ma-2"
-      fab
-      v-if="$store.getters.isAllowedToPublish && !isReviewedByUser">
-      <v-icon class="pt-2" large>mdi-border-color</v-icon>
-    </v-btn>
-    <v-btn fab color="blue lighten-2" class="ma-2"
-      v-if="!isReviewedByUser"
-      @click="dialog = true"
-      @closeDialog="closeDialog">
-      <v-icon large>mdi-star</v-icon>
-    </v-btn>
+    <div v-if="$store.getters.isLoggedIn && !isReviewedByUser">
+      <v-btn :to="{ name: 'publish-review', params: { book: currentBook }}"
+        color="purple lighten-2" class="ma-2"
+        fab>
+        <v-icon class="pt-2" large>mdi-border-color</v-icon>
+      </v-btn>
+      <v-btn fab color="blue lighten-2" class="ma-2"
+        @click="dialog = true"
+        @closeDialog="closeDialog">
+        <v-icon large>mdi-star</v-icon>
+      </v-btn>
+    </div>
     <!-- Edit book - should move to admin page
     <v-btn class="ma-2"
       v-if="$store.state.isAdmin"
@@ -62,9 +62,10 @@ export default {
     isReviewedByUser: true,
   }),
   created() {
-    Books.isReviewed().then((result) => {
-      this.isReviewedByUser = result.isReviewedByUser;
-    });
+    Books.isReviewed(this.$route.params.slug, this.$store.state.user.id)
+      .then((result) => {
+        this.isReviewedByUser = result.isReviewedByUser;
+      });
   },
   methods: {
     closeDialog(data) {

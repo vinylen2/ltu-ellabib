@@ -1,36 +1,37 @@
 <template>
-  <div class="editor">
-    <div class="menu">
-      <button class="button"
-        v-if="!isPlaying"
-        @click="play"><icon name="play" scale="2"></icon>
-      </button>
-      <button class="button"
-        v-if="isPlaying"
-        @click="pause"><icon name="pause" scale="2"></icon>
-      </button>
-      <div class="time"
-        v-show="isEditing">
-        {{roundedTime}}
-      </div>
+<v-container class="pt-0">
+    <v-row class="waveform"
+    :id="waveformId"
+    @click="setTime"></v-row>
+  <v-row>
+    <v-col>
+      <v-btn v-if="!isPlaying"
+        fab
+        @click="play">
+        <v-icon large>mdi-play</v-icon>
+      </v-btn>
+      <v-btn v-if="isPlaying"
+        fab
+        @click="pause">
+        <v-icon large>mdi-pause</v-icon>
+      </v-btn>
+      <v-btn v-show="isEditing" fab> {{ roundedTime }}</v-btn>
       <v-btn fab
         @click="cutBlob">      
         <v-icon>mdi-content-cut</v-icon>
       </v-btn>
-      <button class="button"
-        v-if="history.length > 0"
-        @click="undoSlice"><icon name="undo" scale="2"></icon>
-      </button>
+      <v-btn v-if="history.length > 0"
+        fab
+        @click="undoSlice">
+        <v-icon>mdi-undo</v-icon>
+      </v-btn>
       <v-btn fab
         @click="trashRecording">      
         <v-icon>mdi-delete</v-icon>
       </v-btn>
-    </div>
-    <div class="waveform"
-      :id="waveformId"
-      @click="setTime">
-    </div>
-  </div>
+    </v-col>
+  </v-row>
+</v-container>
 </template>
 
 
@@ -38,15 +39,12 @@
 import WaveSurfer from 'wavesurfer.js';
 import audioBufferSlice from 'audiobuffer-slice';
 import toWav from 'audiobuffer-to-wav';
-import Icon from 'vue-awesome';
 // eslint-disable-next-line no-use-before-define
 import RegionsPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
+/* eslint-disable no-console */
 
 export default {
   name: 'audio-editor',
-  components: {
-    Icon,
-  },
   data() {
     return {
       wavesurfer: null,
@@ -167,45 +165,13 @@ export default {
 </script>
 
 <style>
-
 .waveform .wavesurfer-handle {
   background-color: grey;
   width: 15%;
   max-width: 50px;
 }
 
-.button {
-  border:none;
-  padding: 0;
-  font-weight: bold;
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
-  background-color: #9ddad8;
-  text-align: center;
-  cursor: pointer;
-}
-
-.time {
-  margin: 10px;
-  font-weight: bold;
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
-  background-color: #9ddad8;
-  text-align: center;
-  display: inline-block;
-  font-size: 2em;
-  line-height: 70px;
-}
-
-
-.editor {
-  font-size: 0.8em;
-}
-
 .waveform {
   display:block;
 }
-
 </style>

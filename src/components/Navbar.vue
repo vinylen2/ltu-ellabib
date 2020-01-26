@@ -23,7 +23,8 @@
       </v-btn> -->
     </v-toolbar-items>
     <v-toolbar-items>
-      <v-btn to="/profile" text>
+      <v-btn to="/profile" text
+        v-if="$store.getters.isLoggedIn">
         <v-icon class="mr-3">mdi-account</v-icon>
         Min profil
       </v-btn>
@@ -31,9 +32,8 @@
         <v-icon>mdi-barcode-scan</v-icon>
       </v-btn> -->
     </v-toolbar-items>
-
     <v-toolbar-items
-      v-show="isAdmin">
+      v-if="isAdmin">
       <v-btn to="/admin/post-book" text>Lägg till bok</v-btn>
       <v-btn to="/admin/activate-reviews" text>Recensioner</v-btn>
       <v-btn text
@@ -58,7 +58,7 @@ export default {
     };
   },
   created() {
-    this.ipAuth();
+    // this.ipAuth();
     this.$store.commit('isMobile');
   },
   computed: {
@@ -74,14 +74,6 @@ export default {
       Auth.logout();
       this.$router.push({ name: 'frontpage' });
       this.$store.commit('changeAdminState');
-    },
-    ipAuth() {
-      Auth.ip()
-        .then((result) => {
-          if (result.ipAuth) {
-            this.$store.commit('isAllowedIp');
-          }
-        });
     },
   },
 };

@@ -30,7 +30,7 @@
         <template v-slot:item.description="{item}">
           <v-container>
             <v-row>
-              <v-col cols="2"> 
+              <v-col cols="2" v-if="item.descriptionAudioUrl"> 
               <audio-player
                 :sources="formattedAudioUrl(item.descriptionAudioUrl)"
                 :small="true"
@@ -53,7 +53,7 @@
         <template v-slot:item.review="{item}">
           <v-container>
             <v-row>
-              <v-col cols="2"> 
+              <v-col cols="2" v-if="item.reviewAudioUrl"> 
               <audio-player
                 :sources="formattedAudioUrl(item.reviewAudioUrl)"
                 :small="true"

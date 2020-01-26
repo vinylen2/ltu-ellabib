@@ -39,7 +39,7 @@ export default {
       Reviews.publishSimple({
         rating: this.rating,
         bookId: this.currentBook.id,
-        userId: 1,
+        userId: this.$store.state.user.id,
       }).then((result) => {
         this.$emit('closeDialog', result);
       });

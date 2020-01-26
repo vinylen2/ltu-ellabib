@@ -1,67 +1,86 @@
 <template>
-  <div class="container">
-    <div class="wrapper" v-if="published">
-      <div class="book-description">
-        <h1>Jippi! Din recension har nu skickats in!</h1>
-      </div>
-    </div>
-    <div class="wrapper" v-if="!published">
-      <div class="book-description">
-        <div>
-          <h1>Beskrivning</h1>
-          <textarea class="publish-textarea review"
-            v-model="review.description"
-            placeholder="Skriv vad boken handlar om här.">
-          </textarea>
-        </div>
-        <vue-record class="audio-recorder"
+<v-container>
+  <v-row>
+    <v-col>
+      <span class="headline">Publicera recension</span>
+    </v-col>
+  </v-row>
+  <v-row v-if="publishing">
+    <v-col>
+      <v-progress-circular
+        indeterminate
+        :size="50">
+      </v-progress-circular>
+      <span class="ma-5">Publicerar...</span>
+    </v-col>
+  </v-row>
+  <v-form v-else>
+    <v-row class="pb-0">
+      <v-col class="pb-0">
+        <span class="">Beskrivning</span>
+        <v-textarea
+          outlined
+          placeholder="Skriv vad boken handlar om här."
+          auto-grow
+          v-model="review.description">
+        </v-textarea>
+      </v-col>
+    </v-row>
+    <v-row class="pa-0">
+      <v-col class="pa-0">
+        <vue-record class="pt-0 audio-recorder"
           v-if="$store.getters.isDeviceWithMic"
           :source="'description'"
           @updateBlob="updateAudio"
           :blob="audio.description">
         </vue-record>
-      </div>
-      <div class="book-review">
-        <h1>Recension</h1>
-        <textarea class="publish-textarea description"
-          v-model="review.review"
-          placeholder="Skriv din bokrecension här.">
-        </textarea>
-        <vue-record class="audio-recorder"
+      </v-col>
+    </v-row>
+    <v-row class="pb-0">
+      <v-col class="pb-0">
+        <span class="pb-2">Recension</span>
+        <v-textarea
+          outlined
+          placeholder="Skriv din bokrecension här."
+          auto-grow
+          v-model="review.review">
+        </v-textarea>
+      </v-col>
+    </v-row>
+    <v-row class="pa-0">
+      <v-col class="pa-0">
+        <vue-record class="pt-0 audio-recorder"
           v-if="$store.getters.isDeviceWithMic"
           :source="'review'"
           @updateBlob="updateAudio"
           :blob="audio.review">
         </vue-record>
-      </div>
-      <div class="publish flex-container column">
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
         <v-rating v-model="review.rating" large ripple hover dense/>
-        <button class="publish-button"
-          v-if="!publishing"
-          @click="postReview">Skicka
-        </button>
-        <div class="loading"
-          v-if="publishing">
-          <h2>Publicerar...</h2>
-          <sync-loader :color="'#71c5e8'"></sync-loader>
-        </div>
-      </div>
-    </div>
-  </div>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-btn @click="postReview">Skicka</v-btn>
+      </v-col>
+    </v-row>
+  </v-form>
+</v-container>
 </template>
 
 <script>
-/* es-lint disable*/
+/* eslint-disable no-console */
 import Books from '@/api/services/books';
 import Reviews from '@/api/services/reviews';
 import VueRecord from '@/components/Audio/VueRecord';
-import SyncLoader from 'vue-spinner/src/SyncLoader';
 
 export default {
   name: 'publish-review',
   components: {
     'vue-record': VueRecord,
-    SyncLoader,
   },
   props: ['book'],
   data() {
@@ -71,12 +90,12 @@ export default {
         description: '',
         review: '',
         rating: 0,
-        reviewerId: null,
+        userId: this.$store.state.user.id,
         bookId: null,
       },
       audio: {
-        description: '',
-        review: '',
+        description: null,
+        review: null,
       },
       publishing: false,
       published: false,
@@ -92,8 +111,12 @@ export default {
         reviewFormData.append(key, this.review[key]);
       });
 
-      reviewFormData.append('descriptionRecording', this.audio.description, this.$route.params.slug);
-      reviewFormData.append('reviewRecording', this.audio.review, this.$route.params.slug);
+      if (this.audio.description) {
+        reviewFormData.append('descriptionRecording', this.audio.description, this.$route.params.slug);
+      }
+      if (this.audio.review) {
+        reviewFormData.append('reviewRecording', this.audio.review, this.$route.params.slug);
+      }
       return reviewFormData;
     },
   },
@@ -127,86 +150,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-
-.container {
-  margin-top: 20px;
-}
-
-h2 {
-  font-size: 1.5em;
-  font-weight: bold;
-  margin: 15px 0;
-}
-h1 {
-  font-size: 2em;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-textarea {
-  width: 80%;
-  height: 200px;
-  resize: none;
-  outline: none;
-  font-size: 1em;
-  border-color: #c2c7c9;
-}
-
-.publish-button {
-  border:none;
-  padding: 0;
-  width: 4em;
-  height: 2em;
-  font-weight: bold;
-  font-size: 1.5em;
-  line-height: 2em;
-  margin: 10px 0;
-  background-color: #71c5e8;
-  border-radius: 15px;
-  text-align: center;
-  cursor: pointer;
-  display: inline-block;
-}
-
-.flex-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content:center;
-  align-items:center;
-}
-
-.column {
-  flex-direction: column;
-}
-
-.flex-box {
-  width: 100%;
-}
-
-.wrapper {
-  margin: 0 20px;
-  align-items: center;
-}
-
-.publish-textarea {
-  align-items: center;
-  display: inline-block;
-}
-
-.description {
-  background-color: #edd8f3;
-}
-
-.review {
-  background-color: #daf1f0;
-}
-
-.button {
-  border: none;
-  margin-right: 20px;
-}
-
-</style>

@@ -1,29 +1,37 @@
 <template>
-  <div>
-    <div v-show="!isEditing">
-      <button class="button stop"
-        v-show="isRecording"
-        @click="stopRecording"><icon name="stop" scale="2"></icon>
-      </button>
-      <button class="button record"
-        v-show="!isRecording"
-        @click="startRecording"><icon name="microphone" scale="2"></icon>
-      </button>
-      <div class="counter"
-        v-show="isRecording">
-        {{recordingLength}}
+<v-container>
+  <v-row>
+    <v-col>
+      <div v-show="!isEditing">
+        <v-btn v-show="isRecording"
+          fab
+          @click="stopRecording">
+          <v-icon large>mdi-stop</v-icon>
+        </v-btn>
+        <v-btn v-show="!isRecording"
+          fab
+          @click="startRecording">
+          <v-icon large>mdi-microphone</v-icon>
+        </v-btn>
+        <v-btn v-show="isRecording" fab>
+          {{ recordingLength }}
+        </v-btn>
       </div>
-    </div>
-    <audio-editor class="editor"
-      ref="editor"
-      v-if="dataUrl.length > 0"
-      @cut="updateData"
-      @trashRecording="trashRecording"
-      :dataUrl="dataUrl"
-      :source="source"
-      :isEditing="isEditing">
-    </audio-editor>
+      <audio-editor class="editor"
+        ref="editor"
+        v-if="dataUrl.length > 0"
+        @cut="updateData"
+        @trashRecording="trashRecording"
+        :dataUrl="dataUrl"
+        :source="source"
+        :isEditing="isEditing">
+      </audio-editor>
+    </v-col>
+  </v-row>
+
+  <div>
   </div>
+</v-container>
 </template>
 
 <script>
@@ -172,33 +180,3 @@ export default {
 }
 
 </script>
-
-<style scoped>
-.button {
-  border: none;
-  padding: 0;
-  margin: 10px;
-  font-weight: bold;
-  font-size: 2em;
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
-  background-color: #9ddad8;
-  text-align: center;
-  cursor:pointer;
-}
-
-.counter {
-  font-size: 2em;
-  margin: 10px;
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
-  line-height: 70px;
-  font-weight: bold;
-  font-size: 2em;
-  text-align: center;
-  background-color: #9ddad8;
-  display: inline-block;
-}
-</style>

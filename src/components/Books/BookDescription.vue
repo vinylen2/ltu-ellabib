@@ -4,7 +4,7 @@
       <v-col :align="'center'" cols="12" md="4">
         <v-img
           :src="imageUrl"
-          height="300px"
+          height="340px"
           max-width="220px">
         </v-img>
       </v-col>
@@ -19,19 +19,19 @@
           </v-card-subtitle>
           <v-card-text class="text-left">
             <p class="no-review"
-              v-if="reviews.length == 0 && $store.getters.isAllowedToPublish">
+              v-if="reviews.length == 0 && $store.getters.isLoggedIn">
               Bli den första att recensera boken genom att trycka på den lila pennan!
             </p>
             <p class="no-review"
-              v-if="reviews.length == 0 && !$store.getters.isAllowedToPublish">
+              v-if="reviews.length == 0 && !$store.getters.isLoggedIn">
               Det finns ingen recension för boken.
             </p>
             <v-container v-if="reviews.length > 0" class="pa-0">
               <v-row>
                 <v-col cols="12" sm="2" class="text-center pa-0">
                   <audio-player class="audio-player btn"
-                    v-if="randomDescription.descriptionAudioUrl"
-                    :sources="formattedAudioUrl(randomDescription.descriptionAudioUrl)"
+                    v-if="reviews[0].descriptionAudioUrl"
+                    :sources="formattedAudioUrl(reviews[0].descriptionAudioUrl)"
                     :audioInfo="{
                       book: {
                         title: currentBook.title,
@@ -42,7 +42,7 @@
                     }"/>
                 </v-col>
                 <v-col cols="12" sm="10">
-                  {{ randomDescription.description }}
+                  {{ reviews[0].description }}
                 </v-col>
               </v-row>
             </v-container>

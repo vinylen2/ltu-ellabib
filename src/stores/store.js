@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import _ from 'lodash';
-import createPersistedState from 'vuex-persistedstate';
+// import createPersistedState from 'vuex-persistedstate';
 import MobileDetect from 'mobile-detect';
 
 Vue.use(Vuex);
@@ -17,9 +16,19 @@ export default new Vuex.Store({
       hasLink: false,
       linkUrl: '',
     },
+    user: {
+      id: 1,
+      firstname: '',
+      class: '',
+      school: '',
+      pagesRead: 0,
+      booksRead: 0,
+      reviewsWritten: 0,
+      role: '', // student, teacher, admin
+      isLoggedIn: true,
+    },
     isAdmin: false,
     isLoading: false,
-    isAllowedIp: false,
     userAgent: {
       isMobile: null,
     },
@@ -28,18 +37,17 @@ export default new Vuex.Store({
     genres: Array[Object],
     highestRatedBooks: [],
     recentlyReviewedBooks: [],
-    qrArray: [],
     count: {},
     isMobile: null,
   },
   getters: {
-    snackbar: state => state.snackbar,
-    isAllowedToPublish: (state) => {
-      if (state.isAdmin || state.isAllowedIp) {
+    isLoggedIn: (state) => {
+      if (state.user) {
         return true;
       }
       return false;
     },
+    snackbar: state => state.snackbar,
     isDeviceWithMic: () => {
       navigator.getUserMedia = navigator.getUserMedia ||
       navigator.webkitGetUserMedia ||
@@ -52,6 +60,12 @@ export default new Vuex.Store({
   },
   mutations: {
 /* eslint-disable no-console */
+    userLogout: (state) => {
+      state.user = null;
+    },
+    userLogin: (state, data) => {
+      state.user = data;
+    },
     hideSnackbar: (state) => {
       state.snackbar.status = false;
     },
@@ -78,9 +92,6 @@ export default new Vuex.Store({
     changeAdminState: (state) => {
       state.isAdmin = !state.isAdmin;
     },
-    isAllowedIp: (state) => {
-      state.isAllowedIp = true;
-    },
     books: (state, data) => {
       state.books = data;
     },
@@ -99,22 +110,8 @@ export default new Vuex.Store({
     highestRatedBooks: (state, data) => {
       state.highestRatedBooks = data;
     },
-    addQrArray: (state, data) => {
-      state.qrArray = data;
-    },
-    toggleQr: (state, data) => {
-      const index = _.findIndex(state.qrArray, { id: data.id });
-      if (index === -1) {
-        state.qrArray.push(data);
-      } else {
-        state.qrArray.splice(index, 1);
-      }
-    },
-    resetQr: (state) => {
-      state.qrArray = [];
-    },
   },
-  plugins: [createPersistedState({
-    storage: window.sessionStorage,
-  })],
+  // plugins: [createPersistedState({
+  //   storage: window.sessionStorage,
+  // })],
 });

@@ -137,7 +137,6 @@ import BarcodeScanner from '@/components/BarcodeScanner';
 
 // import Urls from '@/assets/urls';
 
-
 export default {
   name: 'post-book',
   components: {

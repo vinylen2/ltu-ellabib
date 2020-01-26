@@ -2,9 +2,9 @@
 <v-app id="app">
   <navbar></navbar>
   <v-content>
-    <v-progress-linear class="ma-0" :color="'green lighten-2'"
-      :indeterminate="true"
-      v-if="$store.state.isLoading">
+  <v-progress-linear class="ma-0" :color="'green lighten-2'"
+    :indeterminate="true"
+    v-if="$store.state.isLoading">
   </v-progress-linear>
   <router-view></router-view>
   <v-snackbar
