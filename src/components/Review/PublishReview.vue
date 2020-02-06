@@ -34,7 +34,7 @@
         <span class="pb-2">Recension</span>
         <v-textarea
           outlined
-          placeholder="Skriv din bokrecension här."
+          placeholder="Skriv din egna bokrecension här."
           auto-grow
           v-model="review.review">
         </v-textarea>
