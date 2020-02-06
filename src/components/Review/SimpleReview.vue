@@ -3,7 +3,7 @@
   <v-card-title class="justify-center">
     <span class="headline">Betygsätt {{currentBook.title}}</span>
   </v-card-title>
-  <v-card-text>
+  <v-card-text class="pb-0">
     <span>Vad tyckte du om boken?</span>
     <v-container>
       <v-rating
@@ -19,6 +19,7 @@
     <v-spacer></v-spacer>
     <v-btn color="red darken-1" text @click="$emit('closeDialog')">Stäng</v-btn>
     <v-btn color="blue darken-1" text @click="publishSimpleReview">Betygssätt</v-btn>
+    <v-spacer></v-spacer>
   </v-card-actions>
 </v-card>
 </template>

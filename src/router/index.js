@@ -3,7 +3,6 @@ import Router from 'vue-router';
 import Books from '@/components/Books/Books';
 import Frontpage from '@/components/Frontpage';
 import BookDescription from '@/components/Books/BookDescription';
-import PublishReview from '@/components/Review/PublishReview';
 import ActivateReviews from '@/components/Review/ActivateReviews';
 import PostBook from '@/components/Admin/PostBook';
 import About from '@/components/About';
@@ -45,12 +44,6 @@ const router = new Router({
       path: '/book/:slug',
       name: 'bok',
       component: BookDescription,
-      props: true,
-    },
-    {
-      path: '/book/:slug/review',
-      name: 'publish-review',
-      component: PublishReview,
       props: true,
     },
     {

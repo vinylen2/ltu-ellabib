@@ -18,19 +18,11 @@
             </router-link>
           </v-card-subtitle>
           <v-card-text class="text-left">
-            <p class="no-review"
-              v-if="reviews.length == 0 && $store.getters.isLoggedIn">
-              Bli den första att recensera boken genom att trycka på den lila pennan!
-            </p>
-            <p class="no-review"
-              v-if="reviews.length == 0 && !$store.getters.isLoggedIn">
-              Det finns ingen recension för boken.
-            </p>
-            <v-container v-if="reviews.length > 0" class="pa-0">
+            <v-container class="pa-0">
               <v-row>
-                <v-col cols="12" sm="2" class="text-center pa-0">
+                <v-col cols="12" sm="2" class="text-center pa-0"
+                  v-if="reviews.length > 0 && reviews[0].descriptionAudioUrl">
                   <audio-player class="audio-player btn"
-                    v-if="reviews[0].descriptionAudioUrl"
                     :sources="formattedAudioUrl(reviews[0].descriptionAudioUrl)"
                     :audioInfo="{
                       book: {
@@ -38,11 +30,10 @@
                         id: currentBook.id,
                       },
                       type: 'description',
-                      id: randomDescription.id,
                     }"/>
                 </v-col>
                 <v-col cols="12" sm="10">
-                  {{ reviews[0].description }}
+                  {{ currentBook.description }}
                 </v-col>
               </v-row>
             </v-container>
@@ -133,7 +124,6 @@
                       id: currentBook.id,
                     },
                     type: 'review',
-                    id: randomDescription.id,
                   }"/>
               </v-col>
               <v-col cols="12" sm="10" la="11">
@@ -169,11 +159,9 @@ export default {
   },
   data() {
     return {
-      dialog: false,
       imagesUrl: Urls.images,
       audioUrl: Urls.audio,
       reviews: [],
-      randomDescription: {},
       currentBook: {},
       author: {
         fullName: '',
@@ -235,20 +223,12 @@ export default {
     randomizeNumber(max) {
       return Math.floor(Math.random() * (max + 1));
     },
-    // changeDescription() {
-    //   const randomInt = this.randomizeNumber(this.reviews.length - 1);
-    //   this.randomDescription = this.reviews[randomInt];
-    //   if (this.randomDescription.description.length < 1) {
-    //     this.changeDescription();
-    //   }
-    // },
     getBookFromSlug() {
       Books.getFromSlug(this.$route.params.slug)
         .then((result) => {
           if (result.data.reviews.length > 0) {
             const reviews = result.data.reviews;
             this.reviews = reviews;
-            // this.changeDescription();
           }
           this.currentBook = result.data;
           this.genre = result.data.genres[0];

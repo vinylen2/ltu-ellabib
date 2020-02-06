@@ -1,10 +1,9 @@
 <template>
+<v-card>
+  <v-card-title class="justify-center">
+    <span class="headline">Recensera {{currentBook.title}} </span>
+  </v-card-title>
 <v-container>
-  <v-row>
-    <v-col>
-      <span class="headline">Publicera recension</span>
-    </v-col>
-  </v-row>
   <v-row v-if="publishing">
     <v-col>
       <v-progress-circular
@@ -15,15 +14,9 @@
     </v-col>
   </v-row>
   <v-form v-else>
-    <v-row class="pb-0">
-      <v-col class="pb-0">
-        <span class="">Beskrivning</span>
-        <v-textarea
-          outlined
-          placeholder="Skriv vad boken handlar om här."
-          auto-grow
-          v-model="review.description">
-        </v-textarea>
+    <v-row class="">
+      <v-col class="text-left">
+        {{ currentBook.description }}
       </v-col>
     </v-row>
     <v-row class="pa-0">
@@ -64,11 +57,13 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-btn @click="postReview">Skicka</v-btn>
+        <v-btn color="red darken-1" text @click="$emit('closeDialog')">Stäng</v-btn>
+        <v-btn color="blue darken-1" text @click="postReview">Skicka</v-btn>
       </v-col>
     </v-row>
   </v-form>
 </v-container>
+</v-card>
 </template>
 
 <script>
@@ -87,7 +82,6 @@ export default {
     return {
       currentBook: {},
       review: {
-        description: '',
         review: '',
         rating: 0,
         userId: this.$store.state.user.id,
@@ -98,7 +92,6 @@ export default {
         review: null,
       },
       publishing: false,
-      published: false,
     };
   },
   created() {
@@ -121,6 +114,12 @@ export default {
     },
   },
   methods: {
+    resetFields() {
+      this.review.review = '';
+      this.review.rating = 0;
+      this.audio.description = null;
+      this.audio.review = null;
+    },
     updateAudio(blob, source) {
       this.audio[source] = blob;
     },
@@ -142,8 +141,9 @@ export default {
     postReview() {
       this.publishing = true;
       Reviews.create(this.reviewFormData)
-        .then(() => {
-          this.published = true;
+        .then((result) => {
+          this.$emit('closeDialog', result);
+          this.resetFields();
           this.publishing = false;
         });
     },

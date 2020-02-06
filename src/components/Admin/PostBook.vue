@@ -104,7 +104,7 @@
             <v-textarea
               :rules="rules"
               auto-grow
-              v-model="book.originalDescription"
+              v-model="book.description"
               label="Beskrivning"
               required
             ></v-textarea>
@@ -172,7 +172,7 @@ export default {
         genre: '',
         authors: [],
         imageUrl: '',
-        originalDescription: '',
+        description: '',
       },
       newBook: true,
       imagesUrl: Urls.images,
@@ -190,6 +190,7 @@ export default {
         genreId: this.book.genre.id,
         title: this.book.title,
         pages: this.book.pages,
+        description: this.book.description,
       })
       .then((result) => {
         console.log(result);
@@ -208,11 +209,8 @@ export default {
         if (result.data) {
           this.book.title = result.data.title;
           this.book.pages = result.data.pages;
+          this.book.description = result.data.description;
           this.book.imageUrl = result.data.imageUrl;
-
-          // result.data.originalDescription.replace(/<br ?\/?>/g, "\n");
-          // let regex = /(<([^>]+)>)/ig;
-          // this.book.originalDescription = result.data.originalDescription.replace(regex, "");
 
           if (result.newBook) {
             if (result.data.author.newlyCreated) {

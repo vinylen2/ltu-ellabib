@@ -1,9 +1,13 @@
 <template>
 <v-container>
-  <v-dialog v-model="dialog"
-    max-width="300px">
+  <v-dialog v-model="dialogSimple"
+    max-width="400px">
     <simple-review :currentBook="currentBook"
       @closeDialog="closeDialog"></simple-review>
+  </v-dialog>
+  <v-dialog v-model="dialogAdvanced" persistent>
+    <publish-review :book="currentBook"
+      @closeDialog="closeDialog"></publish-review>
   </v-dialog>
   <v-row>
     <v-spacer class="d-none d-sm-flex"></v-spacer>
@@ -16,13 +20,14 @@
       </v-avatar>
     </v-btn>
     <div v-if="$store.getters.isLoggedIn && !isReviewedByUser">
-      <v-btn :to="{ name: 'publish-review', params: { book: currentBook }}"
-        color="purple lighten-2" class="ma-2"
-        fab>
+      <v-btn fab color="purple lighten-3" class="ma-2"
+        @click="dialogAdvanced = true"
+        @closeDialog="closeDialog">
         <v-icon class="pt-2" large>mdi-border-color</v-icon>
+
       </v-btn>
       <v-btn fab color="blue lighten-2" class="ma-2"
-        @click="dialog = true"
+        @click="dialogSimple = true"
         @closeDialog="closeDialog">
         <v-icon large>mdi-star</v-icon>
       </v-btn>
@@ -42,6 +47,7 @@
 <script>
 import Urls from '@/assets/urls';
 import SimpleReview from '@/components/Review/SimpleReview';
+import PublishReview from '@/components/Review/PublishReview';
 
 import Books from '@/api/services/books';
 
@@ -51,13 +57,15 @@ export default {
   name: 'book-toolbar',
   components: {
     SimpleReview,
+    PublishReview,
   },
   props: {
     currentBook: Object,
     genre: Object,
   },
   data: () => ({
-    dialog: false,
+    dialogSimple: false,
+    dialogAdvanced: false,
     imagesUrl: Urls.images,
     isReviewedByUser: true,
   }),
@@ -72,7 +80,8 @@ export default {
       if (data) {
         this.$emit('bookReviewed');
       }
-      this.dialog = false;
+      this.dialogSimple = false;
+      this.dialogAdvanced = false;
     },
   },
 };
