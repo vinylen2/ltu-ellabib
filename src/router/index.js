@@ -6,11 +6,9 @@ import BookDescription from '@/components/Books/BookDescription';
 import ActivateReviews from '@/components/Review/ActivateReviews';
 import PostBook from '@/components/Admin/PostBook';
 import About from '@/components/About';
-import BarcodeScanner from '@/components/BarcodeScanner';
 import Login from '@/components/Admin/Login';
 import Profile from '@/components/User/Profile';
 import Admin from '@/components/Admin/Admin';
-import QrCodes from '@/components/Admin/QrCodes';
 import Store from '@/stores/store';
 import Meta from 'vue-meta';
 
@@ -29,11 +27,6 @@ const router = new Router({
       path: '/profile',
       name: 'Profil',
       component: Profile,
-    },
-    {
-      path: '/scanner',
-      name: 'scanner',
-      component: BarcodeScanner,
     },
     {
       path: '/books',
@@ -76,14 +69,6 @@ const router = new Router({
           path: 'post-book',
           name: 'post-book',
           component: PostBook,
-          meta: {
-            requiresAuth: true,
-          },
-        },
-        {
-          path: 'qr-codes',
-          name: 'qr-codes',
-          component: QrCodes,
           meta: {
             requiresAuth: true,
           },

@@ -1,15 +1,29 @@
 <template>
-<v-card>
-  <v-card-title>Scanner</v-card-title>
-  <v-card-text>
-    <v-row justify="center">
-      <video id="video"
-        height="300px"
-        width="300px">
-      </video>
-    </v-row>
-  </v-card-text>
-</v-card>
+<v-container>
+  <v-dialog v-model="dialog"
+    max-width="500px">
+    <v-card>
+      <v-card-title class="text-center">Scanna en streckkod</v-card-title>
+      <v-card-text>
+        <v-row justify="center">
+          <video id="video"
+            height="300px"
+            width="300px">
+          </video>
+        </v-row>
+        {{ text }}
+      </v-card-text>
+    </v-card>
+  </v-dialog>
+  <v-btn v-if="$store.state.userAgent.isMobile" 
+    @click="dialog = true"
+    color="blue lighten-3"
+    fab 
+    bottom center fixed
+    direction="bottom">
+    <v-icon>mdi-barcode-scan</v-icon>
+  </v-btn>
+</v-container>
 </template>
 
 <script>
@@ -20,24 +34,21 @@ import { BrowserQRCodeReader } from '@zxing/library';
 export default {
   name: 'barcode-scanner',
   data: () => ({
-
+    dialog: false,
   }),
   mounted() {
     const codeReader = new BrowserQRCodeReader();
-
-// codeReader
-//   .decodeFromInputVideoDevice(undefined, 'video')
-//   .then(result => console.log(result.text))
-//   .catch(err => console.error(err));
     codeReader
       .listVideoInputDevices()
       .then((videoInputDevices) => {
-        console.log(videoInputDevices);
         let firstDeviceId = videoInputDevices[0].deviceId;
-        console.log(firstDeviceId);
         codeReader
           .decodeFromInputVideoDevice(firstDeviceId, 'video')
-          .then(result => console.log(result.text))
+          .then((result) => { 
+            console.log(result);
+            this.$emit('scanned', result);
+            })
+          .then(result => this.text = result)
           .catch(err => console.error(err));
       })
       .catch(err => console.error(err));

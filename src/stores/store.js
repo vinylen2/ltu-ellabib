@@ -17,7 +17,7 @@ export default new Vuex.Store({
       linkUrl: '',
     },
     user: {
-      id: 1,
+      id: 2,
       firstname: '',
       class: '',
       school: '',

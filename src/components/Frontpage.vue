@@ -38,12 +38,15 @@
         :books="$store.state.recentlyReviewedBooks">
       </book-list>
   </v-container>
+  <barcode-scanner @scanned="barcodeScanned"></barcode-scanner>
 </v-container>
 </template>
 
 <script>
+/* eslint-disable no-console */
 import Books from '@/api/services/books';
 import BookList from '@/components/Books/BookList';
+import BarcodeScanner from '@/components/BarcodeScanner';
 import Vue from 'vue';
 import VueParallaxJs from 'vue-parallax-js';
 import VueAwesomeSwiper from 'vue-awesome-swiper';
@@ -60,6 +63,7 @@ export default {
   },
   components: {
     'book-list': BookList,
+    BarcodeScanner,
   },
   created() {
     this.getRecentlyReviewed();
@@ -68,6 +72,7 @@ export default {
   },
   data() {
     return {
+      dialog: false,
       swiperOptions: {
         nextButton: '.swiper-button-next',
         prevButton: '.swiper-button-prev',
@@ -79,6 +84,9 @@ export default {
     };
   },
   methods: {
+    barcodeScanned(data) {
+      console.log(data);
+    },
     getCount() {
       Books.count()
         .then((result) => {

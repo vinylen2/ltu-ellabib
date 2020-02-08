@@ -4,7 +4,7 @@
     <add-author @closeDialog="closeDialog"></add-author>
   </v-dialog>
   <v-dialog v-model="scannerDialog" max-width="500">
-    <barcode-scanner @closeDialog="closeScannerDialog"></barcode-scanner>
+    <barcode-scanner @scanned="barcodeScanned"></barcode-scanner>
   </v-dialog>
   <v-container>
     <v-row justify="center">
@@ -56,8 +56,6 @@
               v-model="isbn"
               :rules="rules"
               label="ISBN"
-              append-outer-icon="mdi-barcode-scan"
-              @click:append-outer="scannerDialog = true"
               required
             >
             </v-text-field>
@@ -123,6 +121,7 @@
       </v-col>
     </v-row>
   </v-container>
+  <barcode-scanner @scanned="barcodeScanned"></barcode-scanner>
 </v-form>
 </template>
 
@@ -180,7 +179,7 @@ export default {
   },
   methods: {
 /* eslint-disable no-console */
-    closeScannerDialog(data) {
+    barcodeScanned(data) {
       console.log(data);
     },
     updateBook() {

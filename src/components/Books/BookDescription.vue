@@ -1,23 +1,38 @@
 <template>
 <v-container>
     <v-row justify="center">
-      <v-col :align="'center'" cols="12" md="4">
+      <v-col :align="'center'" cols="12" md="4" class="pb-0">
         <v-img
           :src="imageUrl"
           height="340px"
           max-width="220px">
         </v-img>
       </v-col>
-      <v-col cols="12" md="8" l="10">
+      <v-col cols="12" md="8" l="10" class="pb-0">
         <v-card flat color="rgb(255, 0, 0, 0)">
-          <v-card-title> {{ currentBook.title }}</v-card-title>
-          <v-card-subtitle class="text-left">av: 
-            <router-link class="authorlink"
-              :to="{ name: 'books', params: { forceSearch: author.fullName }}">
-              {{author.fullName }}
-            </router-link>
-          </v-card-subtitle>
-          <v-card-text class="text-left">
+            <v-container class="pa-0">
+              <v-row>
+                <v-col class="pu-0">
+                  <v-card-title class="pl-0">
+                    {{ currentBook.title }}
+                  </v-card-title>
+                <v-card-subtitle class="text-left pl-0">av: 
+                  <router-link class="authorlink"
+                    :to="{ name: 'books', params: { forceSearch: author.fullName }}">
+                    {{author.fullName }}
+                  </router-link>
+                </v-card-subtitle>
+                </v-col>
+                <v-col class="pa-0">
+                  <book-toolbar
+                    :genre="genre"
+                    :currentBook="currentBook"
+                    @bookReviewed="bookReviewed">
+                  </book-toolbar>
+                </v-col>
+              </v-row>
+            </v-container>
+          <v-card-text class="text-left pa-0">
             <v-container class="pa-0">
               <v-row>
                 <v-col cols="12" sm="2" class="text-center pa-0"
@@ -32,18 +47,9 @@
                       type: 'description',
                     }"/>
                 </v-col>
-                <v-col cols="12" sm="10">
+                <v-col cols="12" sm="10" class="pt-0">
                   {{ currentBook.description }}
                 </v-col>
-              </v-row>
-            </v-container>
-            <v-container>
-              <v-row justify="center">
-                <book-toolbar
-                  :genre="genre"
-                  :currentBook="currentBook"
-                  @bookReviewed="bookReviewed">
-                </book-toolbar>
               </v-row>
             </v-container>
         </v-card-text>
@@ -51,7 +57,7 @@
     </v-col>
   </v-row>
   <v-row>
-    <v-col cols="12">
+    <v-col class="pt-0" cols="12">
       <v-list color="rgb(255, 0, 0, 0)" dense>
         <v-list-item>
           <v-list-item-content class="pa-0">Hur många har läst boken?</v-list-item-content>
@@ -94,46 +100,15 @@
   <v-row v-if="reviews.length > 0">
     <v-col cols="12">
       <h1 class="text-left pa-0">Recensioner</h1>
-    <v-divider></v-divider>
+      <v-divider></v-divider>
     </v-col>
-    <v-col v-for="review in reviews"
-      :key="review.id"
-      cols="12 pt-0">
-      <v-card class="text-left"
-       flat color="rgb(255, 0, 0, 0)">
-        <v-card-title>
-          Publicerad den {{ formattedDate(review.createdAt) }}
-          <v-spacer></v-spacer>
-          <v-rating 
-            v-model="review.rating"
-            dense
-            medium
-            half-increments
-          ></v-rating>
-        </v-card-title>
-        <v-card-text class="text-left"> 
-          <v-container class="pa-0">
-            <v-row>
-              <v-col cols="12" sm="2" la="1" class="pa-0">
-                <audio-player class="text-center pa-0"
-                  v-if="review.reviewAudioUrl"
-                  :sources="formattedAudioUrl(review.reviewAudioUrl)"
-                  :audioInfo="{
-                    book: {
-                      title: currentBook.title,
-                      id: currentBook.id,
-                    },
-                    type: 'review',
-                  }"/>
-              </v-col>
-              <v-col cols="12" sm="10" la="11">
-                {{ review.review }} 
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card-text>
-      </v-card>
-      <v-divider v-if="reviews.length > 0"></v-divider>
+    <v-col cols="12" class="pa-0" v-for="review in reviews"
+      :key="review.id">
+      <book-review
+        :review="review"
+        :book="currentBook"
+        >
+      </book-review>
     </v-col>
   </v-row>
 </v-container>
@@ -143,19 +118,16 @@
 /* eslint-disable no-console */
 import Books from '@/api/services/books';
 import BookToolbar from '@/components/Books/BookToolbar';
+import BookReview from '@/components/Books/BookReview';
 import Reviews from '@/api/services/reviews';
 import Urls from '@/assets/urls';
 import AudioPlayer from '@/components/Audio/AudioPlayer';
 
-import moment from 'moment';
-import _ from 'lodash';
-import 'moment/locale/sv';
-
-
 export default {
   components: {
-    'audio-player': AudioPlayer,
+    AudioPlayer,
     BookToolbar,
+    BookReview,
   },
   data() {
     return {
@@ -208,27 +180,15 @@ export default {
         hasLink: false,
       });
     },
-    inQr(id) {
-      if (_.findIndex(this.$store.state.qrArray, { id }) > -1) {
-        return true;
-      }
-      return false;
-    },
     formattedAudioUrl(endingOfUrl) {
       return [this.audioUrl + endingOfUrl];
-    },
-    formattedDate(date) {
-      return moment(date).format('Do MMMM');
-    },
-    randomizeNumber(max) {
-      return Math.floor(Math.random() * (max + 1));
     },
     getBookFromSlug() {
       Books.getFromSlug(this.$route.params.slug)
         .then((result) => {
+          console.log(result);
           if (result.data.reviews.length > 0) {
-            const reviews = result.data.reviews;
-            this.reviews = reviews;
+            this.reviews = result.data.reviews;
           }
           this.currentBook = result.data;
           this.genre = result.data.genres[0];
@@ -263,7 +223,7 @@ export default {
 
 
 h1 {
-  font-size: 2em;
+  font-size: 1.5em;
   margin-bottom: 5px;
   font-weight: bold;
 }

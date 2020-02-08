@@ -18,19 +18,12 @@
     <v-spacer></v-spacer>
     <v-toolbar-items>
       <v-btn to="/about" text>Om</v-btn>
-      <!-- <v-btn icon to="scanner">
-        <v-icon>mdi-barcode-scan</v-icon>
-      </v-btn> -->
     </v-toolbar-items>
     <v-toolbar-items>
       <v-btn to="/profile" text
         v-if="$store.getters.isLoggedIn">
         <v-icon class="mr-3">mdi-account</v-icon>
-        Min profil
       </v-btn>
-      <!-- <v-btn icon to="scanner">
-        <v-icon>mdi-barcode-scan</v-icon>
-      </v-btn> -->
     </v-toolbar-items>
     <v-toolbar-items
       v-if="isAdmin">
