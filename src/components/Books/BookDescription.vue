@@ -12,16 +12,16 @@
         <v-card flat color="rgb(255, 0, 0, 0)">
             <v-container class="pa-0">
               <v-row>
-                <v-col class="pu-0">
+                <v-col class="">
                   <v-card-title class="pl-0">
                     {{ currentBook.title }}
                   </v-card-title>
-                <v-card-subtitle class="text-left pl-0">av: 
-                  <router-link class="authorlink"
-                    :to="{ name: 'books', params: { forceSearch: author.fullName }}">
-                    {{author.fullName }}
-                  </router-link>
-                </v-card-subtitle>
+                  <v-card-subtitle class="text-left pl-0">av: 
+                    <router-link class="authorlink"
+                      :to="{ name: 'books', params: { forceSearch: author.fullName }}">
+                      {{author.fullName }}
+                    </router-link>
+                  </v-card-subtitle>
                 </v-col>
                 <v-col class="pa-0">
                   <book-toolbar
@@ -186,7 +186,6 @@ export default {
     getBookFromSlug() {
       Books.getFromSlug(this.$route.params.slug)
         .then((result) => {
-          console.log(result);
           if (result.data.reviews.length > 0) {
             this.reviews = result.data.reviews;
           }

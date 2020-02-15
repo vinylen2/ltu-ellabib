@@ -1,34 +1,6 @@
 <template>
 <v-container fluid class="pa-0">
-  <v-carousel
-    height="300px"
-    continuos
-    cycle
-    hide-delimiters
-    :show-arrows-on-hover="true">
-    <v-carousel-item class="green lighten-4">
-      <router-link to="/books">
-        <div class="header-text"
-          v-if="$store.state.count.books != 0">
-          <span class="one">
-            {{$store.state.count.books}}
-          </span>
-          <span>böcker</span>
-        </div>
-      </router-link>
-    </v-carousel-item>
-    <v-carousel-item class="green lighten-4">
-      <router-link to="/books">
-        <div class="header-text"
-          v-if="$store.state.count.books != 0">
-          <span class="one">
-            {{$store.state.count.reviews}}
-          </span>
-          <span>recensioner</span>
-        </div>
-      </router-link>
-    </v-carousel-item>
-  </v-carousel>
+  <front-header></front-header>
   <v-container fluid>
       <book-list class="list"
         :books="$store.state.highestRatedBooks">
@@ -38,7 +10,7 @@
         :books="$store.state.recentlyReviewedBooks">
       </book-list>
   </v-container>
-  <barcode-scanner @scanned="barcodeScanned"></barcode-scanner>
+  <scanner-button @barcodeScanned="barcodeScanned"></scanner-button>
 </v-container>
 </template>
 
@@ -46,10 +18,12 @@
 /* eslint-disable no-console */
 import Books from '@/api/services/books';
 import BookList from '@/components/Books/BookList';
-import BarcodeScanner from '@/components/BarcodeScanner';
+import FrontHeader from '@/components/FrontHeader';
 import Vue from 'vue';
 import VueParallaxJs from 'vue-parallax-js';
 import VueAwesomeSwiper from 'vue-awesome-swiper';
+
+import ScannerButton from '@/components/ScannerButton';
 
 require('swiper/css/swiper.css');
 
@@ -62,8 +36,9 @@ export default {
     title: 'Startsida',
   },
   components: {
+    FrontHeader,
     'book-list': BookList,
-    BarcodeScanner,
+    ScannerButton,
   },
   created() {
     this.getRecentlyReviewed();
@@ -86,15 +61,7 @@ export default {
   methods: {
     barcodeScanned(data) {
       console.log(data);
-    },
-    getCount() {
-      Books.count()
-        .then((result) => {
-          this.$store.commit('count', {
-            books: result.data.books.count,
-            reviews: result.data.reviews.count,
-          });
-        });
+      // this.$router.push('/book/julian-jim');
     },
     getRecentlyReviewed() {
       Books.getRecentlyReviewed()
@@ -111,31 +78,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-a {
-  color: #2c3e50;
-  cursor: pointer;
-}
-/* .container {
-  margin: 0;
-  display: block;
-} */
-
-.header-text {
-  position: absolute;
-  top: 20%;
-  left: 20%;
-  vertical-align: center;
-  color: #2c3e50;
-}
-.one {
-  font-size: 3em;
-  font-weight: bold;
-}
-
-span {
-  display:inline-block;
-  font-size: 2em;
-}
-</style>

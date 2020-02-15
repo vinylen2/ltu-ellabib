@@ -23,7 +23,7 @@ export default {
       User.getUser(this.$store.state.user.id)
         .then((result) => {
           this.$store.commit('userLogin', result.data);
-          // console.log(result);
+          console.log(result);
         });
     },
   },

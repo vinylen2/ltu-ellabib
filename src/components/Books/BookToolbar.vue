@@ -10,7 +10,7 @@
       @closeDialog="closeDialog"></publish-review>
   </v-dialog>
   <v-row>
-    <v-spacer class="d-none d-sm-flex"></v-spacer>
+    <v-spacer class=" d-sm-flex"></v-spacer>
     <v-btn icon :to="{ name: 'books', params: { genre: genre }}"
       width="auto" height="auto" class="ma-2"
       >

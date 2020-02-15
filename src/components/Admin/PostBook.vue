@@ -3,9 +3,7 @@
   <v-dialog v-model="authorDialog" persistent max-width="300">
     <add-author @closeDialog="closeDialog"></add-author>
   </v-dialog>
-  <v-dialog v-model="scannerDialog" max-width="500">
-    <barcode-scanner @scanned="barcodeScanned"></barcode-scanner>
-  </v-dialog>
+  <scanner-button></scanner-button>
   <v-container>
     <v-row justify="center">
       <h1>Lägg till bok</h1>
@@ -121,7 +119,6 @@
       </v-col>
     </v-row>
   </v-container>
-  <barcode-scanner @scanned="barcodeScanned"></barcode-scanner>
 </v-form>
 </template>
 
@@ -132,7 +129,7 @@ import Urls from '@/assets/urls';
 import _ from 'lodash';
 
 import AddAuthor from '@/components/Admin/AddAuthor';
-import BarcodeScanner from '@/components/BarcodeScanner';
+import ScannerButton from '@/components/ScannerButton';
 
 // import Urls from '@/assets/urls';
 
@@ -140,7 +137,7 @@ export default {
   name: 'post-book',
   components: {
     AddAuthor,
-    BarcodeScanner,
+    ScannerButton,
   },
   computed: {
     isAdmin() {
