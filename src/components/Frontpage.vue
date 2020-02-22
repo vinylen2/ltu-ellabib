@@ -24,7 +24,6 @@
 <script>
 /* eslint-disable no-console */
 import Books from '@/api/services/books';
-// import BookList from '@/components/Books/BookList';
 import BookListSmall from '@/components/Books/BookListSmall';
 import FrontHeader from '@/components/FrontHeader';
 import Vue from 'vue';
