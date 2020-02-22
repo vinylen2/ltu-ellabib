@@ -2,10 +2,12 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 // import createPersistedState from 'vuex-persistedstate';
 import MobileDetect from 'mobile-detect';
+import _ from 'lodash';
 
 Vue.use(Vuex);
 
 /* eslint no-param-reassign: ["error", { "props": false }]*/
+/* eslint-disable no-console */
 export default new Vuex.Store({
   state: {
     snackbar: {
@@ -21,9 +23,9 @@ export default new Vuex.Store({
       firstname: '',
       class: '',
       school: '',
-      pagesRead: 0,
-      booksRead: 0,
-      reviewsWritten: 0,
+      pagesRead: 1,
+      booksRead: 1,
+      reviewsWritten: 1,
       role: '', // student, teacher, admin
       roleId: 3,
       roleType: '',
@@ -43,6 +45,8 @@ export default new Vuex.Store({
     count: {},
     isMobile: null,
   },
+  classes: Array[Object],
+  schoolUnit: Array[Object],
   getters: {
     authConfig: (state) => {
       if (state.token) {
@@ -71,13 +75,23 @@ export default new Vuex.Store({
     snackbar: state => state.snackbar,
     isDeviceWithMic: () => {
       navigator.getUserMedia = navigator.getUserMedia ||
-      navigator.webkitGetUserMedia ||
-      navigator.mozGetUserMedia;
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia;
       if (navigator.getUserMedia) {
         return true;
       }
       return false;
     },
+    userClass: (state) => {
+      return _.find(state.classes, { 'id': state.user.classId })
+    },
+    userSchoolUnit: (state) => {
+      return _.find(state.schoolUnit, {'id': state.user.schoolUnitId})
+    },
+   user: (state) => {
+     return state.user;
+   }
+    
   },
   mutations: {
 /* eslint-disable no-console */
@@ -146,6 +160,13 @@ export default new Vuex.Store({
     highestRatedBooks: (state, data) => {
       state.highestRatedBooks = data;
     },
+    classes: (state, data) => {
+      state.classes = data;
+    },
+    schoolUnit: (state, data) => {
+      state.schoolUnit = data;
+    }
+
   },
   // plugins: [createPersistedState({
   //   storage: window.sessionStorage,

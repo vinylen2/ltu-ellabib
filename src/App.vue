@@ -34,9 +34,7 @@ import Navbar from '@/components/Navbar';
 import AdminLogin from '@/components/Admin/AdminLogin';
 
 import { mapGetters } from 'vuex';
-
   /* eslint-disable no-console */
-
 export default {
   name: 'app',
   components: {
