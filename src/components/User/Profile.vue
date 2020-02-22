@@ -53,22 +53,18 @@ export default {
     getUser() {
       User.getUser(this.$store.state.user.id).then(result => {
         this.$store.commit("userLogin", result.data[0]);
-
-   
       });
     },
-        getClasses() {
+    getClasses() {
       Classes.getClasses(this.$store.state.classes).then(result => {
         this.$store.commit("classes", result.data);
-        console.log(result);
       });
-        },
-         getSchoolUnit() {
+    },
+    getSchoolUnit() {
       SchoolUnit.getSchoolUnit(this.$store.state.schoolUnit).then(result => {
         this.$store.commit("schoolUnit", result.data);
-        console.log(result);
       });
-   }
+    }
   }
 };
 </script>

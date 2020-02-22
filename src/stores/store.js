@@ -7,6 +7,7 @@ import _ from 'lodash';
 Vue.use(Vuex);
 
 /* eslint no-param-reassign: ["error", { "props": false }]*/
+/* eslint-disable no-console */
 export default new Vuex.Store({
   state: {
     snackbar: {
@@ -22,9 +23,9 @@ export default new Vuex.Store({
       firstname: '',
       class: '',
       school: '',
-      pagesRead: 0,
-      booksRead: 0,
-      reviewsWritten: 0,
+      pagesRead: 1,
+      booksRead: 1,
+      reviewsWritten: 1,
       role: '', // student, teacher, admin
       isLoggedIn: true,
       avatarImageUrl: 'https://ellabib.se/images/avatar-2.png',

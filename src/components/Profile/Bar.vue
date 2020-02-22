@@ -17,9 +17,7 @@
         <v-progress-linear height="30" :value="classVsSchoolReviews" color="lime">
           <h1>{{classVsSchoolReviews}}%</h1>
         </v-progress-linear>
-
         <br />
-
         <v-progress-linear :value="userVsSchoolReviews" height="30" color="deep-orange">
           <h1>{{userVsSchoolReviews}}%</h1>
         </v-progress-linear>
@@ -42,14 +40,10 @@ export default {
       schoolReviews: this.$store.getters.userSchoolUnit.reviewsWritten
     };
   },
-  created() {
-    console.log(this.$store.state);
-  },
   computed: {
     userVsClassPages() {
       return Math.round((this.userPagesRead / this.classPagesRead) * 100);
     },
-
     classVsSchoolPages() {
       return Math.round((this.classPagesRead / this.schoolPagesRead) * 100);
     },

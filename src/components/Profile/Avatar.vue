@@ -1,5 +1,6 @@
-<template> <div>
-  <ImageSelector/>
+<template> 
+<div>
+  <image-selector></image-selector>
   <v-card max-width="375" max-length="500" class="m" absolute>
     <v-img :src="$store.state.user.avatarImageUrl" height="300px" dark>
       <v-row class="fill-height">

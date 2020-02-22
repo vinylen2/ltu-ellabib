@@ -59,7 +59,6 @@ export default {
   },
   methods: {
     chooseAvatar: function(id) {
-      console.log(id);
       User.updateAvatar({
         avatarId: id,
         userId: this.$store.state.user.id
