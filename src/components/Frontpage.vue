@@ -2,14 +2,20 @@
 <v-container fluid class="pa-0">
   <front-header></front-header>
   <v-container fluid>
-      <book-list class="list"
-        title="Topplistan"
-        :books="$store.state.highestRatedBooks">
-      </book-list>
-      <book-list class="list"
-        title="Nyligen recenserade"
-        :books="$store.state.recentlyReviewedBooks">
-      </book-list>
+    <v-row>
+      <v-col cols="12" md="6">
+        <book-list-small
+          title="Topplistan"
+          :books="$store.state.highestRatedBooks">
+         </book-list-small>
+      </v-col>
+      <v-col cols="12" md="6">
+        <book-list-small
+          title="Nyligen recenserade"
+          :books="$store.state.recentlyReviewedBooks">
+         </book-list-small>
+      </v-col>
+    </v-row>
   </v-container>
   <scanner-button @barcodeScanned="barcodeScanned"></scanner-button>
 </v-container>
@@ -18,7 +24,8 @@
 <script>
 /* eslint-disable no-console */
 import Books from '@/api/services/books';
-import BookList from '@/components/Books/BookList';
+// import BookList from '@/components/Books/BookList';
+import BookListSmall from '@/components/Books/BookListSmall';
 import FrontHeader from '@/components/FrontHeader';
 import Vue from 'vue';
 import VueParallaxJs from 'vue-parallax-js';
@@ -38,7 +45,8 @@ export default {
   },
   components: {
     FrontHeader,
-    'book-list': BookList,
+    // 'book-list': BookList,
+    BookListSmall,
     ScannerButton,
   },
   created() {

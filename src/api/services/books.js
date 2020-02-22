@@ -17,7 +17,7 @@ export default {
     return api.get(`books/isbn/${isbn}`).then(response => response.data);
   },
   getRecentlyReviewed() {
-    return api.get('books/recently/reviewed').then(response => response.data);
+    return api.get('books/recently').then(response => response.data);
   },
   getHighestRated() {
     return api.get('books/highest').then(response => response.data);

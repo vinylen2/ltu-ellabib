@@ -20,7 +20,6 @@
                   </v-card-title>
                   <v-card-title class="pl-0 pt-0 subtitle-1">
                     <v-spacer class="d-flex d-sm-none"></v-spacer>
-                    av: 
                     <router-link class="authorlink pl-1"
                       :to="{ name: 'books', params: { forceSearch: author.fullName }}">
                        {{ author.fullName }}
@@ -68,7 +67,7 @@
           <v-list-item-content class="pa-0 text-left">Hur många har läst boken?</v-list-item-content>
           <v-list-item-content class="pa-0">
             <p class="text-right">
-              {{ currentBook.readCount }}
+              {{ readCount }}
             </p>
           </v-list-item-content>
         </v-list-item>
@@ -92,7 +91,7 @@
           <v-list-item-content class="pa-0">Betyg</v-list-item-content>
           <v-list-item-content class="pa-0 text-right">
             <v-rating 
-              v-model="currentBook.rating"
+              v-model="rating"
               dense
               medium
               half-increments
@@ -140,6 +139,8 @@ export default {
       audioUrl: Urls.audio,
       reviews: [],
       currentBook: {},
+      rating: '',
+      readCount: '',
       author: {
         fullName: '',
         id: null,
@@ -191,14 +192,16 @@ export default {
     getBookFromSlug() {
       Books.getFromSlug(this.$route.params.slug)
         .then((result) => {
-          if (result.data.reviews.length > 0) {
-            this.reviews = result.data.reviews;
+          if (result.data.book.reviews.length > 0) {
+            this.reviews = result.data.book.reviews;
           }
-          this.currentBook = result.data;
-          this.genre = result.data.genres[0];
-          if (result.data.authors.length > 0) {
-            this.author.fullName = `${result.data.authors[0].firstname} ${result.data.authors[0].lastname}`;
-            this.author.id = result.data.authors[0].id;
+          this.currentBook = result.data.book;
+          this.genre = result.data.book.genres[0];
+          this.readCount = result.data.readCount;
+          this.rating = result.data.rating;
+          if (result.data.book.authors.length > 0) {
+            this.author.fullName = `${result.data.book.authors[0].firstname} ${result.data.book.authors[0].lastname}`;
+            this.author.id = result.data.book.authors[0].id;
           }
         });
     },

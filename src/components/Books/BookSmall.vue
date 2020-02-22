@@ -1,6 +1,6 @@
 <template>
 <router-link :to="{ name: 'bok', params: { slug: book.slug }}"
-  class="justyfi-center">
+  class="justify-center">
   <v-card flat color="rgb(255, 0, 0, 0)"
     :align="'center'"
     >
