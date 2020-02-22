@@ -3,6 +3,7 @@
   <front-header></front-header>
   <v-container fluid>
       <book-list class="list"
+        title="Topplistan"
         :books="$store.state.highestRatedBooks">
       </book-list>
       <book-list class="list"
@@ -43,7 +44,6 @@ export default {
   created() {
     this.getRecentlyReviewed();
     this.getHighestRated();
-    this.getCount();
   },
   data() {
     return {
@@ -61,7 +61,6 @@ export default {
   methods: {
     barcodeScanned(data) {
       console.log(data);
-      // this.$router.push('/book/julian-jim');
     },
     getRecentlyReviewed() {
       Books.getRecentlyReviewed()

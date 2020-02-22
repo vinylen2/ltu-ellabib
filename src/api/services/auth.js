@@ -1,13 +1,10 @@
 import api from '@/api/api';
 
 export default {
-  login(data) {
-    return api.post('auth/admin', data).then(response => response.data);
+  loginSkolon(code) {
+    return api.get(`auth/skolon/${code}`).then(response => response.data);
   },
-  ip() {
-    return api.get('auth/').then(response => response.data);
-  },
-  logout() {
-    return api.get('auth/logout').then(response => response.data);
+  loginAdmin(credentials) {
+    return api.post('auth/admin', credentials).then(response => response.data);
   },
 };

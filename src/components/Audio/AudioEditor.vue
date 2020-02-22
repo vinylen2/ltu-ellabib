@@ -5,27 +5,29 @@
     @click="setTime"></v-row>
   <v-row>
     <v-col>
-      <v-btn v-if="!isPlaying"
+      <v-btn v-if="!isPlaying" class="ma-2 green lighten-2"
         fab
         @click="play">
         <v-icon large>mdi-play</v-icon>
       </v-btn>
-      <v-btn v-if="isPlaying"
+      <v-btn v-if="isPlaying" class="ma-2 green lighten-2"
         fab
         @click="pause">
         <v-icon large>mdi-pause</v-icon>
       </v-btn>
-      <v-btn v-show="isEditing" fab> {{ roundedTime }}</v-btn>
-      <v-btn fab
+      <v-btn class="ma-2 green lighten-2" v-show="isEditing" fab> {{ roundedTime }}</v-btn>
+      <v-btn fab class="ma-2 green lighten-2"
         @click="cutBlob">      
         <v-icon>mdi-content-cut</v-icon>
       </v-btn>
       <v-btn v-if="history.length > 0"
+        class="ma-2 green lighten-2"
         fab
         @click="undoSlice">
         <v-icon>mdi-undo</v-icon>
       </v-btn>
       <v-btn fab
+        class="ma-2 green lighten-2"
         @click="trashRecording">      
         <v-icon>mdi-delete</v-icon>
       </v-btn>

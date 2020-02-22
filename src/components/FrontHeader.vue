@@ -7,8 +7,7 @@
     :show-arrows-on-hover="true">
     <v-carousel-item class="green lighten-4">
       <router-link to="/books">
-        <div class="header-text"
-          v-if="$store.state.count.books != 0">
+        <div class="header-text">
           <span class="one">
             {{$store.state.count.books}}
           </span>
@@ -18,8 +17,7 @@
     </v-carousel-item>
     <v-carousel-item class="green lighten-4">
       <router-link to="/books">
-        <div class="header-text"
-          v-if="$store.state.count.books != 0">
+        <div class="header-text">
           <span class="one">
             {{$store.state.count.reviews.reviewsWritten}}
           </span>
@@ -51,7 +49,6 @@ export default {
           });
         });
     },
-
   },
 };
 </script>

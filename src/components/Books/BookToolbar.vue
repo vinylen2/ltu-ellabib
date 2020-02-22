@@ -9,8 +9,8 @@
     <publish-review :book="currentBook"
       @closeDialog="closeDialog"></publish-review>
   </v-dialog>
-  <v-row>
-    <v-spacer class=" d-sm-flex"></v-spacer>
+  <v-row justify="center">
+    <v-spacer class="d-none d-sm-flex"></v-spacer>
     <v-btn icon :to="{ name: 'books', params: { genre: genre }}"
       width="auto" height="auto" class="ma-2"
       >
@@ -70,10 +70,12 @@ export default {
     isReviewedByUser: true,
   }),
   created() {
-    Books.isReviewed(this.$route.params.slug, this.$store.state.user.id)
-      .then((result) => {
-        this.isReviewedByUser = result.isReviewedByUser;
-      });
+    if (this.$store.getters.isLoggedIn) {
+      Books.isReviewed(this.$route.params.slug, this.$store.state.user.id)
+        .then((result) => {
+          this.isReviewedByUser = result.isReviewedByUser;
+        });
+    }
   },
   methods: {
     closeDialog(data) {

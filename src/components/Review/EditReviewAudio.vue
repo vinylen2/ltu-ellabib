@@ -1,40 +1,46 @@
 <template>
-<v-container>
-  <v-row>
-    <v-col>
-      <h2>Beskrivning</h2>
-    </v-col>
-  </v-row>
-  <v-row>
-    <v-col>
-      <audio-editor class="editor"
-        @cut="updateData"
-        :dataUrl="formattedAudioUrl(local.audio.description, local.source.description)"
-        :source="local.source.description"
-        :isEditing="true">
-      </audio-editor>
-    </v-col>
-  </v-row>
-  <v-row>
-    <v-col>
-      <h2>Recension</h2>
-    </v-col>
-  </v-row>
-  <v-row>
-    <v-col>
-      <audio-editor class="editor"
-        @cut="updateData"
-        :dataUrl="formattedAudioUrl(local.audio.review, local.source.review)"
-        :source="local.source.review"
-        :isEditing="true">
-      </audio-editor>
-    </v-col>
-  </v-row>
-  <v-row justify="center">
-    <v-btn color="red lighten-2" @click="$emit('closeDialog')">Stäng</v-btn>
-    <v-btn color="blue lighten-2" @click="editReview">Spara</v-btn>
-  </v-row>
-</v-container>
+<v-card>
+  <v-container>
+    <div v-if="reviewLocal.audioUrl">
+      <v-row class="justify-center"><p class="title">Beskrivning</p></v-row>
+      <v-row>
+        <v-col class="text-left">
+          {{reviewLocal.description}}
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <audio-editor class="editor"
+            @cut="updateData"
+            :dataUrl="formattedAudioUrl(local.audio.description, local.source.description)"
+            :source="local.source.description"
+            :isEditing="true">
+          </audio-editor>
+        </v-col>
+      </v-row>
+    </div>
+    <v-row class="justify-center"><p class="title">Recension</p></v-row>
+    <v-row>
+      <v-col class="text-left">
+        {{reviewLocal.review}}
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <audio-editor class="editor"
+          @cut="updateData"
+          :dataUrl="formattedAudioUrl(local.audio.review, local.source.review)"
+          :source="local.source.review"
+          :isEditing="true">
+        </audio-editor>
+      </v-col>
+    </v-row>
+    <v-row justify="center">
+      <v-btn class="ma-3" color="red lighten-2" @click="$emit('closeDialog')">Stäng</v-btn>
+      <v-btn class="ma-3" color="blue lighten-2" @click="editReview">Spara</v-btn>
+    </v-row>
+  </v-container>
+</v-card>
 </template>
 
 
@@ -82,8 +88,8 @@ export default {
     reviewFormData() {
       const formdata = new FormData();
       formdata.append('reviewId', this.reviewLocal.id);
-      formdata.append('descriptionRecording', this.local.blobs.description, this.reviewLocal.books[0].slug);
-      formdata.append('reviewRecording', this.local.blobs.review, this.reviewLocal.books[0].slug);
+      formdata.append('descriptionRecording', this.local.blobs.description, this.reviewLocal.slug);
+      formdata.append('reviewRecording', this.local.blobs.review, this.reviewLocal.slug);
       return formdata;
     },
   },

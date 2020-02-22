@@ -6,9 +6,10 @@ import BookDescription from '@/components/Books/BookDescription';
 import ActivateReviews from '@/components/Review/ActivateReviews';
 import PostBook from '@/components/Admin/PostBook';
 import About from '@/components/About';
-import Login from '@/components/Admin/Login';
+import Login from '@/components/User/Login';
 import Profile from '@/components/User/Profile';
 import Admin from '@/components/Admin/Admin';
+import AuthSkolon from '@/components/Skolon/AuthSkolon';
 import Store from '@/stores/store';
 import Meta from 'vue-meta';
 
@@ -50,6 +51,11 @@ const router = new Router({
       component: Login,
     },
     {
+      path: '/auth/skolon',
+      name: 'auth-skolon',
+      component: AuthSkolon,
+    },
+    {
       path: '/admin',
       name: 'admin',
       component: Admin,
@@ -80,7 +86,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
-    if (Store.state.isAdmin) {
+    if (Store.state.token) {
       next();
     } else {
       next({ name: 'login' });

@@ -2,6 +2,7 @@
   <div class="container">
     <h1>Ellabib</h1>
     <div class="text">
+      <v-btn @click="login"></v-btn>
     </div>
   </div>
 </template>
@@ -11,6 +12,11 @@ export default {
   name: 'about',
   metaInfo: {
     title: 'Om sidan',
+  },
+  methods: {
+    login() {
+      this.$store.commit('userLogin', {id: 1});
+    },
   },
 };
 </script>

@@ -2,9 +2,8 @@
 <v-container>
   <v-container v-if="reviews.length == 0">
     <h1>Inga recensioner att aktivera</h1>
-
   </v-container>
-  <v-container class="pt-0" v-else>
+  <v-container fluid class="pt-0" v-else>
     <v-row>
       <v-col>
         <h1>Aktivera recensioner</h1>
@@ -12,11 +11,19 @@
     </v-row>
     <v-row>
       <v-data-table
-      :hide-default-footer="true"
+        disable-sort
+        fixed-header
+        hide-default-footer
         :headers="headers"
         :items="reviews">
         <template v-slot:header.selection="{item}">
             <v-checkbox @change="selectAll"></v-checkbox>
+        </template>
+        <template v-slot:item.class="{item}">
+          {{item.writtenBy}}
+        </template>
+        <template v-slot:item.createdAt="{item}">
+          {{formatDate(item.createdAt)}}
         </template>
         <template v-slot:item.rating="{item}">
           {{item.rating}}/5
@@ -29,9 +36,9 @@
         </template>
         <template v-slot:item.description="{item}">
           <v-container>
-            <v-row>
-              <v-col cols="2" v-if="item.descriptionAudioUrl"> 
-              <audio-player
+            <v-row class="justify-left">
+              <v-col cols="2" class="justify-center"> 
+              <audio-player v-if="item.descriptionAudioUrl"
                 :sources="formattedAudioUrl(item.descriptionAudioUrl)"
                 :small="true"
                 :audioInfo="{
@@ -41,11 +48,13 @@
                   },
                   type: 'description',
                 }"/>
-              </v-col>
-              <v-col>
-                <span @click="editReviewText('description', item.description, item.id)">
-                  {{item.description}}
-                </span>
+                <v-container v-else>
+                  <v-row class="justify-center">
+                    <v-col>
+                      <v-icon>mdi-microphone-off</v-icon>
+                    </v-col>
+                  </v-row>
+                </v-container>
               </v-col>
             </v-row>
           </v-container>
@@ -119,6 +128,7 @@ import AudioPlayer from '@/components/Audio/AudioPlayer';
 import EditReviewAudio from '@/components/Review/EditReviewAudio';
 import EditReviewText from '@/components/Review/EditReviewText';
 import _ from 'lodash';
+import moment from 'moment';
 import VModal from 'vue-js-modal';
 
 Vue.use(VModal);
@@ -138,12 +148,12 @@ export default {
       reviews: [],
       headers: [
         {text: '', value: 'selection'},
-        {text: 'ID', value: 'id'},
+        {text: 'Klass', value: 'class'},
         {text: 'Titel', value: 'title', width: '10%'},
-        {text: 'Beskrivning', value: 'description', width: '30%'},
-        {text: 'Recension', value: 'review', width: '30%'},
+        {text: 'Beskrivning', value: 'description', width: '10%'},
+        {text: 'Recension', value: 'review', width: '40%'},
         {text: 'Betyg', value: 'rating'},
-        {text: 'Datum', value: 'date'},
+        {text: 'Datum', value: 'createdAt'},
         {text: 'Verktyg', value: 'tools'},
       ],
       modal: {
@@ -165,6 +175,9 @@ export default {
   },
 /* eslint-disable no-console */
   methods: {
+    formatDate(date) {
+      return moment(date).format('hh:mm - D/M');
+    },
     formatText(text) {
       return text.slice(0, 50) + " ...";
     },
@@ -208,6 +221,7 @@ export default {
       this.editReviewTextDialog = true;
     },
     editAudio(review) {
+      console.log(review);
       this.modal.review = review;
       this.editAudioDialog = true;
     },

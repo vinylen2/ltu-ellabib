@@ -59,11 +59,6 @@
             </v-text-field>
           </v-col>
         </v-row>
-        <!-- <v-row>
-          <v-col v-if="book.isbn.length > 0">
-            <v-btn @click="fetchBookInfo">Hämta automatiskt</v-btn>
-          </v-col>
-        </v-row> -->
         <v-row justify="center">
           <v-col cols="">
             <v-text-field
@@ -131,7 +126,7 @@ import _ from 'lodash';
 import AddAuthor from '@/components/Admin/AddAuthor';
 import ScannerButton from '@/components/ScannerButton';
 
-// import Urls from '@/assets/urls';
+import Genres from '@/api/services/genres';
 
 export default {
   name: 'post-book',
@@ -174,6 +169,14 @@ export default {
       imagesUrl: Urls.images,
     };
   },
+  created() {
+    if (!this.$store.state.genres) {
+      Genres.getAll()
+        .then((result) => {
+          this.$store.commit('genres', result.data);
+        });
+    }
+  },
   methods: {
 /* eslint-disable no-console */
     barcodeScanned(data) {
@@ -188,21 +191,32 @@ export default {
         pages: this.book.pages,
         description: this.book.description,
       })
-      .then((result) => {
-        console.log(result);
-        // let author = _.find(this.authors, {id: this.local.author});
-        // let genre = _.find(this.$store.state.genres, {id: this.local.genre});
-        // this.$emit('closeDialog', {
-        //   title: this.local.title,
-        //   pages: this.local.pages,
-        //   author,
-        //   genre,
-        // });
+      .then(() => {
+        this.$store.commit('showSnackbar', {
+          status: true,
+          value: 'Bok uppdaterad',
+          color: 'green lighten-2',
+          timeout: 5000,
+          hasLink: false,
+          linkUrl: '',
+        });
       });
     },
     fetchBookInfo() {
       Books.getFromIsbn(this.book.isbn).then((result) => {
-        if (result.data) {
+        if (!result.data) {
+          this.resetFields();
+          this.newBook = true;
+          this.$store.commit('showSnackbar', {
+            status: true,
+            value: 'Ingen bok hittad, fyll i manuellt',
+            color: 'red lighten-2',
+            timeout: 5000,
+            hasLink: false,
+            linkUrl: '',
+          });
+        }
+        else if (result.data) {
           this.book.title = result.data.title;
           this.book.pages = result.data.pages;
           this.book.description = result.data.description;
@@ -251,24 +265,23 @@ export default {
       };
     },
     publishBook() {
-      Books.publishBook({
+      Books.postBook({
         isbn: this.book.isbn,
         title: this.book.title,
         pages: this.book.pages,
         genreId: this.book.genre.id,
-        authorId: this.book.authors[0],
+        authorId: this.book.authors,
       })
         .then((result) => {
-          let data = result.data[0];
           this.$store.commit('showSnackbar',{
             status: true,
-            value: 'Boken är publicerad',
+            value: `${this.book.title} är publicerad`,
             color: 'green lighten-2',
             timeout: 3000,
             hasLink: true,
-            linkUrl: `localhost:8080/book/${data.slug}`,
+            linkUrl: `localhost:8080/book/${result.data.slug}`,
           });
-          this.resetFields();
+          // this.resetFields();
         });
     },
   },

@@ -7,6 +7,9 @@
     v-if="$store.state.isLoading">
   </v-progress-linear>
   <router-view></router-view>
+  <v-dialog v-model="$store.state.adminLoginModal" max-width="500">
+    <admin-login></admin-login>
+  </v-dialog>
   <v-snackbar
     :timeout="snackbar.timeout"
     :color="snackbar.color"
@@ -28,17 +31,27 @@
 
 <script>
 import Navbar from '@/components/Navbar';
+import AdminLogin from '@/components/Admin/AdminLogin';
+
 import { mapGetters } from 'vuex';
+
+  /* eslint-disable no-console */
 
 export default {
   name: 'app',
   components: {
     'navbar': Navbar,
+    AdminLogin,
   },
   computed: {
     ...mapGetters([
       'snackbar'
     ]),
+  },
+  created() {
+    if (this.$route.query.login) {
+      this.$store.commit('showAdminLoginModal');
+    }
   },
 };
 </script>

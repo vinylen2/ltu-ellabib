@@ -12,18 +12,23 @@
         <v-card flat color="rgb(255, 0, 0, 0)">
             <v-container class="pa-0">
               <v-row>
-                <v-col class="">
-                  <v-card-title class="pl-0">
+                <v-col cols="12" sm="6">
+                  <v-card-title class="pl-0 pb-0">
+                  <v-spacer class="d-flex d-sm-none"></v-spacer>
                     {{ currentBook.title }}
+                  <v-spacer class="d-flex d-sm-none"></v-spacer>
                   </v-card-title>
-                  <v-card-subtitle class="text-left pl-0">av: 
-                    <router-link class="authorlink"
+                  <v-card-title class="pl-0 pt-0 subtitle-1">
+                    <v-spacer class="d-flex d-sm-none"></v-spacer>
+                    av: 
+                    <router-link class="authorlink pl-1"
                       :to="{ name: 'books', params: { forceSearch: author.fullName }}">
-                      {{author.fullName }}
+                       {{ author.fullName }}
                     </router-link>
-                  </v-card-subtitle>
+                    <v-spacer class="d-flex d-sm-none"></v-spacer>
+                  </v-card-title>
                 </v-col>
-                <v-col class="pa-0">
+                <v-col class="pa-0" cols="12" sm="6">
                   <book-toolbar
                     :genre="genre"
                     :currentBook="currentBook"
@@ -60,7 +65,7 @@
     <v-col class="pt-0" cols="12">
       <v-list color="rgb(255, 0, 0, 0)" dense>
         <v-list-item>
-          <v-list-item-content class="pa-0">Hur många har läst boken?</v-list-item-content>
+          <v-list-item-content class="pa-0 text-left">Hur många har läst boken?</v-list-item-content>
           <v-list-item-content class="pa-0">
             <p class="text-right">
               {{ currentBook.readCount }}

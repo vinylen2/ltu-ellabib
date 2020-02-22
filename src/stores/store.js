@@ -17,7 +17,7 @@ export default new Vuex.Store({
       linkUrl: '',
     },
     user: {
-      id: 2,
+      id: 1,
       firstname: '',
       class: '',
       school: '',
@@ -25,9 +25,12 @@ export default new Vuex.Store({
       booksRead: 0,
       reviewsWritten: 0,
       role: '', // student, teacher, admin
-      isLoggedIn: true,
+      roleId: 3,
+      roleType: '',
     },
-    isAdmin: false,
+    token: true,
+    skolon: false,
+    adminLoginModal: false,
     isLoading: false,
     userAgent: {
       isMobile: null,
@@ -41,8 +44,26 @@ export default new Vuex.Store({
     isMobile: null,
   },
   getters: {
+    authConfig: (state) => {
+      if (state.token) {
+        return {
+          headers: {
+            'Authorization': 'Bearer ' + state.token,
+          },
+        }
+      } return null;
+    },
     isLoggedIn: (state) => {
-      if (state.user) {
+      if (state.token) {
+        return true;
+      }
+      return false;
+    },
+    isAdmin: (state) => {
+      if (state.user == null) {
+        return false;
+      }
+      if (state.user.roleType == 'admin' || state.user.roleId == 3) {
         return true;
       }
       return false;
@@ -60,11 +81,29 @@ export default new Vuex.Store({
   },
   mutations: {
 /* eslint-disable no-console */
+    setSkolon: (state) => {
+      state.skolon = true;
+    },
     userLogout: (state) => {
       state.user = null;
+      state.skolon = false;
+      state.token = null;
+    },
+    userData: (state, data) => {
+      state.user = data;
+    },
+    showAdminLoginModal: (state) => {
+      state.adminLoginModal = true;
+    },
+    adminLogin: (state, data) => {
+      state.user = data.user;
+      state.token = data.token;
+      state.adminLoginModal = false;
     },
     userLogin: (state, data) => {
-      state.user = data;
+      state.user = data.user;
+      state.token = data.token;
+      state.skolon = true;
     },
     hideSnackbar: (state) => {
       state.snackbar.status = false;
@@ -88,9 +127,6 @@ export default new Vuex.Store({
         return;
       }
       state.userAgent.isMobile = false;
-    },
-    changeAdminState: (state) => {
-      state.isAdmin = !state.isAdmin;
     },
     books: (state, data) => {
       state.books = data;
