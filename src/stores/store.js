@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 // import createPersistedState from 'vuex-persistedstate';
 import MobileDetect from 'mobile-detect';
+import _ from 'lodash';
 
 Vue.use(Vuex);
 
@@ -26,6 +27,7 @@ export default new Vuex.Store({
       reviewsWritten: 0,
       role: '', // student, teacher, admin
       isLoggedIn: true,
+      avatarImageUrl: 'https://ellabib.se/images/avatar-2.png',
     },
     isAdmin: false,
     isLoading: false,
@@ -40,6 +42,8 @@ export default new Vuex.Store({
     count: {},
     isMobile: null,
   },
+  classes: Array[Object],
+  schoolUnit: Array[Object],
   getters: {
     isLoggedIn: (state) => {
       if (state.user) {
@@ -50,16 +54,26 @@ export default new Vuex.Store({
     snackbar: state => state.snackbar,
     isDeviceWithMic: () => {
       navigator.getUserMedia = navigator.getUserMedia ||
-      navigator.webkitGetUserMedia ||
-      navigator.mozGetUserMedia;
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia;
       if (navigator.getUserMedia) {
         return true;
       }
       return false;
     },
+    userClass: (state) => {
+      return _.find(state.classes, { 'id': state.user.classId })
+    },
+    userSchoolUnit: (state) => {
+      return _.find(state.schoolUnit, {'id': state.user.schoolUnitId})
+    },
+   user: (state) => {
+     return state.user;
+   }
+    
   },
   mutations: {
-/* eslint-disable no-console */
+    /* eslint-disable no-console */
     userLogout: (state) => {
       state.user = null;
     },
@@ -110,6 +124,13 @@ export default new Vuex.Store({
     highestRatedBooks: (state, data) => {
       state.highestRatedBooks = data;
     },
+    classes: (state, data) => {
+      state.classes = data;
+    },
+    schoolUnit: (state, data) => {
+      state.schoolUnit = data;
+    }
+
   },
   // plugins: [createPersistedState({
   //   storage: window.sessionStorage,

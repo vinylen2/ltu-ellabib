@@ -29,7 +29,7 @@
 <script>
 import Navbar from '@/components/Navbar';
 import { mapGetters } from 'vuex';
-
+// hello
 export default {
   name: 'app',
   components: {
