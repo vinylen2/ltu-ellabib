@@ -1,6 +1,9 @@
 import api from '@/api/api';
 
 export default {
+  addImage(imageUrl, bookId) {
+    return api.post('books/image', { imageUrl, bookId }).then(response => response.data);
+  },
   getAll() {
     return api.get('books/').then(response => response.data);
   },

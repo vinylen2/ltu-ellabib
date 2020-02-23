@@ -27,31 +27,32 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
+
 /* eslint-disable no-console */
 export default {
   name: "bar",
   data() {
     return {
-      userPagesRead: this.$store.getters.user.pagesRead,
-      userReviews: this.$store.getters.user.reviewsWritten,
-      classPagesRead: this.$store.getters.userClass.pagesRead,
-      classReviews: this.$store.getters.userClass.reviewsWritten,
-      schoolPagesRead: this.$store.getters.userSchoolUnit.pagesRead,
-      schoolReviews: this.$store.getters.userSchoolUnit.reviewsWritten
     };
   },
   computed: {
+    ...mapGetters([
+      'user',
+      'userClass',
+      'userSchoolUnit'
+    ]),
     userVsClassPages() {
-      return Math.round((this.userPagesRead / this.classPagesRead) * 100);
+      return Math.round((this.user.pagesRead / this.userClass.pagesRead ) * 100);
     },
     classVsSchoolPages() {
-      return Math.round((this.classPagesRead / this.schoolPagesRead) * 100);
+      return Math.round((this.userClass.pagesRead / this.userSchoolUnit.pagesRead) * 100);
     },
     classVsSchoolReviews() {
-      return Math.round((this.classReviews / this.schoolReviews) * 100);
+      return Math.round((this.userClass.reviewsWritten / this.userSchoolUnit.reviewsWritten) * 100);
     },
     userVsSchoolReviews() {
-      return Math.round((this.userReviews / this.classReviews) * 100);
+      return Math.round((this.userClass.reviewsWritten / this.userSchoolUnit.reviewsWritten) * 100);
     }
   }
 };

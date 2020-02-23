@@ -6,12 +6,15 @@
       v-for="book in books"
       :key="book.id"
       @click="goToBook(book.bookSlug)">
-      <v-list-item-avatar class="ml-5" tile height="150px" width="100px">
+      <v-list-item-avatar class="ml-5" tile height="100px" width="80px" v-if="$store.state.userAgent.isMobile">
+        <v-img max-height="100px" max-width="140px" :src="book.imageUrl"></v-img>
+      </v-list-item-avatar>
+      <v-list-item-avatar class="ml-5" tile height="150px" width="100px" v-else>
         <v-img max-height="250px" max-width="140px" :src="book.imageUrl"></v-img>
       </v-list-item-avatar>
       <v-list-item four-line>
         <v-list-item-content class="text-left">
-          <v-list-item-title class="title">{{book.title}}</v-list-item-title>
+          <v-list-item-title class="title">{{bookTitle(book.title)}}</v-list-item-title>
           <v-list-item-subtitle>
             {{book.author}}
           </v-list-item-subtitle>
@@ -25,13 +28,12 @@
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item-action class="mr-5">
+      <v-list-item-action class="mr-5" v-if="!$store.state.userAgent.isMobile">
         <v-avatar
           size="55">
           <img class="genre-icon"
             :src="`${imagesUrl}${book.genreSlug}.png`"/>
         </v-avatar>
-
       </v-list-item-action>
     </v-list-item>
   </v-list>
@@ -54,6 +56,11 @@ export default {
   methods: {
     goToBook(slug) {
       this.$router.push(`book/${slug}`);
+    },
+    bookTitle(title) {
+      if (this.$store.state.userAgent.isMobile) {
+        return title.slice(0, 15);
+      } return title;
     },
   },
 };

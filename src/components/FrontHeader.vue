@@ -9,7 +9,7 @@
       <router-link to="/books">
         <div class="header-text">
           <span class="one">
-            {{$store.state.count.books}}
+            {{books}}
           </span>
           <span>böcker</span>
         </div>
@@ -19,7 +19,7 @@
       <router-link to="/books">
         <div class="header-text">
           <span class="one">
-            {{$store.state.count.reviews.reviewsWritten}}
+            {{reviews.reviewsWritten}}
           </span>
           <span>recensioner</span>
         </div>
@@ -30,11 +30,13 @@
 
 <script>
 import Books from '@/api/services/books';
+/* eslint-disable no-console */
 
 export default {
   name: 'front-header',
   data: () => ({
-
+    books: 0,
+    reviews: 0,
   }),
   created() {
     this.getCount();
@@ -43,10 +45,8 @@ export default {
     getCount() {
       Books.count()
         .then((result) => {
-          this.$store.commit('count', {
-            books: result.data.books.count,
-            reviews: result.data.reviews,
-          });
+          this.books = result.data.books.count;
+          this.reviews = result.data.reviews;
         });
     },
   },

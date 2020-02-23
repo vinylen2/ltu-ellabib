@@ -6,19 +6,26 @@
       app
     >
     <v-toolbar-items>
-      <v-btn text
+      <v-btn text v-if="$store.state.userAgent.isMobile"
+        to="/">
+        <v-icon class="mr-3">mdi-home</v-icon>
+      </v-btn>
+      <v-btn text v-else
         to="/">
         <v-icon class="mr-3">mdi-home</v-icon>
         Hem
       </v-btn>
     </v-toolbar-items>
     <v-toolbar-items>
-      <v-btn to="/books" text>Böcker</v-btn>
+      <v-btn to="/books" text v-if="$store.state.userAgent.isMobile">
+       <v-icon>mdi-bookshelf</v-icon>
+      </v-btn>
+      <v-btn to="/books" text v-else>Böcker</v-btn>
     </v-toolbar-items>
     <v-spacer></v-spacer>
-    <v-toolbar-items>
+    <!-- <v-toolbar-items>
       <v-btn to="/about" text>Om</v-btn>
-    </v-toolbar-items>
+    </v-toolbar-items> -->
     <v-toolbar-items
       v-if="$store.getters.isAdmin">
       <v-btn to="/admin/post-book" text>Lägg till bok</v-btn>
@@ -56,14 +63,6 @@ export default {
   },
   created() {
     this.$store.commit('isMobile');
-  },
-  computed: {
-    isAdmin() {
-      return this.$store.state.isAdmin;
-    },
-    isDeviceWithWebRTC() {
-      return this.$store.getters.isDeviceWithWebRTC;
-    },
   },
   methods: {
     logout() {

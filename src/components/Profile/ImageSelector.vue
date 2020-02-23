@@ -1,13 +1,11 @@
-
 <template>
   <div class="text-center">
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on }">
-        <v-btn icon v-on="on" color="red">
-          <v-icon>mdi-cached</v-icon>
+        <v-btn icon v-on="on" color="indigo">
+          <v-icon>mdi-pencil</v-icon>
         </v-btn>
       </template>
-
       <v-card>
         <v-card-title class="headline grey lighten-2" primary-title>Avatar</v-card-title>
         <v-carousel height="500" hide-delimiters show-arrows>
@@ -19,16 +17,15 @@
           >
             <v-img :src="avatar.imageUrl">
               <v-btn
-                class="pr-6 ma-1"
-                dark
-                rounded
+                class="pr-4 ml-12 indigo--text"
+                outlined
                 absolute
                 bottom
                 right
-                color="green"
+                color="transparent"
                 @click="chooseAvatar(avatar.id)"
               >
-                <v-icon centered right dark>mdi-checkbox-marked-circle</v-icon>
+               Välj bild
               </v-btn>
             </v-img>
           </v-carousel-item>
@@ -53,7 +50,6 @@ export default {
   data() {
     return {
       dialog: false,
-
       avatars: []
     };
   },
@@ -68,15 +64,8 @@ export default {
       });
     }
   },
-  mounted() {
+  created() {
     Avatars.getAllAvatars().then(response => (this.avatars = response.data));
-
-    // api.get("avatar").then(response => (this.avatars = response.data.data));
-    // fetch("http://api.ellabib.se/avatar")
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     this.avatars = data;
-    //   });
   }
 };
 </script>

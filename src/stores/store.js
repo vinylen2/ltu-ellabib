@@ -27,8 +27,9 @@ export default new Vuex.Store({
       booksRead: 1,
       reviewsWritten: 1,
       role: '', // student, teacher, admin
-      roleId: 3,
+      roleId: 0,
       roleType: '',
+      avatarImageUrl: '',
     },
     token: true,
     skolon: false,
@@ -40,13 +41,11 @@ export default new Vuex.Store({
     books: [],
     authors: Array[Object],
     genres: Array[Object],
+    classes: Array[Object],
+    schoolUnit: Array[Object],
     highestRatedBooks: [],
     recentlyReviewedBooks: [],
-    count: {},
-    isMobile: null,
   },
-  classes: Array[Object],
-  schoolUnit: Array[Object],
   getters: {
     authConfig: (state) => {
       if (state.token) {
@@ -83,15 +82,14 @@ export default new Vuex.Store({
       return false;
     },
     userClass: (state) => {
-      return _.find(state.classes, { 'id': state.user.classId })
+      return _.find(state.classes, { 'id': state.user.classId });
     },
     userSchoolUnit: (state) => {
-      return _.find(state.schoolUnit, {'id': state.user.schoolUnitId})
+      return _.find(state.schoolUnit, {'id': state.user.schoolUnitId});
     },
    user: (state) => {
      return state.user;
-   }
-    
+   },
   },
   mutations: {
 /* eslint-disable no-console */
@@ -131,16 +129,11 @@ export default new Vuex.Store({
     isNotLoading: (state) => {
       state.isLoading = false;
     },
-    count: (state, data) => {
-      state.count = data;
-    },
     isMobile: (state) => {
       const md = new MobileDetect(window.navigator.userAgent);
       if (md.mobile()) {
         state.userAgent.isMobile = true;
-        return;
-      }
-      state.userAgent.isMobile = false;
+      } state.userAgent.isMobile = false;
     },
     books: (state, data) => {
       state.books = data;

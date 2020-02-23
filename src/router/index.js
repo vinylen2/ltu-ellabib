@@ -16,9 +16,16 @@ import Meta from 'vue-meta';
 Vue.use(Router);
 Vue.use(Meta);
 
+import ChooseImage from '@/components/ChooseImage';
+
 const router = new Router({
   mode: 'history',
   routes: [
+    {
+      path: '/choose',
+      name: 'choose-image',
+      component: ChooseImage,
+    },
     {
       path: '/',
       name: 'frontpage',

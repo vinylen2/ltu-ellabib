@@ -1,22 +1,18 @@
-<template> 
-<div>
-  <image-selector></image-selector>
-  <v-card max-width="375" max-length="500" class="m" absolute>
+<template>
+  <v-card max-width="375" max-length="500">
     <v-img :src="$store.state.user.avatarImageUrl" height="300px" dark>
       <v-row class="fill-height">
         <v-card-title>
-          <v-btn dark icon class="mr-6" absolute bottom right @click="info()">
-            <v-icon>mdi-pencil</v-icon>
+          <v-btn  color="transparent" dark icon absolute bottom right>
+            <ImageSelector/>
           </v-btn>
          
-          <v-btn dark icon absolute bottom right>
-            <v-icon>mdi-dots-vertical</v-icon>
-          </v-btn>
+          
         </v-card-title>
       </v-row>
     </v-img>
     <v-list two-line>
-      <v-divider></v-divider>
+    <v-divider></v-divider> 
 
       <v-list-item>
         <v-list-item-icon>
@@ -72,22 +68,15 @@
       </v-list-item>
     </v-list>
   </v-card>
-</div>
 </template>
 
 <script>
-/* eslint-disable no-console */
 import ImageSelector from "@/components/Profile/ImageSelector";
 export default {
   name: "avatar",
-  components: { ImageSelector },
-
-  data() {
-    return {};
-  },
-
-  created() {
-    console.log(this.$store.state);
-  }
+  components: { ImageSelector }
 };
-<script />;
+</script>
+
+<style>
+</style>
