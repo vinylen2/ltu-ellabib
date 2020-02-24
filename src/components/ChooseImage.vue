@@ -3,7 +3,6 @@
   <v-row>
     <span>Böcker kvar: {{books.length}}</span>
   </v-row>
-
   <v-row v-for="(book, index) in books" :key="book.bookId">
     <v-col cols="2" v-for="image in book.images" :key="image">
       <v-img :src="image" max-width="200px" max-height="200px" @click="pickImage(image, index)"></v-img>
@@ -17,6 +16,7 @@
 /* eslint-disable no-console */
 import Books from '@/api/services/books';
 import axios from 'axios';
+
 export default {
   name: 'choose-image',
   data: () => ({
@@ -39,9 +39,10 @@ export default {
         baseURL: 'http://localhost:3000/cleanup/get-images'
       });
       api.get().then((result) => {
-        this.books = result.data.imgs;
         console.log(result);
+        this.books = result.data.imgs;
       });
     },
   },
 };
+</script>

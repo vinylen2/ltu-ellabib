@@ -8,6 +8,7 @@
     <v-col>
       <v-progress-circular
         indeterminate
+        color="blue"
         :size="50">
       </v-progress-circular>
       <span class="ma-5">Publicerar...</span>
@@ -139,13 +140,23 @@ export default {
         });
     },
     postReview() {
-      this.publishing = true;
-      Reviews.create(this.reviewFormData)
-        .then((result) => {
-          this.$emit('closeDialog', result);
-          this.resetFields();
-          this.publishing = false;
+      if (this.review.rating == 0 || this.review.review.length == 0) {
+        this.$store.commit('showSnackbar', {
+          status: true,
+          value: 'Du måste skriva en recension och ge boken ett betyg innan du kan skicka.',
+          color: 'red lighten-2',
+          timeout: 5000,
+          hasLink: false,
         });
+      } else {
+        this.publishing = true;
+        Reviews.create(this.reviewFormData)
+          .then((result) => {
+            this.$emit('closeDialog', result);
+            this.resetFields();
+            this.publishing = false;
+          });
+      }
     },
   },
 };

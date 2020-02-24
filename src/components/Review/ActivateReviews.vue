@@ -237,6 +237,7 @@ export default {
     activateReviews() {
       Reviews.bulkActivate(this.selectedReviews).then(() => {
         this.getReviews();
+        this.selectedReviews = [];
       });
     },
     updateReviewRating(rating, id) {

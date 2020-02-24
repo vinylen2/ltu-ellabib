@@ -19,7 +19,7 @@ export default new Vuex.Store({
       linkUrl: '',
     },
     user: {
-      id: 1,
+      id: 2,
       firstname: '',
       class: '',
       school: '',
@@ -47,6 +47,9 @@ export default new Vuex.Store({
     recentlyReviewedBooks: [],
   },
   getters: {
+    userId: (state) => {
+      return state.user.id;
+    },
     authConfig: (state) => {
       if (state.token) {
         return {
@@ -55,6 +58,12 @@ export default new Vuex.Store({
           },
         }
       } return null;
+    },
+    isMobile: () => {
+      const md = new MobileDetect(window.navigator.userAgent);
+      if (md.mobile()) {
+        return true;
+      } return false;
     },
     isLoggedIn: (state) => {
       if (state.token) {
@@ -129,12 +138,8 @@ export default new Vuex.Store({
     isNotLoading: (state) => {
       state.isLoading = false;
     },
-    isMobile: (state) => {
-      const md = new MobileDetect(window.navigator.userAgent);
-      if (md.mobile()) {
-        state.userAgent.isMobile = true;
-      } state.userAgent.isMobile = false;
-    },
+    // isMobile: (state) => {
+    // },
     books: (state, data) => {
       state.books = data;
     },

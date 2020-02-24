@@ -5,15 +5,20 @@
       <div v-show="!isEditing">
         <v-btn v-show="isRecording"
           fab
+          class="ma-2 green lighten-2"
           @click="stopRecording">
           <v-icon large>mdi-stop</v-icon>
         </v-btn>
         <v-btn v-show="!isRecording"
           fab
+          class="ma-2 green lighten-2"
           @click="startRecording">
           <v-icon large>mdi-microphone</v-icon>
         </v-btn>
-        <v-btn v-show="isRecording" fab>
+        <v-btn v-show="isRecording" 
+          fab
+          class="ma-2 green lighten-2"
+         >
           {{ recordingLength }}
         </v-btn>
       </div>

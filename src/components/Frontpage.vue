@@ -3,13 +3,13 @@
   <front-header></front-header>
   <v-container fluid>
     <v-row>
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="6" class="pa-0">
         <book-list-small
           title="Topplistan"
           :books="$store.state.highestRatedBooks">
          </book-list-small>
       </v-col>
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="6" class="pa-0">
         <book-list-small
           title="Nyligen recenserade"
           :books="$store.state.recentlyReviewedBooks">

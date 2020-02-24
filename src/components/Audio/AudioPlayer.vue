@@ -5,42 +5,29 @@
       <v-btn v-if="playing && small"
         fab
         small
-        color="green lighten-2"
+        class="ma-2 green lighten-2"
         @click="togglePlayback">
         <v-icon small>mdi-pause</v-icon>
       </v-btn>
       <v-btn v-if="playing && !small"
         fab
-        color="green lighten-2"
+        class="ma-2 green lighten-2"
         @click="togglePlayback">
         <v-icon large>mdi-pause</v-icon>
       </v-btn>
       <v-btn v-if="!playing && small"
-        color="green lighten-2"
+        class="ma-2 green lighten-2"
         fab
         small
         @click="togglePlayback">
         <v-icon small>mdi-play</v-icon>
       </v-btn>
       <v-btn v-if="!playing && !small"
-        color="green lighten-2"
+        class="ma-2 green lighten-2"
         fab
         @click="togglePlayback">
         <v-icon large>mdi-play</v-icon>
       </v-btn>
-      <!-- <v-btn v-if="small"
-        fab
-        small
-        color="green lighten-2"
-        @click="reset">
-        <v-icon small>mdi-skip-backward</v-icon>
-      </v-btn>
-      <v-btn v-if="!small"
-        fab
-        color="green lighten-2"
-        @click="reset">
-        <v-icon large>mdi-skip-backward</v-icon>
-      </v-btn> -->
     </v-col>
   </v-row>
 </v-container>

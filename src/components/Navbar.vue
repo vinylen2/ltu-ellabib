@@ -6,7 +6,7 @@
       app
     >
     <v-toolbar-items>
-      <v-btn text v-if="$store.state.userAgent.isMobile"
+      <v-btn text v-if="isMobile"
         to="/">
         <v-icon class="mr-3">mdi-home</v-icon>
       </v-btn>
@@ -17,7 +17,7 @@
       </v-btn>
     </v-toolbar-items>
     <v-toolbar-items>
-      <v-btn to="/books" text v-if="$store.state.userAgent.isMobile">
+      <v-btn to="/books" text v-if="isMobile">
        <v-icon>mdi-bookshelf</v-icon>
       </v-btn>
       <v-btn to="/books" text v-else>Böcker</v-btn>
@@ -27,7 +27,7 @@
       <v-btn to="/about" text>Om</v-btn>
     </v-toolbar-items> -->
     <v-toolbar-items
-      v-if="$store.getters.isAdmin">
+      v-if="isAdmin && !isMobile">
       <v-btn to="/admin/post-book" text>Lägg till bok</v-btn>
       <v-btn to="/admin/activate-reviews" text>Recensioner</v-btn>
       <v-btn text
@@ -37,7 +37,7 @@
     </v-toolbar-items>
     <v-toolbar-items>
       <v-btn to="/profile" text
-        v-if="$store.getters.isLoggedIn">
+        v-if="isLoggedIn">
         <v-icon class="mr-3">mdi-account</v-icon>
       </v-btn>
     </v-toolbar-items>
@@ -50,6 +50,9 @@
 <script>
 import SkolonButton from '@/components/Skolon/SkolonButton';
 import Urls from '@/assets/urls';
+/* eslint-disable no-console */
+
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'navbar',
@@ -61,8 +64,12 @@ export default {
       imagesUrl: Urls.images,
     };
   },
-  created() {
-    this.$store.commit('isMobile');
+  computed: {
+    ...mapGetters([
+      'isMobile',
+      'isAdmin',
+      'isLoggedIn',
+    ]),
   },
   methods: {
     logout() {

@@ -13,8 +13,10 @@ export default {
   isReviewed(slug, userId) {
     return api.get(`books/reviewed/${slug}/${userId}`).then(response => response.data);
   },
-  getFromSlug(slug) {
-    return api.get(`books/slug/${slug}`).then(response => response.data);
+  getFromSlug(slug, userId) {
+/* eslint-disable no-console */
+    let query = userId ? `?userId=${userId}` : '';
+    return api.get(`books/slug/${slug}${query}`).then(response => response.data);
   },
   getFromIsbn(isbn) {
     return api.get(`books/isbn/${isbn}`).then(response => response.data);

@@ -1,18 +1,25 @@
 <template>
   <v-container>
-    <v-app id="inspire">
-      <v-flex class="mt-2">
-        <v-row>
-          <v-col cols="6">
-            <avatar></avatar>
-          </v-col>
-          <v-spacer></v-spacer>
-          <v-col cols="6">
-            <bar></bar>
-          </v-col>
-        </v-row>
-      </v-flex>
-    </v-app>
+    <v-flex class="mt-2">
+      <v-row class="justify-center">
+        <v-col cols="12" md="8">
+          <avatar></avatar>
+        </v-col>
+        <v-col cols="12" md="4">
+          <user-info :favouriteGenre="favouriteGenre"></user-info>
+        </v-col>
+        <v-spacer></v-spacer>
+      </v-row>
+      <v-row class="pa-0">
+        <v-col cols="12" md="6" class="pa-0">
+          <book-list-small title="Senast lästa" :books="recentlyRead">
+          </book-list-small>
+        </v-col>
+        <v-col cols="12" md="6">
+          <bar></bar>
+        </v-col>
+      </v-row>
+    </v-flex>
   </v-container>
 </template>
 
@@ -23,33 +30,58 @@ import Classes from "@/api/services/classes.js";
 import SchoolUnit from "@/api/services/schoolunit.js";
 import Bar from "@/components/Profile/Bar";
 import Avatar from "@/components/Profile/Avatar";
+import UserInfo from "@/components/User/UserInfo";
+import BookListSmall from "@/components/Books/BookListSmall";
+
+
+import { mapGetters } from 'vuex';
 
 export default {
   name: "profile",
-  components: { Bar, Avatar},
+  components: { 
+    Bar, 
+    Avatar,
+    UserInfo,
+    BookListSmall,
+  },
   created() {
     this.getUser();
+    this.getRecentlyRead();
+    this.getFavouriteGenre();
   },
   props: {
     source: String
   },
   data: () => ({
-    drawer: null
+    recentlyRead: [],
+    favouriteGenre: {},
   }),
+  computed: {
+    ...mapGetters([
+      'userId',
+    ]),
+  },
   methods: {
     logOut() {
       this.$store.commit("userLogout");
     },
     getUser() {
-      User.getUser(this.$store.state.user.id).then(result => {
+      User.getUser(this.userId).then(result => {
         this.$store.commit("userData", result.data[0]);
         this.getClasses();
         this.getSchoolUnit();
       });
     },
-    getClassById() {
-      Classes.getClassById(this.$store.state.user.classId)
+    getRecentlyRead() {
+      User.getRecentlyRead(this.userId)
         .then((result) => {
+          this.recentlyRead = result.data;
+        });
+    },
+    getFavouriteGenre() {
+      User.getFavouriteGenre(this.userId)
+        .then((result) => {
+          this.favouriteGenre = result.data;
           console.log(result);
         });
     },

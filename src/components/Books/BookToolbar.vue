@@ -2,21 +2,21 @@
 <v-container>
   <v-dialog v-model="dialogSimple"
     max-width="400px">
-    <simple-review :currentBook="currentBook"
+    <simple-review :book="book"
       @closeDialog="closeDialog"></simple-review>
   </v-dialog>
   <v-dialog v-model="dialogAdvanced" persistent>
-    <publish-review :book="currentBook"
+    <publish-review :book="book"
       @closeDialog="closeDialog"></publish-review>
   </v-dialog>
   <v-row justify="center">
     <v-spacer class="d-none d-sm-flex"></v-spacer>
-    <v-btn icon :to="{ name: 'books', params: { genre: genre }}"
+    <v-btn icon :to="{ name: 'books', params: { genre: book.genre }}"
       width="auto" height="auto" class="ma-2"
       >
       <v-avatar size="60">
         <img class="genre-icon"
-          :src="`${imagesUrl}${genre.slug}.png`">
+          :src="`${imagesUrl}${book.genreSlug}.png`">
       </v-avatar>
     </v-btn>
     <div v-if="$store.getters.isLoggedIn && !isReviewedByUser">
@@ -32,14 +32,6 @@
         <v-icon large>mdi-star</v-icon>
       </v-btn>
     </div>
-    <!-- Edit book - should move to admin page
-    <v-btn class="ma-2"
-      v-if="$store.state.isAdmin"
-      fab
-      @click.stop="dialog = true"
-      color="pink lighten-2">
-      <v-icon dark>mdi-border-color</v-icon>
-    </v-btn> -->
   </v-row>
 </v-container>
 </template>
@@ -49,7 +41,6 @@ import Urls from '@/assets/urls';
 import SimpleReview from '@/components/Review/SimpleReview';
 import PublishReview from '@/components/Review/PublishReview';
 
-import Books from '@/api/services/books';
 
 
 export default {
@@ -60,8 +51,8 @@ export default {
     PublishReview,
   },
   props: {
-    currentBook: Object,
-    genre: Object,
+    book: Object,
+    isReviewedByUser: Boolean,
   },
   data: () => ({
     dialogSimple: false,
@@ -69,17 +60,10 @@ export default {
     imagesUrl: Urls.images,
     isReviewedByUser: true,
   }),
-  created() {
-    if (this.$store.getters.isLoggedIn) {
-      Books.isReviewed(this.$route.params.slug, this.$store.state.user.id)
-        .then((result) => {
-          this.isReviewedByUser = result.isReviewedByUser;
-        });
-    }
-  },
   methods: {
     closeDialog(data) {
       if (data) {
+        this.isReviewedByUser = true;
         this.$emit('bookReviewed');
       }
       this.dialogSimple = false;

@@ -1,5 +1,5 @@
 <template>
-<v-container>
+<v-container class="pa-0">
   <v-list subheader color="rgb(255, 0, 0, 0)">
     <v-subheader class="headline">{{title}}</v-subheader>
     <v-list-item
@@ -12,23 +12,38 @@
       <v-list-item-avatar class="ml-5" tile height="150px" width="100px" v-else>
         <v-img max-height="250px" max-width="140px" :src="book.imageUrl"></v-img>
       </v-list-item-avatar>
-      <v-list-item four-line>
-        <v-list-item-content class="text-left">
+      <v-list-item class="pl-5">
+        <v-list-item-content class="pl-1 text-left">
           <v-list-item-title class="title">{{bookTitle(book.title)}}</v-list-item-title>
           <v-list-item-subtitle>
             {{book.author}}
           </v-list-item-subtitle>
           <v-list-item-subtitle>
-            <v-rating 
-              v-model="book.rating"
-              dense
-              medium
-              half-increments
-            ></v-rating>
+            <v-container class="ma-0">
+              <v-row class="align-center pa-0">
+                <v-col cols="auto" class="pl-0 align-center" v-if="book.readCount">
+                  ({{book.readCount}})
+                </v-col>
+                <v-col cols="auto" class="pl-0 align-center" v-if="book.publishDate">
+                  {{publishDate(book.publishDate)}}
+                </v-col>
+                <v-col class="pa-0">
+                  <v-rating 
+                    v-model="book.rating"
+                    dense
+                    medium
+                    half-increments
+                  ></v-rating>
+                </v-col>
+                <v-spacer></v-spacer>
+              </v-row>
+            </v-container>
+            <span>
+            </span>
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item-action class="mr-5" v-if="!$store.state.userAgent.isMobile">
+      <v-list-item-action class="mr-5" v-if="!$store.getters.isMobile">
         <v-avatar
           size="55">
           <img class="genre-icon"
@@ -43,6 +58,8 @@
 
 <script>
 import Urls from '@/assets/urls';
+import moment from 'moment';
+/* eslint-disable no-console */
 
 export default {
   name: 'book-list-small',
@@ -54,6 +71,14 @@ export default {
     imagesUrl: Urls.images,
   }),
   methods: {
+    readCount(book) {
+      if (book.readCount) {
+        return book.readCount
+      } return '';
+    },
+    publishDate(book) {
+      return moment(book).format('D/MM - YYYY');
+    },
     goToBook(slug) {
       this.$router.push(`book/${slug}`);
     },

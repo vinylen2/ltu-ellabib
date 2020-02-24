@@ -1,42 +1,33 @@
 <template>
-  <v-carousel
-    height="300px"
-    continuos
-    cycle
-    hide-delimiters
-    :show-arrows-on-hover="true">
-    <v-carousel-item class="green lighten-4">
-      <router-link to="/books">
-        <div class="header-text">
-          <span class="one">
-            {{books}}
-          </span>
-          <span>böcker</span>
-        </div>
-      </router-link>
-    </v-carousel-item>
-    <v-carousel-item class="green lighten-4">
-      <router-link to="/books">
-        <div class="header-text">
-          <span class="one">
-            {{reviews.reviewsWritten}}
-          </span>
-          <span>recensioner</span>
-        </div>
-      </router-link>
-    </v-carousel-item>
-  </v-carousel>
+<v-container fluid class="green lighten-4">
+  <v-row class="pa-5">
+    <v-col class="pa-5">
+        <span class="one">
+          <ICountUp 
+            :endVal="booksRead"
+          />
+        </span>
+        <span>lästa böcker</span>
+    </v-col>
+  </v-row>
+</v-container>
 </template>
 
 <script>
 import Books from '@/api/services/books';
+import ICountUp from 'vue-countup-v2';
 /* eslint-disable no-console */
 
 export default {
   name: 'front-header',
+  components: {
+    ICountUp,
+  },
   data: () => ({
     books: 0,
-    reviews: 0,
+    booksRead: 0,
+    pagesRead: 0,
+    reviewsWritten: 0,
   }),
   created() {
     this.getCount();
@@ -45,8 +36,11 @@ export default {
     getCount() {
       Books.count()
         .then((result) => {
+          let rev = result.data.reviews;
           this.books = result.data.books.count;
-          this.reviews = result.data.reviews;
+          this.booksRead = rev.booksRead;
+          this.pagesRead = rev.pagesRead;
+          this.reviewsWritten = rev.reviewsWritten;
         });
     },
   },

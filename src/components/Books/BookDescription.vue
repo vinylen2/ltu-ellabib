@@ -3,7 +3,7 @@
     <v-row justify="center">
       <v-col :align="'center'" cols="12" md="4" class="pb-0">
         <v-img
-          :src="imageUrl"
+          :src="book.imageUrl"
           height="340px"
           max-width="220px">
         </v-img>
@@ -15,22 +15,22 @@
                 <v-col cols="12" sm="6">
                   <v-card-title class="pl-0 pb-0">
                   <v-spacer class="d-flex d-sm-none"></v-spacer>
-                    {{ currentBook.title }}
+                    {{ book.title }}
                   <v-spacer class="d-flex d-sm-none"></v-spacer>
                   </v-card-title>
                   <v-card-title class="pl-0 pt-0 subtitle-1">
                     <v-spacer class="d-flex d-sm-none"></v-spacer>
-                    <router-link class="authorlink pl-1"
-                      :to="{ name: 'books', params: { forceSearch: author.fullName }}">
-                       {{ author.fullName }}
+                    <router-link class="authorlink"
+                      :to="{ name: 'books', params: { forceSearch: book.author }}">
+                       {{ book.author }}
                     </router-link>
                     <v-spacer class="d-flex d-sm-none"></v-spacer>
                   </v-card-title>
                 </v-col>
                 <v-col class="pa-0" cols="12" sm="6">
                   <book-toolbar
-                    :genre="genre"
-                    :currentBook="currentBook"
+                    :book="book"
+                    :isReviewedByUser="isReviewedByUser"
                     @bookReviewed="bookReviewed">
                   </book-toolbar>
                 </v-col>
@@ -45,14 +45,14 @@
                     :sources="formattedAudioUrl(reviews[0].descriptionAudioUrl)"
                     :audioInfo="{
                       book: {
-                        title: currentBook.title,
-                        id: currentBook.id,
+                        title: book.title,
+                        id: book.id,
                       },
                       type: 'description',
                     }"/>
                 </v-col>
                 <v-col cols="12" sm="10" class="pt-0">
-                  {{ currentBook.description }}
+                  {{ book.description }}
                 </v-col>
               </v-row>
             </v-container>
@@ -67,7 +67,7 @@
           <v-list-item-content class="pa-0 text-left">Hur många har läst boken?</v-list-item-content>
           <v-list-item-content class="pa-0">
             <p class="text-right">
-              {{ readCount }}
+              {{ book.readCount }}
             </p>
           </v-list-item-content>
         </v-list-item>
@@ -75,7 +75,7 @@
           <v-list-item-content class="pa-0">Genre</v-list-item-content>
           <v-list-item-content class="pa-0">
             <p class="text-right">
-              {{ genre.name }}
+              {{ book.genreDisplayName }}
             </p>
           </v-list-item-content>
         </v-list-item>
@@ -83,7 +83,7 @@
           <v-list-item-content class="pa-0">Sidor</v-list-item-content>
           <v-list-item-content class="pa-0">
             <p class="text-right">
-              {{ currentBook.pages }}
+              {{ book.pages }}
             </p>
           </v-list-item-content>
         </v-list-item>
@@ -91,9 +91,10 @@
           <v-list-item-content class="pa-0">Betyg</v-list-item-content>
           <v-list-item-content class="pa-0 text-right">
             <v-rating 
-              v-model="rating"
+              v-model="book.rating"
               dense
               medium
+              readonly
               half-increments
             ></v-rating>
           </v-list-item-content>
@@ -110,7 +111,7 @@
       :key="review.id">
       <book-review
         :review="review"
-        :book="currentBook"
+        :book="book"
         >
       </book-review>
     </v-col>
@@ -137,47 +138,30 @@ export default {
     return {
       imagesUrl: Urls.images,
       audioUrl: Urls.audio,
+      book: Object,
       reviews: [],
-      currentBook: {},
       rating: '',
       readCount: '',
-      author: {
-        fullName: '',
-        id: null,
-      },
+      isReviewedByUser: true,
       pausePlayer: {
         status: false,
-        id: null,
-      },
-      genre: {
-        name: '',
-        slug: '',
         id: null,
       },
     };
   },
   metaInfo() {
     return {
-      title: this.currentBook.title,
+      title: this.book.title,
     };
-  },
-  computed: {
-    imageUrl: function() {
-      if (this.currentBook.localImage) {
-        return `${this.imagesUrl}${this.currentBook.imageUrl}`;
-      } else {
-        return this.currentBook.imageUrl;
-      }
-    }
   },
   created() {
     this.$nextTick(() => {
       this.getBookFromSlug();
+      this.getReviews();
     });
   },
   methods: {
     bookReviewed() {
-      this.getBookFromSlug();
       this.$store.commit('showSnackbar', {
         status: true,
         value: 'Recension publicerad!',
@@ -190,23 +174,14 @@ export default {
       return [this.audioUrl + endingOfUrl];
     },
     getBookFromSlug() {
-      Books.getFromSlug(this.$route.params.slug)
+      Books.getFromSlug(this.$route.params.slug, this.$store.state.user.id)
         .then((result) => {
-          if (result.data.book.reviews.length > 0) {
-            this.reviews = result.data.book.reviews;
-          }
-          this.currentBook = result.data.book;
-          this.genre = result.data.book.genres[0];
-          this.readCount = result.data.readCount;
-          this.rating = result.data.rating;
-          if (result.data.book.authors.length > 0) {
-            this.author.fullName = `${result.data.book.authors[0].firstname} ${result.data.book.authors[0].lastname}`;
-            this.author.id = result.data.book.authors[0].id;
-          }
+          this.book = result.data.book;
+          this.isReviewedByUser = result.data.isReviewedByUser;
         });
     },
-    getReviews(id) {
-      Reviews.getAll(id)
+    getReviews() {
+      Reviews.getAll(this.$route.params.slug)
         .then((result) => {
           this.reviews = result.data;
         });

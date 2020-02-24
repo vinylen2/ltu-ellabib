@@ -1,7 +1,7 @@
 <template>
 <v-card>
   <v-card-title class="justify-center">
-    <span class="headline">Betygsätt {{currentBook.title}}</span>
+    <span class="headline">Betygsätt {{book.title}}</span>
   </v-card-title>
   <v-card-text class="pb-0">
     <span>Vad tyckte du om boken?</span>
@@ -30,7 +30,7 @@ import Reviews from '@/api/services/reviews';
 export default {
   name: 'simple-review',
   props: {
-    currentBook: Object,
+    book: Object,
   },
   data: () => ({
     rating: 0,
@@ -39,7 +39,7 @@ export default {
     publishSimpleReview() {
       Reviews.publishSimple({
         rating: this.rating,
-        bookId: this.currentBook.id,
+        bookId: this.book.id,
         userId: this.$store.state.user.id,
       }).then((result) => {
         this.$emit('closeDialog', result);
