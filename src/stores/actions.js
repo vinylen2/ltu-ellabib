@@ -1,0 +1,23 @@
+import User from '@/api/services/user';
+import Classes from '@/api/services/classes';
+import SchoolUnit from "@/api/services/schoolunit.js";
+
+/* eslint-disable no-console */
+export const actions = {
+  getUser({commit, state}) {
+    User.getUser(state.user.id)
+      .then((result) => {
+        commit('userData', result.data[0]);
+      });
+  },
+  getClasses({commit}) {
+    Classes.getClasses().then(result => {
+      commit("classes", result.data);
+    });
+  },
+  getSchoolUnits({commit}) {
+    SchoolUnit.getSchoolUnit().then(result => {
+      commit("schoolUnit", result.data);
+    });
+  }
+};

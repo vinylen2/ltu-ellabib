@@ -1,11 +1,12 @@
 <template>
-<v-container>
+<v-container class="pt-0 pb-0">
+  <v-divider></v-divider>
   <v-row>
     <v-col cols="12" class="pa-0">
       <v-card class="text-left"
         flat color="rgb(255, 0, 0, 0)">
-        <v-card-title>
-          Publicerad den {{ formattedDate(review.createdAt) }}
+        <v-card-title class="subtitle-1 pb-0">
+          Publicerad den {{ formattedDate(review.createdAt) }} av {{review.classDisplayName}}
           <v-spacer></v-spacer>
           <v-rating 
             v-model="review.rating"
@@ -14,12 +15,12 @@
             half-increments
           ></v-rating>
         </v-card-title>
-        <v-card-text class="text-left"> 
+        <v-card-text class="text-left pb-0"> 
           <v-container class="pa-0">
             <v-row>
-              <v-col cols="12" sm="2" la="1" class="pa-0">
+              <v-col cols="12" sm="2" la="1" class="pa-0"
+                v-if="review.reviewAudioUrl">
                 <audio-player class="text-center pa-0"
-                  v-if="review.reviewAudioUrl"
                   :sources="formattedAudioUrl(review.reviewAudioUrl)"
                   :audioInfo="{
                     book: {
@@ -69,3 +70,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.text {
+  font-size: 1em;
+}
+</style>

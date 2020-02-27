@@ -77,7 +77,7 @@ export default {
       } return '';
     },
     publishDate(book) {
-      return moment(book).format('D/MM - YYYY');
+      return moment(book).format('D/MM-YYYY');
     },
     goToBook(slug) {
       this.$router.push(`book/${slug}`);

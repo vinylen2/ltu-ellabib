@@ -16,7 +16,7 @@
           </book-list-small>
         </v-col>
         <v-col cols="12" md="6">
-          <bar></bar>
+          <!-- <bar></bar> -->
         </v-col>
       </v-row>
     </v-flex>
@@ -26,9 +26,7 @@
 <script>
 /* eslint-disable no-console */
 import User from "@/api/services/user.js";
-import Classes from "@/api/services/classes.js";
-import SchoolUnit from "@/api/services/schoolunit.js";
-import Bar from "@/components/Profile/Bar";
+// import Bar from "@/components/Profile/Bar";
 import Avatar from "@/components/Profile/Avatar";
 import UserInfo from "@/components/User/UserInfo";
 import BookListSmall from "@/components/Books/BookListSmall";
@@ -39,13 +37,15 @@ import { mapGetters } from 'vuex';
 export default {
   name: "profile",
   components: { 
-    Bar, 
+    // Bar, 
     Avatar,
     UserInfo,
     BookListSmall,
   },
-  created() {
-    this.getUser();
+  mounted() {
+    this.$store.dispatch('getUser');
+    this.$store.dispatch('getClasses');
+    this.$store.dispatch('getSchoolUnits');
     this.getRecentlyRead();
     this.getFavouriteGenre();
   },
@@ -65,13 +65,6 @@ export default {
     logOut() {
       this.$store.commit("userLogout");
     },
-    getUser() {
-      User.getUser(this.userId).then(result => {
-        this.$store.commit("userData", result.data[0]);
-        this.getClasses();
-        this.getSchoolUnit();
-      });
-    },
     getRecentlyRead() {
       User.getRecentlyRead(this.userId)
         .then((result) => {
@@ -82,19 +75,8 @@ export default {
       User.getFavouriteGenre(this.userId)
         .then((result) => {
           this.favouriteGenre = result.data;
-          console.log(result);
         });
     },
-    getClasses() {
-      Classes.getClasses(this.$store.state.classes).then(result => {
-        this.$store.commit("classes", result.data);
-      });
-    },
-    getSchoolUnit() {
-      SchoolUnit.getSchoolUnit(this.$store.state.schoolUnit).then(result => {
-        this.$store.commit("schoolUnit", result.data);
-      });
-    }
   }
 };
 </script>

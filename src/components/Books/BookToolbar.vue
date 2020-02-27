@@ -11,20 +11,11 @@
   </v-dialog>
   <v-row justify="center">
     <v-spacer class="d-none d-sm-flex"></v-spacer>
-    <v-btn icon :to="{ name: 'books', params: { genre: book.genre }}"
-      width="auto" height="auto" class="ma-2"
-      >
-      <v-avatar size="60">
-        <img class="genre-icon"
-          :src="`${imagesUrl}${book.genreSlug}.png`">
-      </v-avatar>
-    </v-btn>
     <div v-if="$store.getters.isLoggedIn && !isReviewedByUser">
       <v-btn fab color="purple lighten-3" class="ma-2"
         @click="dialogAdvanced = true"
         @closeDialog="closeDialog">
         <v-icon class="pt-2" large>mdi-border-color</v-icon>
-
       </v-btn>
       <v-btn fab color="blue lighten-2" class="ma-2"
         @click="dialogSimple = true"
@@ -58,7 +49,6 @@ export default {
     dialogSimple: false,
     dialogAdvanced: false,
     imagesUrl: Urls.images,
-    isReviewedByUser: true,
   }),
   methods: {
     closeDialog(data) {

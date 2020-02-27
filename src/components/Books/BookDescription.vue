@@ -11,23 +11,30 @@
       <v-col cols="12" md="8" l="10" class="pb-0">
         <v-card flat color="rgb(255, 0, 0, 0)">
             <v-container class="pa-0">
-              <v-row>
-                <v-col cols="12" sm="6">
+              <v-row justify="center">
+                <v-col cols="auto" class="pl-0 pr-0 pt-5">
+                  <v-btn icon :to="{ name: 'books', params: { genre: book.genre }}"
+                    width="auto" height="auto" class="ma-2"
+                    >
+                    <v-avatar size="55">
+                      <img class="genre-icon"
+                        :src="`${imagesUrl}${book.genreSlug}.png`">
+                    </v-avatar>
+                  </v-btn>
+                </v-col>
+                <!-- <v-col cols="9" sm="6"> -->
+                <v-col cols="auto" sm="6">
                   <v-card-title class="pl-0 pb-0">
-                  <v-spacer class="d-flex d-sm-none"></v-spacer>
                     {{ book.title }}
-                  <v-spacer class="d-flex d-sm-none"></v-spacer>
                   </v-card-title>
                   <v-card-title class="pl-0 pt-0 subtitle-1">
-                    <v-spacer class="d-flex d-sm-none"></v-spacer>
                     <router-link class="authorlink"
                       :to="{ name: 'books', params: { forceSearch: book.author }}">
                        {{ book.author }}
                     </router-link>
-                    <v-spacer class="d-flex d-sm-none"></v-spacer>
                   </v-card-title>
                 </v-col>
-                <v-col class="pa-0" cols="12" sm="6">
+                <v-col class="pa-0 d-none d-sm-flex" cols="12" sm="4">
                   <book-toolbar
                     :book="book"
                     :isReviewedByUser="isReviewedByUser"
@@ -61,16 +68,8 @@
     </v-col>
   </v-row>
   <v-row>
-    <v-col class="pt-0" cols="12">
+    <v-col class="pt-0 pb-0" cols="12">
       <v-list color="rgb(255, 0, 0, 0)" dense>
-        <v-list-item>
-          <v-list-item-content class="pa-0 text-left">Hur många har läst boken?</v-list-item-content>
-          <v-list-item-content class="pa-0">
-            <p class="text-right">
-              {{ book.readCount }}
-            </p>
-          </v-list-item-content>
-        </v-list-item>
         <v-list-item>
           <v-list-item-content class="pa-0">Genre</v-list-item-content>
           <v-list-item-content class="pa-0">
@@ -84,6 +83,14 @@
           <v-list-item-content class="pa-0">
             <p class="text-right">
               {{ book.pages }}
+            </p>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-content class="pa-0 text-left">Hur många har läst boken?</v-list-item-content>
+          <v-list-item-content class="pa-0">
+            <p class="text-right">
+              {{ book.readCount }}
             </p>
           </v-list-item-content>
         </v-list-item>
@@ -102,10 +109,18 @@
       </v-list>
     </v-col>
   </v-row>
+  <v-row class="d-flex d-sm-none pa-0">
+        <v-col class="pa-0" cols="12">
+          <book-toolbar
+            :book="book"
+            :isReviewedByUser="isReviewedByUser"
+            @bookReviewed="bookReviewed">
+          </book-toolbar>
+        </v-col>
+  </v-row>
   <v-row v-if="reviews.length > 0">
-    <v-col cols="12">
+    <v-col cols="12 pb-0 pt-0">
       <h1 class="text-left pa-0">Recensioner</h1>
-      <v-divider></v-divider>
     </v-col>
     <v-col cols="12" class="pa-0" v-for="review in reviews"
       :key="review.id">
