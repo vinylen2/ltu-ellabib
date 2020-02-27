@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import MobileDetect from 'mobile-detect';
+/* eslint-disable no-console */
 
 export const getters = {
   userId: (state) => {

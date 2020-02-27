@@ -30,7 +30,7 @@ export const state = {
   books: [],
   authors: Array[Object],
   genres: Array[Object],
-  classes: Array[Object],
+  classes: [],
   schoolUnit: Array[Object],
   highestRatedBooks: [],
   recentlyReviewedBooks: [],

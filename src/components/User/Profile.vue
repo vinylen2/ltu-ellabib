@@ -16,7 +16,7 @@
           </book-list-small>
         </v-col>
         <v-col cols="12" md="6">
-          <!-- <bar></bar> -->
+          <bar></bar>
         </v-col>
       </v-row>
     </v-flex>
@@ -26,7 +26,7 @@
 <script>
 /* eslint-disable no-console */
 import User from "@/api/services/user.js";
-// import Bar from "@/components/Profile/Bar";
+import Bar from "@/components/Profile/Bar";
 import Avatar from "@/components/Profile/Avatar";
 import UserInfo from "@/components/User/UserInfo";
 import BookListSmall from "@/components/Books/BookListSmall";
@@ -37,7 +37,7 @@ import { mapGetters } from 'vuex';
 export default {
   name: "profile",
   components: { 
-    // Bar, 
+    Bar, 
     Avatar,
     UserInfo,
     BookListSmall,
