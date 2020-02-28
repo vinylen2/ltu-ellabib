@@ -7,8 +7,13 @@ export const actions = {
   getUser({commit, state}) {
     User.getUser(state.user.id)
       .then((result) => {
-        commit('userData', result.data[0]);
+        commit('userData', result.data);
       });
+  },
+  getUserClass({commit, state}) {
+    SchoolUnit.getClassById(state.user.id).then(result => {
+      commit("userClass", result.data);
+    });
   },
   getClasses({commit}) {
     Classes.getClasses().then(result => {

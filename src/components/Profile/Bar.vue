@@ -2,14 +2,13 @@
   <div>
     <v-flex class="mt-5">
       <v-card class="md-10 pa-2" color="dark">
-        <!-- <v-progress-linear
+        <v-progress-linear
           color="light-blue"
           height="30"
           :value="userVsClassPages"
-        >{{userVsClassPages}}%</v-progress-linear> -->
-        {{userClass}}
+        >{{userVsClassPages}}%</v-progress-linear>
         <br />
-        <!-- <v-progress-linear
+        <v-progress-linear
           color="light-green darken-4"
           height="30"
           :value="classVsSchoolPages"
@@ -21,7 +20,7 @@
         <br />
         <v-progress-linear :value="userVsSchoolReviews" height="30" color="deep-orange">
           <h1>{{userVsSchoolReviews}}%</h1>
-        </v-progress-linear> -->
+        </v-progress-linear>
       </v-card>
     </v-flex>
   </div>
@@ -36,20 +35,18 @@ export default {
   computed: {
     ...mapGetters([
       'user',
-      'userClass',
-      'userSchoolUnit'
     ]),
     userVsClassPages() {
-      return Math.round((this.user.pagesRead / this.userClass.pagesRead ) * 100);
+      return Math.round((this.user.pagesRead / this.user.class.pagesRead ) * 100);
     },
     classVsSchoolPages() {
-      return Math.round((this.userClass.pagesRead / this.userSchoolUnit.pagesRead) * 100);
+      return Math.round((this.user.class.pagesRead / this.user.schoolUnit.pagesRead) * 100);
     },
     classVsSchoolReviews() {
-      return Math.round((this.userClass.reviewsWritten / this.userSchoolUnit.reviewsWritten) * 100);
+      return Math.round((this.user.class.reviewsWritten / this.user.schoolUnit.reviewsWritten) * 100);
     },
     userVsSchoolReviews() {
-      return Math.round((this.userClass.reviewsWritten / this.userSchoolUnit.reviewsWritten) * 100);
+      return Math.round((this.user.class.reviewsWritten / this.user.schoolUnit.reviewsWritten) * 100);
     }
   }
 };

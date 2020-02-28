@@ -46,9 +46,9 @@ export const getters = {
     }
     return false;
   },
-  userClass: (state) => {
-    return _.find(state.classes, { 'id': state.user.classId });
-  },
+  // userClass: (state) => {
+  //   return _.find(state.classes, { 'id': state.user.classId });
+  // },
   userSchoolUnit: (state) => {
     return _.find(state.schoolUnit, {'id': state.user.schoolUnitId});
   },

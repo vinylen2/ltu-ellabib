@@ -27,11 +27,6 @@ import Auth from '@/api/services/auth';
 
 export default {
   name: 'login',
-  computed: {
-    isAdmin() {
-      return this.$store.state.isAdmin;
-    },
-  },
   data() {
     return {
       loading: false,

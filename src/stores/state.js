@@ -10,7 +10,6 @@ export const state = {
   user: {
     id: 1,
     firstname: '',
-    class: '',
     school: '',
     pagesRead: 1,
     booksRead: 1,
@@ -19,6 +18,12 @@ export const state = {
     roleId: 0,
     roleType: '',
     avatarImageUrl: '',
+    class: {
+      pagesRead: 1,
+      booksRead: 1,
+      reviewsWritten: 1,
+      id: null,
+    },
   },
   token: true,
   skolon: false,

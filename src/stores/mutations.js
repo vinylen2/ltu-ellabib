@@ -12,6 +12,8 @@ export const mutations = {
     state.user.pagesRead = data.pagesRead;
     state.user.booksRead = data.booksRead;
     state.user.reviewsWritten = data.reviewsWritten;
+    state.user.class = data.class;
+    state.user.schoolUnit = data.schoolUnit;
   },
   showAdminLoginModal: (state) => {
     state.adminLoginModal = true;
@@ -55,6 +57,9 @@ export const mutations = {
   },
   highestRatedBooks: (state, data) => {
     state.highestRatedBooks = data;
+  },
+  userClass: (state, data) => {
+    state.user.class = data;
   },
   classes: (state, data) => {
     state.classes = data;
