@@ -22,7 +22,7 @@ export const state = {
       pagesRead: 1,
       booksRead: 1,
       reviewsWritten: 1,
-      id: null,
+      id: 1,
     },
   },
   token: true,

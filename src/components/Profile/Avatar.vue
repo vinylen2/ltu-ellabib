@@ -1,7 +1,7 @@
 <template>
 <div>
   <v-card max-width="375" max-length="500">
-    <v-img :src="$store.state.user.avatarImageUrl" height="300px" dark>
+    <v-img :src="user.avatarImageUrl" height="300px" dark>
       <v-row class="fill-height">
         <v-card-title>
           <v-btn color="transparent" dark icon absolute bottom right>
@@ -15,10 +15,17 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import ImageSelector from "@/components/Profile/ImageSelector";
+
 export default {
   name: "avatar",
-  components: { ImageSelector }
+  components: { ImageSelector },
+  computed: {
+    ...mapGetters([
+      'user',
+    ]),
+  },
 };
 </script>
 

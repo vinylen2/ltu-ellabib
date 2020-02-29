@@ -23,6 +23,15 @@ export const mutations = {
     state.token = data.token;
     state.adminLoginModal = false;
   },
+  errorSnackbar: (state, errorText) => {
+    state.snackbar = {
+      status: true,
+      value: errorText,
+      color: 'red lighten-2',
+      timeout: 5000,
+      hasLink: false,
+    };
+  },
   userLogin: (state, data) => {
     state.user = data.user;
     state.token = data.token;

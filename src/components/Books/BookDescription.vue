@@ -13,7 +13,15 @@
             <v-container class="pa-0">
               <v-row justify="center">
                 <v-col cols="auto" class="pl-0 pr-0 pt-5">
-                  <v-btn icon :to="{ name: 'books', params: { genre: book.genre }}"
+                  <v-btn icon 
+                    :to="{ name: 'books', params: 
+                      { 
+                        genre: { 
+                          id: book.genreId,
+                          slug: book.genreSlug,
+                        } 
+                      }
+                    }"
                     width="auto" height="auto" class="ma-2"
                     >
                     <v-avatar size="55">
@@ -98,7 +106,7 @@
           <v-list-item-content class="pa-0">Betyg</v-list-item-content>
           <v-list-item-content class="pa-0 text-right">
             <v-rating 
-              v-model="book.rating"
+              v-model="ratingFloat"
               dense
               medium
               readonly
@@ -153,10 +161,8 @@ export default {
     return {
       imagesUrl: Urls.images,
       audioUrl: Urls.audio,
-      book: Object,
+      book: {},
       reviews: [],
-      rating: '',
-      readCount: '',
       isReviewedByUser: true,
       pausePlayer: {
         status: false,
@@ -174,6 +180,11 @@ export default {
       this.getBookFromSlug();
       this.getReviews();
     });
+  },
+  computed: {
+    ratingFloat() {
+      return parseFloat(this.book.rating);
+    },
   },
   methods: {
     bookReviewed() {

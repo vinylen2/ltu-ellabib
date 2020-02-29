@@ -4,17 +4,7 @@
     <span class="headline">Recensera {{currentBook.title}} </span>
   </v-card-title>
 <v-container>
-  <v-row v-if="publishing">
-    <v-col>
-      <v-progress-circular
-        indeterminate
-        color="blue"
-        :size="50">
-      </v-progress-circular>
-      <span class="ma-5">Publicerar...</span>
-    </v-col>
-  </v-row>
-  <v-form v-else>
+  <v-form>
     <v-row class="">
       <v-col class="text-left">
         {{ currentBook.description }}
@@ -59,7 +49,7 @@
     <v-row>
       <v-col>
         <v-btn color="red darken-1" text @click="$emit('closeDialog')">Stäng</v-btn>
-        <v-btn color="blue darken-1" text @click="postReview">Skicka</v-btn>
+        <v-btn color="blue darken-1" text @click="postReview" :loading="publishing">Skicka</v-btn>
       </v-col>
     </v-row>
   </v-form>
@@ -141,13 +131,7 @@ export default {
     },
     postReview() {
       if (this.review.rating == 0 || this.review.review.length == 0) {
-        this.$store.commit('showSnackbar', {
-          status: true,
-          value: 'Du måste skriva en recension och ge boken ett betyg innan du kan skicka.',
-          color: 'red lighten-2',
-          timeout: 5000,
-          hasLink: false,
-        });
+        this.$store.commit('errorSnackbar', 'Du måste skriva en recension och ge boken ett betyg innan du kan skicka.');
       } else {
         this.publishing = true;
         Reviews.create(this.reviewFormData)
@@ -155,6 +139,10 @@ export default {
             this.$emit('closeDialog', result);
             this.resetFields();
             this.publishing = false;
+          })
+          .catch(() => {
+            this.publishing = false;
+            this.$store.commit('errorSnackbar', 'Något gick fel.');
           });
       }
     },

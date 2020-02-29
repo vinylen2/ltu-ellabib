@@ -71,6 +71,9 @@ export default {
     imagesUrl: Urls.images,
   }),
   methods: {
+    ratingFloat(rating) {
+      return parseFloat(rating);
+    },
     readCount(book) {
       if (book.readCount) {
         return book.readCount
