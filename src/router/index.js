@@ -10,6 +10,7 @@ import Login from '@/components/User/Login';
 import Profile from '@/components/User/Profile';
 import Admin from '@/components/Admin/Admin';
 import AuthSkolon from '@/components/Skolon/AuthSkolon';
+import Leaderboard from '@/components/Profile/Leaderboard';
 import Store from '@/stores/store';
 import Meta from 'vue-meta';
 
@@ -21,6 +22,11 @@ import ChooseImage from '@/components/ChooseImage';
 const router = new Router({
   mode: 'history',
   routes: [
+    {
+      path: '/leaderboard',
+      name: 'leaderboard',
+      component: Leaderboard,
+    },
     {
       path: '/choose',
       name: 'choose-image',

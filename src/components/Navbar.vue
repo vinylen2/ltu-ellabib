@@ -23,9 +23,9 @@
       <v-btn to="/books" text v-else>Böcker</v-btn>
     </v-toolbar-items>
     <v-spacer></v-spacer>
-    <!-- <v-toolbar-items>
-      <v-btn to="/about" text>Om</v-btn>
-    </v-toolbar-items> -->
+    <v-toolbar-items>
+      <v-btn to="/leaderboard" text>Om</v-btn>
+    </v-toolbar-items>
     <v-toolbar-items
       v-if="isAdmin && !isMobile">
       <v-btn to="/admin/post-book" text>Lägg till bok</v-btn>

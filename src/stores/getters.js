@@ -46,13 +46,19 @@ export const getters = {
     }
     return false;
   },
-  // userClass: (state) => {
-  //   return _.find(state.classes, { 'id': state.user.classId });
-  // },
   userSchoolUnit: (state) => {
     return _.find(state.schoolUnit, {'id': state.user.schoolUnitId});
   },
   user: (state) => {
     return state.user;
+  },
+  sortedClassesPages: (state) => {
+    return _.orderBy(state.classes, ['pagesRead'], ['desc']);
+  },
+  sortedClassesBooks: (state) => {
+    return _.orderBy(state.classes, ['booksRead'], ['desc']);
+  },
+  sortedClassesReviews: (state) => {
+    return _.orderBy(state.classes, ['reviewsWritten'], ['desc']);
   },
 };

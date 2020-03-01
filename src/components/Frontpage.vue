@@ -51,6 +51,7 @@ export default {
   created() {
     this.getRecentlyReviewed();
     this.getHighestRated();
+    this.$store.dispatch('getClasses');
   },
   data() {
     return {
