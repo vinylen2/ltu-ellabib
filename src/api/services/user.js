@@ -2,8 +2,8 @@ import api from '@/api/api';
 
 export default {
 /* eslint-disable no-console */
-  getUser(id, authConfig) {
-    return api.get(`user/id/${id}`, authConfig).then(response => response.data);
+  getUser(id, token) {
+    return api.get(`user/id/${id}`, {headers: { Authorization: 'Bearer ' + token}}).then(response => response.data);
   },
   updateAvatar(data) {
     return api.patch('user/avatar', data).then(response => response.data);

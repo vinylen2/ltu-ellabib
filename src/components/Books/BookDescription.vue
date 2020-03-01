@@ -14,7 +14,7 @@
             <v-container class="pa-0">
               <v-row justify="center">
                 <v-col cols="auto" class="pl-0 pr-0 pt-5">
-                  <v-btn icon 
+                  <v-btn icon v-if="book.genreId"
                     :to="{ name: 'books', params: 
                       { 
                         genre: { 
@@ -29,6 +29,14 @@
                       <img class="genre-icon"
                         :src="`${imagesUrl}${book.genreSlug}.png`">
                     </v-avatar>
+                  </v-btn>
+                  <v-btn v-else-if="isLoggedIn" fab color="blue-grey lighten-4" class="ma-2"
+                    @click="editGenreDialog = true">
+                    <v-icon>mdi-help</v-icon>
+                  </v-btn>
+                  <v-btn v-else fab color="blue-grey lighten-4" class="ma-2"
+                    disabled>
+                    <v-icon>mdi-help</v-icon>
                   </v-btn>
                 </v-col>
                 <!-- <v-col cols="9" sm="6"> -->
@@ -140,6 +148,12 @@
       </book-review>
     </v-col>
   </v-row>
+  <v-dialog v-model="editGenreDialog">
+    <edit-genre-dialog
+      :book="book"
+      @submitted="genreEdited">
+    </edit-genre-dialog>
+  </v-dialog>
 </v-container>
 </template>
 
@@ -152,6 +166,10 @@ import ImageMissing from '@/components/Books/ImageMissing';
 import Reviews from '@/api/services/reviews';
 import Urls from '@/assets/urls';
 import AudioPlayer from '@/components/Audio/AudioPlayer';
+import EditGenreDialog from '@/components/Admin/EditGenreDialog';
+
+import { mapGetters } from 'vuex';
+
 
 export default {
   components: {
@@ -159,9 +177,11 @@ export default {
     BookToolbar,
     BookReview,
     ImageMissing,
+    EditGenreDialog,
   },
   data() {
     return {
+      editGenreDialog: false,
       imagesUrl: Urls.images,
       audioUrl: Urls.audio,
       book: {},
@@ -188,8 +208,15 @@ export default {
     ratingFloat() {
       return parseFloat(this.book.rating);
     },
+    ...mapGetters([
+      'isLoggedIn',
+    ]),
   },
   methods: {
+    genreEdited() {
+      this.editGenreDialog = false;
+      this.getBookFromSlug();
+    },
     bookReviewed() {
       this.$store.commit('showSnackbar', {
         status: true,

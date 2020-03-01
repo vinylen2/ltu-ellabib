@@ -64,6 +64,9 @@ export default {
       imagesUrl: Urls.images,
     };
   },
+  created() {
+    this.$store.dispatch('getGenres');
+  },
   computed: {
     ...mapGetters([
       'isMobile',

@@ -52,6 +52,9 @@ export const getters = {
   user: (state) => {
     return state.user;
   },
+  genres: (state) => {
+    return state.genres;
+  },
   sortedClassesPages: (state) => {
     return _.orderBy(state.classes, ['pagesRead'], ['desc']);
   },
