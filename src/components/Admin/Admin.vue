@@ -1,5 +1,5 @@
 <template>
-<v-container>
+<v-container fluid>
   <router-view></router-view>
 </v-container>
 </template>
@@ -25,7 +25,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-
-</style>

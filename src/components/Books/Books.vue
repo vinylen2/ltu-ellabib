@@ -63,9 +63,6 @@ export default {
       booksToDisplay: 10,
     };
   },
-  created() {
-    console.log(this.$route.params.genre);
-  },
   computed: {
     paginatedBooks() {
       return this.$store.state.books.slice(0, this.page * this.booksToDisplay);

@@ -1,5 +1,5 @@
 <template>
-<v-container>
+<v-container fluid>
   <v-container v-if="reviews.length == 0">
     <h1>Inga recensioner att aktivera</h1>
   </v-container>
@@ -88,7 +88,7 @@
             @click="editAudio(item)">
             <v-icon>mdi-content-cut</v-icon>
           </v-btn>
-          <v-btn icon>
+          <v-btn icon @click="deleteReviewClick(item.id)">
             <v-icon>mdi-delete</v-icon>
           </v-btn>
         </template>
@@ -115,6 +115,12 @@
         :review="modal.review">
       </edit-review-audio>
     </v-dialog>
+    <v-dialog v-model="confirmDialog"
+      max-width="400px">
+      <confirm-dialog
+        :message="'Vill du verkligen radera?'"
+        @confirmed="confirmDialogHandeler"></confirm-dialog>
+    </v-dialog>
   </v-container>
 </v-container>
 </template>
@@ -127,6 +133,7 @@ import Urls from '@/assets/urls';
 import AudioPlayer from '@/components/Audio/AudioPlayer';
 import EditReviewAudio from '@/components/Review/EditReviewAudio';
 import EditReviewText from '@/components/Review/EditReviewText';
+import ConfirmDialog from '@/components/ConfirmDialog';
 import _ from 'lodash';
 import moment from 'moment';
 import VModal from 'vue-js-modal';
@@ -138,6 +145,7 @@ export default {
     AudioPlayer,
     EditReviewAudio,
     EditReviewText,
+    ConfirmDialog,
   },
   data() {
     return {
@@ -145,6 +153,8 @@ export default {
       selectedReviews: [],
       editReviewTextDialog: false,
       editAudioDialog: false,
+      confirmDialog: false,
+      dialogIdentifier: null,
       reviews: [],
       headers: [
         {text: '', value: 'selection'},
@@ -153,8 +163,8 @@ export default {
         {text: 'Beskrivning', value: 'description', width: '10%'},
         {text: 'Recension', value: 'review', width: '40%'},
         {text: 'Betyg', value: 'rating'},
-        {text: 'Datum', value: 'createdAt'},
-        {text: 'Verktyg', value: 'tools'},
+        {text: 'Tid och datum', value: 'createdAt'},
+        {text: '', value: 'tools'},
       ],
       modal: {
         review: '',
@@ -221,7 +231,6 @@ export default {
       this.editReviewTextDialog = true;
     },
     editAudio(review) {
-      console.log(review);
       this.modal.review = review;
       this.editAudioDialog = true;
     },
@@ -244,23 +253,18 @@ export default {
       Reviews.updateRating({ reviewId: id, rating }).then(() => {
       });
     },
-    deleteReview(reviewId) {
-      Reviews.deleteReview({ reviewId }).then(() => {
-        this.popReview(reviewId);
-      });
+    confirmDialogHandeler(confirmed) {
+      if (confirmed) {
+        Reviews.deleteReview({ reviewId: this.dialogIdentifier }).then(() => {
+          this.popReview(this.dialogIdentifier);
+        });
+      }
+      this.confirmDialog = false;
+    },
+    deleteReviewClick(reviewId) {
+      this.dialogIdentifier = reviewId;
+      this.confirmDialog = true;
     },
   },
 };
 </script>
-
-<style>
-.text-tooltip .tooltip-inner{
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  background-color: #addb91;
-  padding: 10px 15px;
-  width: 300px;
-  border-radius: 20px;
-}
-
-
-</style>

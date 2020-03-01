@@ -9,6 +9,7 @@
     <v-form
       ref="form"
       lazy-validation
+      @submit.prevent="login"
     >
       <v-text-field
         v-model="username"
@@ -31,7 +32,7 @@
         submit
         color="blue lighten-2"
         class="mr-4"
-        @click="login"
+        type="submit"
       >
       Logga in
       </v-btn>

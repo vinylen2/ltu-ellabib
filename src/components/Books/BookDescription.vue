@@ -2,11 +2,12 @@
 <v-container>
     <v-row justify="center">
       <v-col :align="'center'" cols="12" md="4" class="pb-0">
-        <v-img
+        <v-img v-if="book.imageUrl"
           :src="book.imageUrl"
           height="340px"
           max-width="220px">
         </v-img>
+        <image-missing v-else />
       </v-col>
       <v-col cols="12" md="8" l="10" class="pb-0">
         <v-card flat color="rgb(255, 0, 0, 0)">
@@ -147,6 +148,7 @@
 import Books from '@/api/services/books';
 import BookToolbar from '@/components/Books/BookToolbar';
 import BookReview from '@/components/Books/BookReview';
+import ImageMissing from '@/components/Books/ImageMissing';
 import Reviews from '@/api/services/reviews';
 import Urls from '@/assets/urls';
 import AudioPlayer from '@/components/Audio/AudioPlayer';
@@ -156,6 +158,7 @@ export default {
     AudioPlayer,
     BookToolbar,
     BookReview,
+    ImageMissing,
   },
   data() {
     return {
