@@ -103,6 +103,7 @@ export default {
   },
   data: () => ({
     imagesUrl: Urls.images,
+    avatar: 'bell'
   }),
 };
 </script>

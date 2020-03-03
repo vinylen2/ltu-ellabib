@@ -10,7 +10,7 @@ import Login from '@/components/User/Login';
 import Profile from '@/components/User/Profile';
 import Admin from '@/components/Admin/Admin';
 import AuthSkolon from '@/components/Skolon/AuthSkolon';
-import Leaderboard from '@/components/Profile/Leaderboard';
+import Leaderboard from '@/components/User/Leaderboard';
 import Store from '@/stores/store';
 import Meta from 'vue-meta';
 
@@ -23,6 +23,7 @@ const router = new Router({
   mode: 'history',
   routes: [
     {
+      // add auth for this component
       path: '/leaderboard',
       name: 'leaderboard',
       component: Leaderboard,

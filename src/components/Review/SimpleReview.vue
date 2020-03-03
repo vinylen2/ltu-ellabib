@@ -50,17 +50,21 @@ export default {
   methods: {
     publish() {
       if (this.rating == 0) {
-        this.$store.commit('errorSnackbar', 'Du måste sätta betyg på boken');
+        this.$store.commit('errorSnackbar', 'Du måste sätta betyg på boken.');
       } else if (this.pages < 1 && this.book.pages < 1) {
-        this.$store.commit('errorSnackbar', 'Ange hur många sidor boken har');
+        this.$store.commit('errorSnackbar', 'Ange hur många sidor boken har.');
+      } else if (this.pages > 300) {
+        this.$store.commit('errorSnackbar', 'Du har angivit för många sidor!');
       } else {
-        this.editPages();
+        if (!this.book.pages) {
+          this.editPages();
+        }
         this.publishSimpleReview();
       }
     },
     editPages() {
       Books.editPages({ bookId: this.book.id, pages: this.pages })
-        .then((result) => { console.log(result)})
+        .then();
     },
     publishSimpleReview() {
       Reviews.publishSimple({

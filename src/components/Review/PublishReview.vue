@@ -31,6 +31,14 @@
         </v-textarea>
       </v-col>
     </v-row>
+    <v-row class="pa-0 justify-center" v-if="!book.pages">
+      <v-col cols="6">
+        <v-text-field
+          label="Hur många sidor har boken?"
+          required
+          v-model="pages"></v-text-field>
+      </v-col>
+    </v-row>
     <v-row class="pa-0">
       <v-col class="pa-0">
         <vue-record class="pt-0 audio-recorder"
@@ -71,6 +79,7 @@ export default {
   props: ['book'],
   data() {
     return {
+      pages: 0,
       currentBook: {},
       review: {
         review: '',
@@ -105,6 +114,10 @@ export default {
     },
   },
   methods: {
+    editPages() {
+      Books.editPages({ bookId: this.book.id, pages: this.pages })
+        .then();
+    },
     resetFields() {
       this.review.review = '';
       this.review.rating = 0;
@@ -132,7 +145,15 @@ export default {
     postReview() {
       if (this.review.rating == 0 || this.review.review.length == 0) {
         this.$store.commit('errorSnackbar', 'Du måste skriva en recension och ge boken ett betyg innan du kan skicka.');
+      } else if (!this.book.pages && this.pages == 0) {
+        this.$store.commit('errorSnackbar', 'Ange hur många sidor boken har.');
+      } else if (!this.book.pages && this.pages > 300) {
+        this.$store.commit('errorSnackbar', 'Du har angivit för många sidor!');
       } else {
+        if (!this.book.pages) {
+          this.editPages();
+
+        }
         this.publishing = true;
         Reviews.create(this.reviewFormData)
           .then((result) => {

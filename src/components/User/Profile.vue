@@ -16,7 +16,8 @@
           </book-list-small>
         </v-col>
         <v-col cols="12" md="6">
-          <bar></bar>
+          <book-list-small title="Dina favoritböcker" :books="userFavourites">
+          </book-list-small>
         </v-col>
       </v-row>
     </v-flex>
@@ -26,8 +27,7 @@
 <script>
 /* eslint-disable no-console */
 import User from "@/api/services/user.js";
-import Bar from "@/components/Profile/Bar";
-import Avatar from "@/components/Profile/Avatar";
+import Avatar from "@/components/User/Profile/Avatar";
 import UserInfo from "@/components/User/UserInfo";
 import BookListSmall from "@/components/Books/BookListSmall";
 
@@ -37,7 +37,6 @@ import { mapGetters } from 'vuex';
 export default {
   name: "profile",
   components: { 
-    Bar, 
     Avatar,
     UserInfo,
     BookListSmall,
@@ -47,6 +46,7 @@ export default {
     this.$store.dispatch('getClasses');
     this.$store.dispatch('getSchoolUnits');
     this.getRecentlyRead();
+    this.getUserFavourites();
     this.getFavouriteGenre();
   },
   props: {
@@ -54,6 +54,7 @@ export default {
   },
   data: () => ({
     recentlyRead: [],
+    userFavourites: [],
     favouriteGenre: {},
   }),
   computed: {
@@ -69,6 +70,12 @@ export default {
       User.getRecentlyRead(this.userId)
         .then((result) => {
           this.recentlyRead = result.data;
+        });
+    },
+    getUserFavourites() {
+      User.getUserFavourites(this.userId)
+        .then((result) => {
+          this.userFavourites = result.data;
         });
     },
     getFavouriteGenre() {

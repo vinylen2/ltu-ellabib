@@ -16,7 +16,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import ImageSelector from "@/components/Profile/ImageSelector";
+import ImageSelector from "@/components/User/Profile/ImageSelector";
 
 export default {
   name: "avatar",

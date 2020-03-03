@@ -14,4 +14,7 @@ export default {
   getFavouriteGenre(id) {
     return api.get(`user/favourite-genre/${id}`).then(response => response.data);
   },
+  getUserFavourites(id) {
+    return api.get(`user/favourites/${id}`).then(response => response.data);
+  },
 };

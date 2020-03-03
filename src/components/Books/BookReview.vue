@@ -12,6 +12,7 @@
             v-model="review.rating"
             dense
             medium
+            readonly
             half-increments
           ></v-rating>
         </v-card-title>
