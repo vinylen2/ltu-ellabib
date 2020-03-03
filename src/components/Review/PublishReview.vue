@@ -5,12 +5,12 @@
   </v-card-title>
 <v-container>
   <v-form>
-    <v-row class="">
+    <v-row v-if="currentBook.description">
       <v-col class="text-left">
         {{ currentBook.description }}
       </v-col>
     </v-row>
-    <v-row class="pa-0">
+    <v-row class="pa-0" v-if="currentBook.description">
       <v-col class="pa-0">
         <vue-record class="pt-0 audio-recorder"
           v-if="$store.getters.isDeviceWithMic"

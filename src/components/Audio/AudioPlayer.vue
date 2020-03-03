@@ -1,7 +1,7 @@
 <template>
-<v-container>
+<v-container class="pa-0">
   <v-row>
-    <v-col>
+    <v-col class="">
       <v-btn v-if="playing && small"
         fab
         small

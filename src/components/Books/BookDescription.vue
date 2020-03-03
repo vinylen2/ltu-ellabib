@@ -13,7 +13,7 @@
         <v-card flat color="rgb(255, 0, 0, 0)">
             <v-container class="pa-0">
               <v-row justify="center">
-                <v-col cols="auto" class="pl-0 pr-0 pt-5">
+                <v-col cols="auto" class="pl-0 pr-0 pt-5 pb-0">
                   <v-btn icon v-if="book.genreId"
                     :to="{ name: 'books', params: 
                       { 
@@ -40,8 +40,8 @@
                   </v-btn>
                 </v-col>
                 <!-- <v-col cols="9" sm="6"> -->
-                <v-col cols="auto" sm="6">
-                  <v-card-title class="pl-0 pb-0">
+                <v-col cols="auto" sm="6" class="pb-0">
+                  <v-card-title class="pl-0 pb-0 text-left">
                     {{ book.title }}
                   </v-card-title>
                   <v-card-title class="pl-0 pt-0 subtitle-1">
@@ -65,7 +65,7 @@
               <v-row>
                 <v-col cols="12" sm="2" class="text-center pa-0"
                   v-if="reviews.length > 0 && reviews[0].descriptionAudioUrl">
-                  <audio-player class="audio-player btn"
+                  <audio-player class="audio-player btn pa-0"
                     :sources="formattedAudioUrl(reviews[0].descriptionAudioUrl)"
                     :audioInfo="{
                       book: {

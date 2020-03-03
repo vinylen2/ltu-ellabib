@@ -15,10 +15,20 @@
       </v-rating>
     </v-container>
   </v-card-text>
+  <v-card-text v-if="!book.pages">
+    <v-row>
+      <v-col>
+        <v-text-field
+          label="Hur många sidor har boken?"
+          required
+          v-model="pages"></v-text-field>
+      </v-col>
+    </v-row>
+  </v-card-text>
   <v-card-actions>
     <v-spacer></v-spacer>
     <v-btn color="red darken-1" text @click="$emit('closeDialog')">Stäng</v-btn>
-    <v-btn color="blue darken-1" text @click="publishSimpleReview">Betygssätt</v-btn>
+    <v-btn color="blue darken-1" text @click="publish">Betygssätt</v-btn>
     <v-spacer></v-spacer>
   </v-card-actions>
 </v-card>
@@ -26,6 +36,7 @@
 
 <script>
 import Reviews from '@/api/services/reviews';
+import Books from '@/api/services/books';
 /* eslint-disable no-console */
 export default {
   name: 'simple-review',
@@ -34,8 +45,23 @@ export default {
   },
   data: () => ({
     rating: 0,
+    pages: null,
   }),
   methods: {
+    publish() {
+      if (this.rating == 0) {
+        this.$store.commit('errorSnackbar', 'Du måste sätta betyg på boken');
+      } else if (this.pages < 1 && this.book.pages < 1) {
+        this.$store.commit('errorSnackbar', 'Ange hur många sidor boken har');
+      } else {
+        this.editPages();
+        this.publishSimpleReview();
+      }
+    },
+    editPages() {
+      Books.editPages({ bookId: this.book.id, pages: this.pages })
+        .then((result) => { console.log(result)})
+    },
     publishSimpleReview() {
       Reviews.publishSimple({
         rating: this.rating,

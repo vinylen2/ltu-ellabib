@@ -47,4 +47,9 @@ export default {
     return api.post('books/genre', data)
       .then(response => response.data);
   },
+  editPages(data) {
+    return api.patch('books/edit/pages', data)
+      .then(response => response.data);
+
+  },
 };
