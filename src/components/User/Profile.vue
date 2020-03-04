@@ -1,33 +1,28 @@
 <template>
   <v-container>
-    <v-flex class="mt-2">
-      <v-row class="justify-center">
-        <v-col cols="12" md="8">
-          <avatar></avatar>
-        </v-col>
-        <v-col cols="12" md="4">
-          <user-info :favouriteGenre="favouriteGenre"></user-info>
-        </v-col>
-        <v-spacer></v-spacer>
-      </v-row>
-      <v-row class="pa-0">
-        <v-col cols="12" md="6" class="pa-0">
-          <book-list-small title="Senast lästa" :books="recentlyRead">
-          </book-list-small>
-        </v-col>
-        <v-col cols="12" md="6">
-          <book-list-small title="Dina favoritböcker" :books="userFavourites">
-          </book-list-small>
-        </v-col>
-      </v-row>
-    </v-flex>
+    <v-row class="justify-center">
+      <v-col cols="12">
+        <user-info :favouriteGenre="favouriteGenre"></user-info>
+      </v-col>
+      <v-spacer></v-spacer>
+    </v-row>
+    <v-row class="pa-0">
+      <v-col cols="12" md="6" class="pa-0">
+        <book-list-small title="Senast lästa" :books="recentlyRead">
+        </book-list-small>
+      </v-col>
+      <v-col cols="12" md="6">
+        <book-list-small title="Dina favoritböcker" :books="userFavourites">
+        </book-list-small>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script>
 /* eslint-disable no-console */
 import User from "@/api/services/user.js";
-import Avatar from "@/components/User/Profile/Avatar";
+// import Avatar from "@/components/User/Profile/Avatar";
 import UserInfo from "@/components/User/UserInfo";
 import BookListSmall from "@/components/Books/BookListSmall";
 
@@ -37,7 +32,7 @@ import { mapGetters } from 'vuex';
 export default {
   name: "profile",
   components: { 
-    Avatar,
+    // Avatar,
     UserInfo,
     BookListSmall,
   },
