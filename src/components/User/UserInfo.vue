@@ -4,8 +4,10 @@
     <v-col cols="12" md="6">
       <v-list color="rgb(255, 0, 0, 0)">
         <v-list-item>
-          <v-list-item-icon class="pl-4">
-            <v-icon color="a">mdi-account</v-icon>
+          <v-list-item-icon class="pl-4" @click="changeAvatarDialog = true">
+            <v-btn icon>
+              <v-icon color="a">mdi-account</v-icon>
+            </v-btn>
           </v-list-item-icon>
           <v-list-item-content class="ma-0">
             <v-list-item-title class="text-left">
@@ -104,15 +106,25 @@
       </v-list>
     </v-col>
   </v-row>
+  <v-dialog v-model="changeAvatarDialog"
+    @closeDialog="changeAvatarDialog = false"
+    @updated="avatarUpdated">
+    <change-avatar></change-avatar>
+  </v-dialog>
 </v-container>
 </template>
 
 <script>
 import Urls from '@/assets/urls';
+import ChangeAvatar from "@/components/User/ChangeAvatar";
+
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'user-info',
+  components: {
+    ChangeAvatar,
+  },
   props: {
     favouriteGenre: Object,
   },
@@ -123,7 +135,13 @@ export default {
   },
   data: () => ({
     imagesUrl: Urls.images,
-    avatar: 'bell'
+    avatar: 'bell',
+    changeAvatarDialog: false,
   }),
+  methods: {
+    avatarUpdated() {
+      console.log('changeAvatar');
+    },
+  },
 };
 </script>
