@@ -1,7 +1,10 @@
 <template>
   <v-container>
-    <v-row class="justify-center">
-      <v-col cols="12">
+    <v-row class="justify-center pt-4">
+      <span class="headline">Din profil</span>
+    </v-row>
+    <v-row class="justify-center pt-0">
+      <v-col cols="12 pt-0">
         <user-info :favouriteGenre="favouriteGenre"></user-info>
       </v-col>
       <v-spacer></v-spacer>

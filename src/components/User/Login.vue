@@ -25,6 +25,9 @@
   /* eslint-disable no-console */
 import Auth from '@/api/services/auth';
 
+import { appendIcon } from '@/assets/functions';
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'login',
   data() {
@@ -35,18 +38,29 @@ export default {
   created() {
     this.loginFailed = false;
   },
+  computed: {
+    ...mapGetters([
+      'user',
+    ]),
+  },
   mounted() {
     if (this.$route.query.code) {
       this.auth();
     }
   },
   methods: {
+    addIcon() {
+      setTimeout(() => {
+        appendIcon('icon-nav', this.user.avatarIcon, this.user.avatarColor);
+      }, 1000);
+    },
     auth() {
       this.loading = true;
       Auth.loginSkolon(this.$route.query.code)
         .then((result) => {
           this.$store.commit('userLogin', result.data);
           this.$router.push('/');
+          this.addIcon();
         });
     },
     loginSkolon() {

@@ -10,7 +10,7 @@ import Login from '@/components/User/Login';
 import Profile from '@/components/User/Profile';
 import Admin from '@/components/Admin/Admin';
 import AuthSkolon from '@/components/Skolon/AuthSkolon';
-import Leaderboard from '@/components/User/Leaderboard';
+import Leaderboard from '@/components/Progression/Leaderboard';
 import Store from '@/stores/store';
 import Meta from 'vue-meta';
 
