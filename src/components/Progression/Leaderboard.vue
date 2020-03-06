@@ -6,15 +6,21 @@
   <v-row class="pa-12 justify-center">
     <v-tabs color="teal darken-4" grow>
       <v-tab>
-        <v-icon class="pr-3">mdi-book-open-page-variant</v-icon>Sidor lästa
+        <v-icon class="pr-3">
+            mdi-book-open-page-variant
+        </v-icon>
+        <span v-if="!isMobile">Sidor lästa</span>
       </v-tab>
       <v-tab>
-        <v-icon class="pr-3">mdi-bookshelf</v-icon>Böcker lästa
+        <v-icon class="pr-3">mdi-bookshelf</v-icon>
+        <span v-if="!isMobile">
+          Böcker lästa
+        </span>
       </v-tab>
       <v-tab>
-        <v-icon class="pr-3">mdi-microphone</v-icon>Recensioner
+        <v-icon class="pr-3">mdi-microphone</v-icon>
+        <span v-if="!isMobile">Recensioner</span>
       </v-tab>
-
       <v-tab-item>
         <LeaderTablePages />
       </v-tab-item>
@@ -34,9 +40,17 @@
 import LeaderTablePages from "@/components/Progression/LeaderTablePages";
 import LeaderTableBooks from "@/components/Progression/LeaderTableBooks";
 import LeaderTableReviews from "@/components/Progression/LeaderTableReviews";
+
+import { mapGetters } from 'vuex';
+
 export default {
   name: "leaderboard",
   components: { LeaderTablePages, LeaderTableBooks, LeaderTableReviews },
+  computed: {
+    ...mapGetters([
+      'isMobile',
+    ]),
+  },
 };
 </script>
 

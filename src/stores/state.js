@@ -8,7 +8,7 @@ export const state = {
     linkUrl: '',
   },
   user: {
-    id: 1,
+    id: 2,
     firstname: '',
     school: '',
     pagesRead: 1,
@@ -27,7 +27,7 @@ export const state = {
       id: 1,
     },
   },
-  token: false,
+  token: true,
   skolon: false,
   adminLoginModal: false,
   isLoading: false,

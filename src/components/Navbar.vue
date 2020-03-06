@@ -68,10 +68,6 @@ export default {
   created() {
     this.$store.dispatch('getGenres');
   },
-  // mounted() {
-  //   if (this.isLoggedIn) {
-  //   }
-  // },
   computed: {
     ...mapGetters([
       'user',
