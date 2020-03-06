@@ -5,20 +5,23 @@
     </v-row>
     <v-row class="justify-center">
       <v-col>
-        <h1 class="justify-center title">Placering</h1>
+        <h1 v-if="!isMobile" class="justify-center title">Placering</h1>
+        <h3 v-else class="justify-center body-1">Placering</h3>
       </v-col>
       <v-col>
-        <h2 class="justify-center title">Klass</h2>
+        <h2 v-if="!isMobile" class="justify-center title">Klass</h2>
+        <h3 v-else class="justify-center body-1">Klass</h3>
       </v-col>
       <v-col>
-        <h2 class="justify-center title">Sidor lästa</h2>
+        <h2 v-if="!isMobile" class="justify-center title">Sidor lästa</h2>
+        <h3 v-else class="justify-center body-1">Sidor lästa</h3>
       </v-col>
     </v-row>
     <v-row>
       <v-divider></v-divider>
     </v-row>
 
-    <v-row
+    <!-- <v-row
       class="justify-center"
       v-for="(classData, index) in sortedClassesPages"
       :key="classData.id"
@@ -84,9 +87,19 @@
             <v-divider></v-divider>
           </v-col>
         </v-row>
-      </v-container>
+    </v-container>-->
+    <v-row>
+    <v-container class="pa-0">
+      <v-progress-linear height="15" color="orange" :value="value"></v-progress-linear>
+    </v-container>
     </v-row>
-  </v-container>
+    <v-row>
+    <v-container class="pa-0">
+      <v-progress-linear height="15" color="blue" :value="percentage(sortedClassesPages.pagesRead[1], sortedClassesPages[0].pagesRead)"></v-progress-linear>
+    </v-container>
+    </v-row>
+    <!-- </v-row> -->
+   </v-container>
 </template>
 
 <script>
@@ -94,18 +107,33 @@ import { mapGetters } from "vuex";
 export default {
   name: "leadertablepages",
   data: () => ({
-    colors: ["green", "blue", "red", "indigo", "purple"]
+    colors: ["green", "blue", "red", "indigo", "purple", "orange"],
+    
+    value: 0,
+    value2:0 
   }),
-  created() {},
+
   methods: {
     percentage(nominator, denominator) {
-      return (nominator / denominator) * 100;
-    },
-       loading( ) {
-       }
+      this.value2 = setInterval(() => {
+        if (this.value2 < ((nominator / denominator) * 100))
+       return this.value2 +=3
+      })
+      
+    }
   },
+
   computed: {
-    ...mapGetters(["sortedClassesPages", "user"])
+    ...mapGetters(["sortedClassesPages", "user", "isMobile"])
+  },
+  mounted() {
+   this.interval = setInterval(() => {
+     if(this.value <70) this.value += 3;
+       else
+    clearInterval()
+    }, 100);
+   
   }
 };
 </script>
+
