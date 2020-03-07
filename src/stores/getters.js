@@ -64,6 +64,9 @@ export const getters = {
   sortedClassesPages: (state) => {
     return _.orderBy(state.classes, ['pagesRead'], ['desc']);
   },
+  sortedByPoints: (state) => {
+    return _.orderBy(state.classes, ['points'], ['desc']);
+  },
   sortedClassesBooks: (state) => {
     return _.orderBy(state.classes, ['booksRead'], ['desc']);
   },

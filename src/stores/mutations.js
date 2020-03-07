@@ -14,6 +14,9 @@ export const mutations = {
     state.user.avatarColor = data.avatarColor;
     removeElement('icon-icon-nav');
   },
+  setUserClass: (state, data) => {
+    state.user.class = data;
+  },
   setSkolon: (state) => {
     state.skolon = true;
   },

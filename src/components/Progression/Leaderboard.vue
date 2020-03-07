@@ -1,31 +1,60 @@
 <template>
-<v-container>
+<v-container fluid>
   <v-row class="justify-center pt-4">
     <span class="headline">Leaderboard</span>
   </v-row>
-  <v-row class="justify-center pt-5">
+  <v-row class="justify-center">
     <v-tabs color="teal darken-4" grow>
       <v-tab>
-        <v-icon class="pr-3">mdi-bookshelf</v-icon>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-icon class="pr-3" v-on="on">
+                mdi-seal
+            </v-icon>
+          </template>
+          <span>{{pointsInfo}}</span>
+        </v-tooltip>
+        <span v-if="!isMobile">Poäng</span>
+      </v-tab>
+      <v-tab>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-icon class="pr-3" v-on="on">
+                mdi-book-open-page-variant
+            </v-icon>
+          </template>
+          <span>{{pagesInfo}}</span>
+        </v-tooltip>
+        <span v-if="!isMobile">Sidor lästa</span>
+      </v-tab>
+      <v-tab>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-icon class="pr-3"  v-on="on">mdi-bookshelf</v-icon>
+          </template>
+          <span>{{booksInfo}}</span>
+        </v-tooltip>
         <span v-if="!isMobile">
           Böcker lästa
         </span>
       </v-tab>
       <v-tab>
-        <v-icon class="pr-3">
-            mdi-book-open-page-variant
-        </v-icon>
-        <span v-if="!isMobile">Sidor lästa</span>
-      </v-tab>
-      <v-tab>
-        <v-icon class="pr-3">mdi-microphone</v-icon>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-icon class="pr-3" v-on="on">mdi-microphone</v-icon>
+          </template>
+          <span>{{reviewsInfo}}</span>
+        </v-tooltip>
         <span v-if="!isMobile">Recensioner</span>
       </v-tab>
       <v-tab-item>
-        <LeaderTableBooks />
+        <LeaderTablePoints />
       </v-tab-item>
       <v-tab-item>
         <LeaderTablePages />
+      </v-tab-item>
+      <v-tab-item>
+        <LeaderTableBooks />
       </v-tab-item>
       <v-tab-item>
         <LeaderTableReviews />
@@ -40,21 +69,27 @@
 import LeaderTablePages from "@/components/Progression/LeaderTablePages";
 import LeaderTableBooks from "@/components/Progression/LeaderTableBooks";
 import LeaderTableReviews from "@/components/Progression/LeaderTableReviews";
+import LeaderTablePoints from "@/components/Progression/LeaderTablePoints";
 
 import { mapGetters } from 'vuex';
-
 export default {
   name: "leaderboard",
-  components: { LeaderTablePages, LeaderTableBooks, LeaderTableReviews },
+  components: { 
+    LeaderTablePages, 
+    LeaderTableBooks, 
+    LeaderTableReviews,
+    LeaderTablePoints 
+  },
+  data: () => ({
+    pointsInfo: 'Antal recensioner som registrerats genom text, stjärnor eller inspelning hos de bästa klasserna på skolan ',
+    reviewsInfo: 'Antal recensioner som registrerats genom text, stjärnor eller inspelning hos de bästa klasserna på skolan ',
+    booksInfo: 'Antal böcker lästa hos de bästa klasserna på skolan',
+    pagesInfo: 'Antal sidor lästa hos de bästa klasserna på skolan'
+  }),
   computed: {
     ...mapGetters([
       'isMobile',
     ]),
-  },
-  created() {
-    this.$store.dispatch('getUser');
-    this.$store.dispatch('getClasses');
-    this.$store.dispatch('getSchoolUnits');
   },
 };
 </script>

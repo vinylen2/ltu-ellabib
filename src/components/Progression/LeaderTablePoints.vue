@@ -23,14 +23,14 @@
 
   <v-row
     class="justify-center"
-    v-for="(classData, index) in sortedClassesPages"
+    v-for="(classData, index) in sortedByPoints"
     :key="classData.id"
   >
     <v-container class="pa-0" v-if="index < 5">
       <v-row class="pa-0">
         <v-col>
           <h2>
-            <v-btn class="ml-n8 pb-1" icon small id="user-icon-pages" ripple="false"
+            <v-btn class="ml-n8 pb-1" icon small id="user-icon-points" ripple="false"
               :to="{name: 'profile'}"
               v-if="classData.id == user.class.id">
             </v-btn>
@@ -47,7 +47,7 @@
           <v-progress-linear
             height="15"
             :color="colors[index]"
-            :value="percentage(classData.pagesRead, sortedClassesPages[0].points)"
+            :value="percentage(classData.points, sortedByPoints[0].points)"
           ></v-progress-linear>
         </v-col>
         <v-col>
@@ -59,7 +59,7 @@
       <v-row class="pa-0">
         <v-col>
           <h2>
-            <v-btn class="ml-n8 pb-1" icon small id="user-icon-pages"
+            <v-btn class="ml-n8 pb-1" icon small id="user-icon-points"
               :to="{name: 'profile'}"
               v-if="classData.id == user.class.id">
             </v-btn>
@@ -76,7 +76,7 @@
           <v-progress-linear
             height="15"
             :color="colors[index]"
-            :value="percentage(classData.pagesRead, sortedClassesPages[0].points)"
+            :value="percentage(classData.points, sortedByPoints[0].points)"
           ></v-progress-linear>
         </v-col>
         <v-col>
@@ -93,13 +93,13 @@ import { mapGetters } from "vuex";
 import { appendIcon } from '@/assets/functions';
 
 export default {
-  name: "leadertablepages",
+  name: "leader-table-points",
   data: () => ({
     colors: ["green", "blue", "red", "indigo", "purple", "orange"],
   }),
   created() {
     setTimeout(() => {
-      appendIcon('user-icon-pages', this.user.avatarIcon, this.user.avatarColor);
+      appendIcon('user-icon-points', this.user.avatarIcon, this.user.avatarColor);
     }, 500);
   },
   methods: {
@@ -108,7 +108,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["sortedClassesPages", "user", "isMobile"]),
+    ...mapGetters(["sortedByPoints", "user", "isMobile"]),
   },
 };
 </script>
