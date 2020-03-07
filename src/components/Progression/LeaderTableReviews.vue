@@ -35,26 +35,20 @@
       <v-container class="pa-0" v-if="index < 5">
         <v-row class="pa-0">
           <v-col>
-            <h2
-              v-if="classData.id == user.class.id"
-              class="justify-center font-weight-black headline"
-            >{{index +1}}.</h2>
-            <h2 v-else class="justify-center">{{index +1}}.</h2>
+            <h2>
+              <v-btn class="ml-n8 pb-1" icon small id="user-icon-reviews" ripple="false"
+                :to="{name: 'profile'}"
+                v-if="classData.id == user.class.id">
+              </v-btn>
+              {{index +1}}.
+            </h2>
+          </v-col>
+          <v-col>
+            <h2 class="justify-center">{{classData.displayName}}</h2>
           </v-col>
           <v-col>
             <h2
-              v-if="classData.id == user.class.id"
-              class="justify-center font-weight-black headline"
-            >{{classData.displayName}}</h2>
-            <h2 v-else class="justify-center">{{classData.displayName}}</h2>
-          </v-col>
-
-          <v-col>
-            <h2
-              v-if="classData.id == user.class.id"
-              class="justify-center font-weight-black headline"
-            >{{classData.reviewsWritten}} inspelningar</h2>
-            <h2 v-else class="justify-center">{{classData.reviewsWritten}} inspelningar</h2>
+              class="justify-center">{{classData.reviewsWritten}} inspelningar</h2>
           </v-col>
           <v-col cols="12" class="pa-4">
             <v-progress-linear
@@ -71,14 +65,20 @@
       <v-container class="pa-0" v-else-if="index > 4 && classData.id == user.class.id">
         <v-row class="pa-0">
           <v-col>
-            <h2 class="justify-center font-weight-black headline">{{index +1}}.</h2>
+            <h2>
+              <v-btn disabled class="ml-n8 pb-1" icon small id="user-icon-reviews"
+                :to="{name: 'profile'}"
+                v-if="classData.id == user.class.id">
+              </v-btn>
+              {{index +1}}.
+            </h2>
           </v-col>
           <v-col>
-            <h2 class="justify-center font-weight-black headline">{{classData.displayName}}</h2>
+            <h2 class="justify-center">{{classData.displayName}}</h2>
           </v-col>
           <v-col>
             <h2
-              class="justify-center font-weight-black headline"
+              class="justify-center"
             >{{classData.reviewsWritten}} inspelningar</h2>
           </v-col>
           <v-col cols="12">
@@ -99,12 +99,18 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { appendIcon } from '@/assets/functions';
+
 export default {
   name: "leadertablereviews",
   data: () => ({
     colors: ["green", "blue", "red", "indigo", "purple", "orange"]
   }),
-  created() {},
+  created() {
+    setTimeout(() => {
+      appendIcon('user-icon-reviews', this.user.avatarIcon, this.user.avatarColor);
+    }, 500);
+  },
   methods: {
     percentage(nominator, denominator) {
       return (nominator / denominator) * 100;

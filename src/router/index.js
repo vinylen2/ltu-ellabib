@@ -40,7 +40,7 @@ const router = new Router({
     },
     {
       path: '/profile',
-      name: 'Profil',
+      name: 'profile',
       component: Profile,
     },
     {

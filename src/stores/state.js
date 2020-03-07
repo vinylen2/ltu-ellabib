@@ -8,7 +8,7 @@ export const state = {
     linkUrl: '',
   },
   user: {
-    id: 2,
+    id: 4,
     firstname: '',
     school: '',
     pagesRead: 1,
