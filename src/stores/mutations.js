@@ -12,6 +12,8 @@ export const mutations = {
     state.navbarIcon = false;
     state.user.avatarIcon = data.avatarIcon;
     state.user.avatarColor = data.avatarColor;
+    state.user.avatarDisplayName = data.avatarDisplayName;
+    state.user.avatarColorDisplayName = data.avatarColorDisplayName;
     removeElement('icon-icon-nav');
   },
   setUserClass: (state, data) => {

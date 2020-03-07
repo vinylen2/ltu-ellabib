@@ -16,10 +16,12 @@ export const state = {
     reviewsWritten: 0,
     points: 0,
     role: '', // student, teacher, admin
-    roleId: 0,
+    roleId: 3,
     roleType: '',
     avatarId: 1,
     avatarIcon: 'karate',
+    avatarDisplayName: 'ninja',
+    avatarColorDisplayName: 'Blå',
     avatarColor: 'blue',
     class: {
       pagesRead: 0,

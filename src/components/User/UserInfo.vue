@@ -90,8 +90,9 @@
               </v-list-item-icon>
               <v-list-item-content class="ma-0">
                 <v-list-item-title class="text-left">
+                  {{user.avatarColorDisplayName}} {{user.avatarDisplayName}}
                   <v-btn text class="pa-0" @click="changeAvatarDialog = true">
-                    Ändra avatar
+                    Byt avatar
                   </v-btn>
                 </v-list-item-title>
               </v-list-item-content>
@@ -167,8 +168,11 @@ export default {
       this.changeAvatarDialog = false;
       removeElement(`icon-icon-button`);
       this.$store.commit('updateNavbarIcon', data);
-      appendIcon('icon-button', data.avatarIcon, data.avatarColor);
       this.$store.commit('setNavbarIcon');
+      setTimeout(() => {
+        appendIcon('icon-button', data.avatarIcon, data.avatarColor);
+        // state.navbarIcon = true;
+      }, 500);
     },
   },
 };
