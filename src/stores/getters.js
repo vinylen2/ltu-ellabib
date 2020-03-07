@@ -37,7 +37,7 @@ export const getters = {
     if (state.user == null) {
       return false;
     }
-    if (state.user.roleType == 'admin' || state.user.roleId == 3) {
+    if (state.token && state.user.roleType == 'admin' || state.user.roleId == 3) {
       return true;
     }
     return false;

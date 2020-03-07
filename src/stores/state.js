@@ -15,7 +15,7 @@ export const state = {
     booksRead: 1,
     reviewsWritten: 1,
     role: '', // student, teacher, admin
-    roleId: 3,
+    roleId: ,
     roleType: '',
     avatarId: 1,
     avatarIcon: 'karate',
