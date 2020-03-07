@@ -58,12 +58,6 @@
     <v-container class="pa-0" v-else-if="index > 4 && classData.id == user.class.id">
       <v-row class="pa-0">
         <v-col>
-          <h2 class="justify-center">{{index +1}}.</h2>
-        </v-col>
-        <v-col>
-          <h2 class="justify-center">{{classData.displayName}}</h2>
-        </v-col>
-        <v-col>
           <h2>
             <v-btn disabled class="ml-n8 pb-1" icon small id="user-icon-pages"
               :to="{name: 'profile'}"
@@ -71,6 +65,12 @@
             </v-btn>
             {{index +1}}.
           </h2>
+        </v-col>
+        <v-col>
+          <h2 class="justify-center">{{classData.displayName}}</h2>
+        </v-col>
+        <v-col>
+          <h2 class="justify-center">{{classData.pagesRead}}.</h2>
         </v-col>
         <v-col cols="12">
           <v-progress-linear
