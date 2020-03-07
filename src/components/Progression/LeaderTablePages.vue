@@ -87,10 +87,9 @@
             <v-divider></v-divider>
           </v-col>
         </v-row>
-    </v-container>
-   
+      </v-container>
     </v-row>
-   </v-container>
+  </v-container>
 </template>
 
 <script>
@@ -99,31 +98,27 @@ export default {
   name: "leadertablepages",
   data: () => ({
     colors: ["green", "blue", "red", "indigo", "purple", "orange"],
-    
-    value: 0,
-    value2:0 
-  }),
 
+    value: 0,
+    value2: 0
+  }),
   methods: {
     percentage(nominator, denominator) {
-   
-      
-       return (nominator / denominator) * 100;
-      }
-      
-    },
- 
+      return (nominator / denominator) * 100;
+    }
+  },
 
   computed: {
-    ...mapGetters(["sortedClassesPages", "user", "isMobile"])
+    ...mapGetters(["sortedClassesPages", "user", "isMobile"]),
+    test() {
+      return 10;
+    }
   },
   mounted() {
-   this.interval = setInterval(() => {
-     if(this.value <70) this.value += 3;
-       else
-    clearInterval()
+    this.interval = setInterval(() => {
+      if (this.value < 70) this.value += 3;
+      else clearInterval();
     }, 100);
-   
   }
 };
 </script>

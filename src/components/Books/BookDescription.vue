@@ -84,6 +84,14 @@
       </v-card>
     </v-col>
   </v-row>
+  <v-row v-if="isAdmin" justify="">
+    <v-spacer></v-spacer>
+    <v-btn text color="orange lighten-3" class="ma-2"
+      :to="{ name: 'post-book', params: { slug: book.slug }}">
+      <v-icon class="pr-2">mdi-shield-account</v-icon>
+      redigera bok
+    </v-btn>
+  </v-row>
   <v-row>
     <v-col class="pt-0 pb-0" cols="12">
       <v-list color="rgb(255, 0, 0, 0)" dense>
@@ -210,6 +218,7 @@ export default {
     },
     ...mapGetters([
       'isLoggedIn',
+      'isAdmin',
     ]),
   },
   methods: {
