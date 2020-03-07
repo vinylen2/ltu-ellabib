@@ -21,7 +21,7 @@
       <v-divider></v-divider>
     </v-row>
 
-    <!-- <v-row
+    <v-row
       class="justify-center"
       v-for="(classData, index) in sortedClassesPages"
       :key="classData.id"
@@ -87,18 +87,9 @@
             <v-divider></v-divider>
           </v-col>
         </v-row>
-    </v-container>-->
-    <v-row>
-    <v-container class="pa-0">
-      <v-progress-linear height="15" color="orange" :value="value"></v-progress-linear>
     </v-container>
+   
     </v-row>
-    <v-row>
-    <v-container class="pa-0">
-      <v-progress-linear height="15" color="blue" :value="percentage(sortedClassesPages.pagesRead[1], sortedClassesPages[0].pagesRead)"></v-progress-linear>
-    </v-container>
-    </v-row>
-    <!-- </v-row> -->
    </v-container>
 </template>
 
@@ -115,13 +106,13 @@ export default {
 
   methods: {
     percentage(nominator, denominator) {
-      this.value2 = setInterval(() => {
-        if (this.value2 < ((nominator / denominator) * 100))
-       return this.value2 +=3
-      })
+   
       
-    }
-  },
+       return (nominator / denominator) * 100;
+      }
+      
+    },
+ 
 
   computed: {
     ...mapGetters(["sortedClassesPages", "user", "isMobile"])
