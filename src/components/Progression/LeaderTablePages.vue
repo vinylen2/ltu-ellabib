@@ -90,12 +90,12 @@
     </v-container>-->
     <v-row>
     <v-container class="pa-0">
-      <v-progress-linear height="15" color="orange" :value="value"></v-progress-linear>
+      <!-- <v-progress-linear height="15" color="orange" :value="value"></v-progress-linear> -->
     </v-container>
     </v-row>
     <v-row>
     <v-container class="pa-0">
-      <v-progress-linear height="15" color="blue" :value="percentage(sortedClassesPages.pagesRead[1], sortedClassesPages[0].pagesRead)"></v-progress-linear>
+      <v-progress-linear height="15" color="blue" v-model="test" :value="percentage(70, 100)"></v-progress-linear>
     </v-container>
     </v-row>
     <!-- </v-row> -->
@@ -112,19 +112,26 @@ export default {
     value: 0,
     value2:0 
   }),
-
   methods: {
     percentage(nominator, denominator) {
-      this.value2 = setInterval(() => {
-        if (this.value2 < ((nominator / denominator) * 100))
-       return this.value2 +=3
-      })
-      
+      let percentage = (nominator / denominator) * 100;
+      console.log(percentage);
+      let num = 1;
+      setInterval(() => {
+        num ++;
+      }, 100);
+      return num;
+      // this.value2 = setInterval(() => {
+      //   if (this.value2 < ((nominator / denominator) * 100))
+      //  return this.value2 +=3
+      // })
     }
   },
-
   computed: {
-    ...mapGetters(["sortedClassesPages", "user", "isMobile"])
+    ...mapGetters(["sortedClassesPages", "user", "isMobile"]),
+    test() {
+      return 10;
+    },
   },
   mounted() {
    this.interval = setInterval(() => {
@@ -132,7 +139,6 @@ export default {
        else
     clearInterval()
     }, 100);
-   
   }
 };
 </script>
