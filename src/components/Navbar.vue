@@ -24,7 +24,10 @@
     </v-toolbar-items>
     <v-spacer></v-spacer>
     <v-toolbar-items v-if="isLoggedIn">
-      <v-btn to="/leaderboard" text>Leaderboard</v-btn>
+      <v-btn to="/leaderboard" text v-if="isMobile">
+        <v-icon>mdi-seal</v-icon>
+      </v-btn>
+      <v-btn to="/leaderboard" text v-else>Leaderboard</v-btn>
     </v-toolbar-items>
     <v-toolbar-items
       v-if="isAdmin && !isMobile">

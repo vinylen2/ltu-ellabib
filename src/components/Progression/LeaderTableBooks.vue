@@ -32,7 +32,7 @@
       v-for="(classData, index) in sortedClassesBooks"
       :key="classData.id"
     >
-      <v-container class="pa-0" v-if="index < 5">
+      <v-container fluid class="pa-0" v-if="index < 5">
         <v-row class="pa-0">
           <v-col>
             <h2

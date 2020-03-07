@@ -61,6 +61,9 @@ export default {
           this.$store.commit('adminLogin', result.data);
           this.$store.commit('setNavbarIcon');
           this.$router.push('/admin/activate-reviews');
+          this.$store.dispatch('getUser');
+          this.$store.dispatch('getClasses');
+          this.$store.dispatch('getSchoolUnits');
         })
         .catch((error) => {
           console.log(error);

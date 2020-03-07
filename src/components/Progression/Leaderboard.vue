@@ -1,9 +1,9 @@
 <template>
-<v-container fluid>
+<v-container>
   <v-row class="justify-center pt-4">
     <span class="headline">Leaderboard</span>
   </v-row>
-  <v-row class="pa-12 justify-center">
+  <v-row class="justify-center pt-5">
     <v-tabs color="teal darken-4" grow>
       <v-tab>
         <v-icon class="pr-3">
@@ -50,6 +50,11 @@ export default {
     ...mapGetters([
       'isMobile',
     ]),
+  },
+  created() {
+    this.$store.dispatch('getUser');
+    this.$store.dispatch('getClasses');
+    this.$store.dispatch('getSchoolUnits');
   },
 };
 </script>

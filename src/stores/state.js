@@ -27,7 +27,7 @@ export const state = {
       id: 0,
     },
   },
-  token: false,
+  token: true,
   navbarIcon: false,
   skolon: false,
   adminLoginModal: false,
