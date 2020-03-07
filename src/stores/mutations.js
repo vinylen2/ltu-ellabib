@@ -1,5 +1,19 @@
 /* eslint-disable no-console */
+import { removeElement, appendIcon } from '@/assets/functions';
+
 export const mutations = {
+  setNavbarIcon: (state) => {
+    setTimeout(() => {
+      appendIcon('icon-nav', state.user.avatarIcon, state.user.avatarColor);
+      state.navbarIcon = true;
+    }, 500);
+  },
+  updateNavbarIcon: (state, data) => {
+    state.navbarIcon = false;
+    state.user.avatarIcon = data.avatarIcon;
+    state.user.avatarColor = data.avatarColor;
+    removeElement('icon-icon-nav');
+  },
   setSkolon: (state) => {
     state.skolon = true;
   },
@@ -20,7 +34,7 @@ export const mutations = {
   },
   adminLogin: (state, data) => {
     state.user = data.user;
-    state.token = data.token;
+    state.token = { headers: { Authorization: 'Bearer ' + data.token }};
     state.adminLoginModal = false;
   },
   errorSnackbar: (state, errorText) => {
@@ -34,7 +48,8 @@ export const mutations = {
   },
   userLogin: (state, data) => {
     state.user = data.user;
-    state.token = data.token;
+    // state.token = data.token;
+    state.token = { headers: { Authorization: 'Bearer ' + data.token }};
     state.skolon = true;
   },
   hideSnackbar: (state) => {

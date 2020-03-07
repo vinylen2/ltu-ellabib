@@ -39,6 +39,11 @@
       <v-btn to="/profile" text
         id="icon-nav"
         v-if="isLoggedIn">
+          <v-progress-circular
+            indeterminate
+            color="indigo"
+            v-if="!navbarIcon"
+          ></v-progress-circular>
       </v-btn>
     </v-toolbar-items>
     <v-toolbar-items>
@@ -50,8 +55,6 @@
 <script>
 import SkolonButton from '@/components/Skolon/SkolonButton';
 import Urls from '@/assets/urls';
-import { appendIcon } from '@/assets/functions';
-/* eslint-disable no-console */
 
 import { mapGetters } from 'vuex';
 
@@ -74,14 +77,10 @@ export default {
       'isMobile',
       'isAdmin',
       'isLoggedIn',
+      'navbarIcon',
     ]),
   },
   methods: {
-    addIcon() {
-      setTimeout(() => {
-        appendIcon('icon-nav', this.user.avatarIcon, this.user.avatarColor);
-      }, 1000);
-    },
     logout() {
       this.$store.commit('userLogout');
       this.$router.push({ name: 'frontpage' });

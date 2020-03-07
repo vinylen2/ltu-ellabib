@@ -11,18 +11,13 @@ export const actions = {
         commit('userData', result.data);
       });
   },
-  getUserClass({commit, state}) {
-    SchoolUnit.getClassById(state.user.id).then(result => {
-      commit("userClass", result.data);
-    });
-  },
-  getClasses({commit}) {
-    Classes.getClasses().then(result => {
+  getClasses({commit, state}) {
+    Classes.getClasses(state.token).then(result => {
       commit("classes", result.data);
     });
   },
-  getSchoolUnits({commit}) {
-    SchoolUnit.getSchoolUnit().then(result => {
+  getSchoolUnits({commit, state}) {
+    SchoolUnit.getSchoolUnit(state.token).then(result => {
       commit("schoolUnit", result.data);
     });
   },

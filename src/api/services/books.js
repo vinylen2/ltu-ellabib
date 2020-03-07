@@ -1,8 +1,8 @@
 import api from '@/api/api';
 
 export default {
-  addImage(imageUrl, bookId) {
-    return api.post('books/image', { imageUrl, bookId }).then(response => response.data);
+  addImage(imageUrl, bookId, token) {
+    return api.post('books/image', { imageUrl, bookId }, token).then(response => response.data);
   },
   getAll() {
     return api.get('books/').then(response => response.data);
@@ -27,8 +27,8 @@ export default {
   getHighestRated() {
     return api.get('books/highest').then(response => response.data);
   },
-  postBook(book) {
-    return api.post('books/', book).then(response => response.data);
+  postBook(book, token) {
+    return api.post('books/', book, token).then(response => response.data);
   },
   search(queries) {
     return api.get(`books/search?query=${queries}`).then(response => response.data);
@@ -39,16 +39,16 @@ export default {
   count() {
     return api.get('books/count').then(response => response.data);
   },
-  edit(data) {
-    return api.patch('books/edit', data)
+  edit(data, token) {
+    return api.patch('books/edit', data, token)
       .then(response => response.data);
   },
-  addGenre(data) {
-    return api.post('books/genre', data)
+  addGenre(data, token) {
+    return api.post('books/genre', data, token)
       .then(response => response.data);
   },
-  editPages(data) {
-    return api.patch('books/edit/pages', data)
+  editPages(data, token) {
+    return api.patch('books/edit/pages', data, token)
       .then(response => response.data);
 
   },

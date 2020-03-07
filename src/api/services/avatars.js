@@ -4,7 +4,7 @@ export default {
   getAll() {
     return api.get(`avatar`).then(response => response.data);
   },
-  update(data) {
-    return api.patch('avatar', data).then(response => response.data);
+  update(data, token) {
+    return api.patch('avatar', data, token).then(response => response.data);
   },
 };

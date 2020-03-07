@@ -3,6 +3,12 @@ import MobileDetect from 'mobile-detect';
 /* eslint-disable no-console */
 
 export const getters = {
+  navbarIcon: (state) => {
+    return state.navbarIcon;
+  },
+  token: (state) => {
+    return state.token;
+  },
   userId: (state) => {
     return state.user.id;
   },

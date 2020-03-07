@@ -57,6 +57,7 @@ export default {
   computed: {
     ...mapGetters([
       'user',
+      'token',
     ]),
   },
   mounted() {
@@ -87,8 +88,8 @@ export default {
         userId: this.user.id,
         avatarId: this.selectedAvatarId,
         colorId: this.selectedColorId
-      }).then(() => {
-        this.$emit('closeDialog');
+      }, this.token).then((result) => {
+        this.$emit('updated', result.data);
       });
     },
     closeDialog() {

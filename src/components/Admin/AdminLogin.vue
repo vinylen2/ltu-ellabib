@@ -59,6 +59,7 @@ export default {
       Auth.loginAdmin({ username: this.username, password: this.password })
         .then((result) => {
           this.$store.commit('adminLogin', result.data);
+          this.$store.commit('setNavbarIcon');
           this.$router.push('/admin/activate-reviews');
         })
         .catch((error) => {

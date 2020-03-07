@@ -22,7 +22,6 @@
 
 <script>
 /* eslint no-param-reassign: ["error", { "props": false }]*/
-  /* eslint-disable no-console */
 import Auth from '@/api/services/auth';
 
 import { appendIcon } from '@/assets/functions';

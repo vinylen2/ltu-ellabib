@@ -27,6 +27,11 @@
             </v-list-item>
             <v-list-item>
               <v-list-item-icon class="pl-4" id="icon-button" @click="changeAvatarDialog = true">
+                <!-- <v-progress-circular
+                  indeterminate
+                  color="indigo"
+                  v-if="avatarIconLoading"
+                ></v-progress-circular> -->
               </v-list-item-icon>
               <v-list-item-content class="ma-0">
                 <v-list-item-title class="text-left">
@@ -125,7 +130,7 @@
 <script>
 import Urls from '@/assets/urls';
 import ChangeAvatar from "@/components/User/ChangeAvatar";
-import { appendIcon } from '@/assets/functions';
+import { appendIcon, removeElement } from '@/assets/functions';
 
 import { mapGetters } from 'vuex';
 
@@ -147,13 +152,15 @@ export default {
     changeAvatarDialog: false,
   }),
   mounted() {
-    setTimeout(() => {
-      appendIcon('icon-button', this.user.avatarIcon, this.user.avatarColor);
-    }, 1000);
+    appendIcon('icon-button', this.user.avatarIcon, this.user.avatarColor);
   },
   methods: {
-    avatarUpdated() {
-      console.log('changeAvatar');
+    avatarUpdated(data) {
+      this.changeAvatarDialog = false;
+      removeElement(`icon-icon-button`);
+      this.$store.commit('updateNavbarIcon', data);
+      appendIcon('icon-button', data.avatarIcon, data.avatarColor);
+      this.$store.commit('setNavbarIcon');
     },
   },
 };

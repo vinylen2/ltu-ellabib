@@ -71,6 +71,8 @@ import Books from '@/api/services/books';
 import Reviews from '@/api/services/reviews';
 import VueRecord from '@/components/Audio/VueRecord';
 
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'publish-review',
   components: {
@@ -98,6 +100,9 @@ export default {
     this.getData();
   },
   computed: {
+    ...mapGetters([
+      'token',
+    ]),
     reviewFormData() {
       const reviewFormData = new FormData();
       Object.keys(this.review).forEach((key) => {
@@ -155,7 +160,7 @@ export default {
 
         }
         this.publishing = true;
-        Reviews.create(this.reviewFormData)
+        Reviews.create(this.reviewFormData, this.token)
           .then((result) => {
             this.$emit('closeDialog', result);
             this.resetFields();

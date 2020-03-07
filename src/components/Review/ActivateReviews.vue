@@ -127,7 +127,6 @@
 
 <script>
 /* eslint no-param-reassign: ["error", { "props": false }]*/
-import Vue from 'vue';
 import Reviews from '@/api/services/reviews';
 import Urls from '@/assets/urls';
 import AudioPlayer from '@/components/Audio/AudioPlayer';
@@ -136,9 +135,8 @@ import EditReviewText from '@/components/Review/EditReviewText';
 import ConfirmDialog from '@/components/ConfirmDialog';
 import _ from 'lodash';
 import moment from 'moment';
-import VModal from 'vue-js-modal';
 
-Vue.use(VModal);
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -177,6 +175,11 @@ export default {
       imagesUrl: Urls.images,
       audioUrl: Urls.audio,
     };
+  },
+  computed: {
+    ...mapGetters([
+      'token',
+    ]),
   },
   created() {
     this.$nextTick(() => {
@@ -235,7 +238,7 @@ export default {
       this.editAudioDialog = true;
     },
     getReviews() {
-      Reviews.getInactive().then((result) => {
+      Reviews.getInactive(this.token).then((result) => {
         this.reviews = result.data;
       });
     },

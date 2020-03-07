@@ -58,6 +58,7 @@ export default {
   computed: {
     ...mapGetters([
       'userId',
+      'token',
     ]),
   },
   methods: {
@@ -65,19 +66,19 @@ export default {
       this.$store.commit("userLogout");
     },
     getRecentlyRead() {
-      User.getRecentlyRead(this.userId)
+      User.getRecentlyRead(this.userId, this.token)
         .then((result) => {
           this.recentlyRead = result.data;
         });
     },
     getUserFavourites() {
-      User.getUserFavourites(this.userId)
+      User.getUserFavourites(this.userId, this.token)
         .then((result) => {
           this.userFavourites = result.data;
         });
     },
     getFavouriteGenre() {
-      User.getFavouriteGenre(this.userId)
+      User.getFavouriteGenre(this.userId, this.token)
         .then((result) => {
           this.favouriteGenre = result.data;
         });
