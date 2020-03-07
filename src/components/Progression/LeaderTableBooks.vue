@@ -75,7 +75,6 @@
           </v-col>
           <v-col>
             <h2 class="justify-center font-weight-black headline">{{classData.displayName}}</h2>
-            <h2 class="justify-center font-weight-black headline">{{classData.displayName}}</h2>
           </v-col>
 
           <v-col>
