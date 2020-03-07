@@ -10,7 +10,7 @@
       @closeDialog="closeDialog"></publish-review>
   </v-dialog>
   <v-row justify="center">
-    <v-spacer class="d-none d-sm-flex"></v-spacer>
+    <!-- <v-spacer class="d-none d-sm-flex"></v-spacer> -->
     <div v-if="$store.getters.isLoggedIn && !isReviewedByUser">
       <v-btn fab color="purple lighten-3" class="ma-2"
         @click="dialogAdvanced = true"

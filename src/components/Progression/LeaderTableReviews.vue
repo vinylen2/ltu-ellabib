@@ -5,13 +5,22 @@
     </v-row>
     <v-row class="justify-center">
       <v-col>
-        <h1 class="justify-center title">Placering</h1>
+        <h1 v-if="!isMobile" class="justify-center title">Placering</h1>
+         <h3 v-else class="justify-center body-1">
+       Placering
+        </h3>
       </v-col>
       <v-col>
-        <h2 class="justify-center title">Klass</h2>
+        <h2 v-if="!isMobile" class="justify-center title">Klass</h2>
+         <h3 v-else class="justify-center body-1">
+       Klass
+        </h3>
       </v-col>
       <v-col>
-        <h2 class="justify-center title">Recensioner inlästa</h2>
+        <h2 v-if="!isMobile" class="justify-center title">Recensioner inlästa</h2>
+        <h3 v-else class="justify-center body-1">
+        Recensioner inlästa
+        </h3>
       </v-col>
     </v-row>
     <v-row>
@@ -26,8 +35,10 @@
       <v-container class="pa-0" v-if="index < 5">
         <v-row class="pa-0">
           <v-col>
-            <h2 v-if="classData.id == user.class.id"
-              class="justify-center font-weight-black headline">{{index +1}}.</h2>
+            <h2
+              v-if="classData.id == user.class.id"
+              class="justify-center font-weight-black headline"
+            >{{index +1}}.</h2>
             <h2 v-else class="justify-center">{{index +1}}.</h2>
           </v-col>
           <v-col>
@@ -39,8 +50,10 @@
           </v-col>
 
           <v-col>
-            <h2 v-if="classData.id == user.class.id"
-              class="justify-center font-weight-black headline">{{classData.reviewsWritten}} inspelningar</h2>
+            <h2
+              v-if="classData.id == user.class.id"
+              class="justify-center font-weight-black headline"
+            >{{classData.reviewsWritten}} inspelningar</h2>
             <h2 v-else class="justify-center">{{classData.reviewsWritten}} inspelningar</h2>
           </v-col>
           <v-col cols="12" class="pa-4">
@@ -61,20 +74,19 @@
             <h2 class="justify-center font-weight-black headline">{{index +1}}.</h2>
           </v-col>
           <v-col>
-            <h2
-              
-              class="justify-center font-weight-black headline"
-            >{{classData.displayName}}</h2>
+            <h2 class="justify-center font-weight-black headline">{{classData.displayName}}</h2>
             <h2 v class="justify-center font-weight-black headline">{{classData.displayName}}</h2>
           </v-col>
 
           <v-col>
-            <h2 class="justify-center font-weight-black headline">{{classData.reviewsWritten}}inspelningar</h2>
+            <h2
+              class="justify-center font-weight-black headline"
+            >{{classData.reviewsWritten}}inspelningar</h2>
           </v-col>
           <v-col cols="12">
             <v-progress-linear
-            height="15"
-            :color="colors[index]"
+              height="15"
+              :color="colors[index]"
               :value="percentage(classData.reviewsWritten, sortedClassesReviews[0].reviewsWritten)"
             ></v-progress-linear>
           </v-col>
@@ -92,13 +104,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "leadertablereviews",
   data: () => ({
-    colors: [
-      'green',
-      'blue',
-      'red',
-      'indigo',
-      'purple',
-    ],
+    colors: ["green", "blue", "red", "indigo", "purple", "orange"]
   }),
   created() {},
   methods: {
@@ -107,7 +113,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["sortedClassesReviews", "user"])
+    ...mapGetters(["sortedClassesReviews", "user", "isMobile"])
   }
 };
 </script>

@@ -5,10 +5,11 @@
   </v-dialog>
   <scanner-button></scanner-button>
   <v-container>
-    <v-row justify="center">
-      <h1>Lägg till bok</h1>
+    <v-row justify="center" class="pb-6">
+      <h1 class="headline" v-if="newBook">Lägg till bok</h1>
+      <h1 class="headline" v-else>Ändra bok</h1>
     </v-row>
-    <v-row justify="center" no-gutters>
+    <v-row justify="center" no-gutters class="pb-6">
       <v-col v-for="genre in $store.state.genres"
         :key="genre.id">
         <v-tooltip bottom color="blue">
@@ -77,10 +78,12 @@
             ></v-text-field>
           </v-col>
         </v-row>
-        <v-row justify="center">
-          <v-col cols="">
+        <v-row justify="left">
+          <v-col>
             <v-autocomplete
               append-outer-icon="mdi-plus"
+              :class="'text-left'"
+              dense
               @click:append-outer="authorDialog = true"
               :items="$store.state.authors"
               item-text="fullName"
@@ -176,11 +179,30 @@ export default {
           this.$store.commit('genres', result.data);
         });
     }
+    if (this.$route.params.slug) {
+      this.getBookFromSlug(this.$route.params.slug);
+    }
   },
   methods: {
 /* eslint-disable no-console */
     barcodeScanned(data) {
       console.log(data);
+    },
+    getBookFromSlug(slug) {
+      Books.getFromSlug(slug)
+        .then((result) => {
+          this.newBook = false;
+          this.book.title = result.data.book.title;
+          this.book.pages = result.data.book.pages;
+          this.book.description = result.data.book.description;
+          this.book.imageUrl = result.data.book.imageUrl;
+          this.book.authors = result.data.book.authorId;
+          this.book.genre = {
+            id: result.data.book.id,
+            slug: result.data.book.genreSlug,
+            name: result.data.book.genreDisplayName,
+          }
+        });
     },
     updateBook() {
       Books.edit({
@@ -226,7 +248,6 @@ export default {
             if (result.data.author.newlyCreated) {
               this.$store.commit('addAuthor', result.data.author)
               this.book.authors = result.data.author.id
-              console.log(this.book.authors);
             } 
           } else {
             this.newBook = false;

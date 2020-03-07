@@ -142,7 +142,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 .genre-icon {
   border-radius: 100%;
   border: 3px solid transparent;
