@@ -3,7 +3,7 @@
   <v-row class="justify-center pt-4">
     <span class="headline">Leaderboard</span>
   </v-row>
-  <v-row class="justify-center">
+  <v-row class="justify-center pt-4">
     <v-tabs color="teal darken-4" grow>
       <v-tab>
         <v-tooltip bottom>
