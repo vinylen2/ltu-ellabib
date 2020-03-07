@@ -48,7 +48,6 @@ export const mutations = {
   },
   userLogin: (state, data) => {
     state.user = data.user;
-    // state.token = data.token;
     state.token = { headers: { Authorization: 'Bearer ' + data.token }};
     state.skolon = true;
   },
