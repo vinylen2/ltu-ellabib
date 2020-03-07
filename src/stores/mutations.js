@@ -25,6 +25,7 @@ export const mutations = {
   userData: (state, data) => {
     state.user.pagesRead = data.pagesRead;
     state.user.booksRead = data.booksRead;
+    state.user.points = data.points;
     state.user.reviewsWritten = data.reviewsWritten;
     state.user.class = data.class;
     state.user.schoolUnit = data.schoolUnit;

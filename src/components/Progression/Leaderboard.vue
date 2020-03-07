@@ -6,26 +6,26 @@
   <v-row class="justify-center pt-5">
     <v-tabs color="teal darken-4" grow>
       <v-tab>
-        <v-icon class="pr-3">
-            mdi-book-open-page-variant
-        </v-icon>
-        <span v-if="!isMobile">Sidor lästa</span>
-      </v-tab>
-      <v-tab>
         <v-icon class="pr-3">mdi-bookshelf</v-icon>
         <span v-if="!isMobile">
           Böcker lästa
         </span>
       </v-tab>
       <v-tab>
+        <v-icon class="pr-3">
+            mdi-book-open-page-variant
+        </v-icon>
+        <span v-if="!isMobile">Sidor lästa</span>
+      </v-tab>
+      <v-tab>
         <v-icon class="pr-3">mdi-microphone</v-icon>
         <span v-if="!isMobile">Recensioner</span>
       </v-tab>
       <v-tab-item>
-        <LeaderTablePages />
+        <LeaderTableBooks />
       </v-tab-item>
       <v-tab-item>
-        <LeaderTableBooks />
+        <LeaderTablePages />
       </v-tab-item>
       <v-tab-item>
         <LeaderTableReviews />

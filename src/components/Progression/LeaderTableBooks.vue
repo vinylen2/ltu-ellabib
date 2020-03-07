@@ -34,7 +34,7 @@
     >
       <v-container fluid class="pa-0" v-if="index < 5">
         <v-row class="pa-0" justify-left>
-          <v-col class="pa-0 pl-3">
+          <v-col class="pl-3">
             <h2>
               <v-btn class="ml-n8 pb-1" icon small id="user-icon-book" ripple="false"
                 :to="{name: 'profile'}"
@@ -43,11 +43,11 @@
               {{index +1}}.
             </h2>
           </v-col>
-          <v-col class="pa-0">
+          <v-col class="">
             <h2 class="justify-center">{{classData.displayName}}</h2>
           </v-col>
 
-          <v-col class="pa-0 pr-3">
+          <v-col class="pr-3">
             <h2 class="justify-center">{{classData.booksRead}} böcker</h2>
           </v-col>
           <v-col cols="12" class="pa-4">

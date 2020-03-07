@@ -70,7 +70,7 @@
           <h2 class="justify-center">{{classData.displayName}}</h2>
         </v-col>
         <v-col>
-          <h2 class="justify-center">{{classData.pagesRead}}.</h2>
+          <h2 class="justify-center">{{classData.pagesRead}} sidor</h2>
         </v-col>
         <v-col cols="12">
           <v-progress-linear
