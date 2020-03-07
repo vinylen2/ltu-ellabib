@@ -59,7 +59,8 @@ export default {
         .then((result) => {
           this.$store.commit('userLogin', result.data);
           this.$router.push('/');
-          this.addIcon();
+          this.$store.commit('setNavbarIcon');
+          // this.addIcon();
         });
     },
     loginSkolon() {
