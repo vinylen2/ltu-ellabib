@@ -66,7 +66,7 @@
         <v-row class="pa-0">
           <v-col>
             <h2>
-              <v-btn disabled class="ml-n8 pb-1" icon small id="user-icon-reviews"
+              <v-btn class="ml-n8 pb-1" icon small id="user-icon-reviews"
                 :to="{name: 'profile'}"
                 v-if="classData.id == user.class.id">
               </v-btn>
