@@ -9,7 +9,7 @@
         <h1 class="headline">Aktivera recensioner</h1>
       </v-col>
     </v-row>
-    <v-row class="pt-4">
+    <v-row class="pt-4" justify="center">
       <v-data-table
         disable-sort
         fixed-header

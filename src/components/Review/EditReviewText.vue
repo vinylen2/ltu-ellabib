@@ -20,6 +20,7 @@
 
 <script>
 import Reviews from '@/api/services/reviews';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'edit-review-text',
@@ -40,6 +41,9 @@ export default {
       }
       return 'Recension';
     },
+    ...mapGetters([
+      'token',
+    ]),
   },
   methods: {
     editText() {
@@ -48,7 +52,7 @@ export default {
         reviewId: this.reviewId,
         type: this.type,
         text: this.text,
-      })
+      }, this.token)
       .then(() => {
         this.$emit('closeTextDialog', {
           reviewId: this.reviewId,
