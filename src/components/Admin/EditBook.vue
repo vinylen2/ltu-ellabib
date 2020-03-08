@@ -76,6 +76,7 @@ export default {
   },
   methods: {
     editBook() {
+      console.log(this.token);
       Books.edit({
         bookId: this.local.bookId,
         authorId: this.local.author,
