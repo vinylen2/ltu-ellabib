@@ -30,7 +30,7 @@
       <v-btn to="/leaderboard" text v-else>Leaderboard</v-btn>
     </v-toolbar-items>
     <v-toolbar-items
-      v-if="isAdmin && !isMobile">
+      v-if="isAdmin && !isMobile && isLoggedIn">
       <v-btn to="/admin/post-book" text>Lägg till bok</v-btn>
       <v-btn to="/admin/activate-reviews" text>Recensioner</v-btn>
       <v-btn text
