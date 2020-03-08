@@ -30,7 +30,7 @@ export const state = {
       id: 0,
     },
   },
-  token: true,
+  token: false,
   navbarIcon: false,
   skolon: false,
   adminLoginModal: false,
