@@ -15,8 +15,8 @@ export const state = {
     booksRead: 1,
     reviewsWritten: 1,
     role: '', // student, teacher, admin
-    roleId: 3,
-    roleType: '',
+    roleId: 2,
+    roleType: 'student',
     avatarId: 1,
     avatarIcon: 'karate',
     avatarColor: 'blue',
@@ -29,7 +29,7 @@ export const state = {
   },
   token: true,
   skolon: false,
-  adminLoginModal: false,
+  adminLoginModal: true,
   isLoading: false,
   userAgent: {
     isMobile: null,
