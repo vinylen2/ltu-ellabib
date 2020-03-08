@@ -8,7 +8,6 @@ const custom = {
   },
   removeElement(elementId) {
     var element = document.getElementById(elementId);
-    console.log(element);
     element.remove();
   },
 };
