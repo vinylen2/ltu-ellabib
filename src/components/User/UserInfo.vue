@@ -91,8 +91,8 @@
               <v-list-item-content class="ma-0">
                 <v-list-item-title class="text-left">
                   {{user.avatarColorDisplayName}} {{user.avatarDisplayName}}
-                  <v-btn text class="pa-0" @click="changeAvatarDialog = true">
-                    Byt avatar
+                  <v-btn icon class="pa-0 ml-3" @click="changeAvatarDialog = true">
+                    <v-icon>mdi-cached</v-icon>
                   </v-btn>
                 </v-list-item-title>
               </v-list-item-content>

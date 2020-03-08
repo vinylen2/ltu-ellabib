@@ -17,9 +17,9 @@
         </h3>
       </v-col>
       <v-col>
-        <h2 v-if="!isMobile" class="justify-center title">Recensioner inlästa</h2>
+        <h2 v-if="!isMobile" class="justify-center title">Recensioner</h2>
         <h3 v-else class="justify-center body-1">
-        Recensioner inlästa
+        Recensioner
         </h3>
       </v-col>
     </v-row>
@@ -48,7 +48,7 @@
           </v-col>
           <v-col>
             <h2
-              class="justify-center">{{classData.reviewsWritten}} inspelningar</h2>
+              class="justify-center">{{classData.reviewsWritten}} recensioner</h2>
           </v-col>
           <v-col cols="12" class="pa-4">
             <v-progress-linear
@@ -79,7 +79,7 @@
           <v-col>
             <h2
               class="justify-center"
-            >{{classData.reviewsWritten}} inspelningar</h2>
+            >{{classData.reviewsWritten}} recensioner</h2>
           </v-col>
           <v-col cols="12">
             <v-progress-linear

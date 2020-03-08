@@ -41,7 +41,7 @@
       <v-tab>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-icon class="pr-3" v-on="on">mdi-microphone</v-icon>
+            <v-icon class="pr-3" v-on="on">mdi-pencil</v-icon>
           </template>
           <span>{{reviewsInfo}}</span>
         </v-tooltip>
