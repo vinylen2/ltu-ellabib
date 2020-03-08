@@ -2,14 +2,14 @@
 <v-container>
   <v-row>
     <v-col>
-      <div v-show="!isEditing">
-        <v-btn v-show="isRecording"
+      <div v-if="!isEditing">
+        <v-btn v-if="isRecording"
           fab
           class="ma-2 green lighten-2"
           @click="stopRecording">
           <v-icon large>mdi-stop</v-icon>
         </v-btn>
-        <v-btn v-show="!isRecording"
+        <v-btn v-else
           fab
           class="ma-2 green lighten-2"
           @click="startRecording">
@@ -45,12 +45,10 @@ import RecordRTC from 'recordrtc';
 import Store from '@/stores/store';
 import timer from 'minimal-timer';
 import AudioEditor from '@/components/Audio/AudioEditor';
-import Icon from 'vue-awesome';
 
 export default {
   components: {
     'audio-editor': AudioEditor,
-    Icon,
   },
   props: {
     blob: '',

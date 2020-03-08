@@ -13,7 +13,7 @@
     <v-row class="pa-0" v-if="currentBook.description">
       <v-col class="pa-0">
         <vue-record class="pt-0 audio-recorder"
-          v-if="$store.getters.isDeviceWithMic"
+          v-if="isDeviceWithMic"
           :source="'description'"
           @updateBlob="updateAudio"
           :blob="audio.description">
@@ -102,6 +102,7 @@ export default {
   computed: {
     ...mapGetters([
       'token',
+      'isDeviceWithMic',
     ]),
     reviewFormData() {
       const reviewFormData = new FormData();
