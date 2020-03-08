@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-// import createPersistedState from 'vuex-persistedstate';
+import createPersistedState from 'vuex-persistedstate';
 import { state } from './state';
 import { getters } from './getters';
 import { mutations } from './mutations';
@@ -13,7 +13,12 @@ export default new Vuex.Store({
   getters,
   actions,
   mutations,
-  // plugins: [createPersistedState({
-  //   storage: window.sessionStorage,
-  // })],
+  plugins: [createPersistedState({
+    storage: window.sessionStorage,
+    paths: [
+      'user',
+      'token',
+      'skolon',
+    ],
+  })],
 });

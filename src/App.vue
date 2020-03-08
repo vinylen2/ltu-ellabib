@@ -43,12 +43,18 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'snackbar'
+      'snackbar',
+      'token',
+      'user',
+      'navbarIcon',
     ]),
   },
   created() {
     if (this.$route.query.login) {
       this.$store.commit('showAdminLoginModal');
+    }
+    if (this.token) {
+      this.$store.dispatch('checkToken');
     }
   },
 };

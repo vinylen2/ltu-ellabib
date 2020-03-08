@@ -9,7 +9,6 @@ export const state = {
   },
   user: {
     id: 1,
-    firstname: '',
     school: '',
     pagesRead: 0,
     booksRead: 0,
