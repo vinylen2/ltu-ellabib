@@ -46,7 +46,7 @@ export const getters = {
   isDeviceWithMic: () => {
     navigator.getUserMedia = navigator.getUserMedia ||
       navigator.webkitGetUserMedia ||
-      navigator.mozGetUserMedia;
+      navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
     if (navigator.getUserMedia) {
       return true;
     }
