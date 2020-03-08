@@ -2,6 +2,7 @@ import User from '@/api/services/user';
 import Classes from '@/api/services/classes';
 import SchoolUnit from "@/api/services/schoolunit.js";
 import Genres from "@/api/services/genres.js";
+import _ from 'lodash';
 
 /* eslint-disable no-console */
 export const actions = {
@@ -11,18 +12,14 @@ export const actions = {
         commit('userData', result.data);
       });
   },
-  getUserClass({commit, state}) {
-    SchoolUnit.getClassById(state.user.id).then(result => {
-      commit("userClass", result.data);
-    });
-  },
-  getClasses({commit}) {
-    Classes.getClasses().then(result => {
+  getClasses({commit, state}) {
+    Classes.getClasses(state.token).then(result => {
       commit("classes", result.data);
+      commit("setUserClass", _.find(result.data, { id: state.user.id }));
     });
   },
-  getSchoolUnits({commit}) {
-    SchoolUnit.getSchoolUnit().then(result => {
+  getSchoolUnits({commit, state}) {
+    SchoolUnit.getSchoolUnit(state.token).then(result => {
       commit("schoolUnit", result.data);
     });
   },

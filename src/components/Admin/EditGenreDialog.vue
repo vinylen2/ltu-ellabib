@@ -57,6 +57,7 @@ export default {
   computed: {
     ...mapGetters([
       'genres',
+      'token',
     ]),
   },
   methods: {
@@ -71,7 +72,7 @@ export default {
       Books.addGenre({
         bookId: this.book.id,
         genreId: this.selected.id
-      }).then(() => {
+      }, this.token).then(() => {
         this.$emit('submitted', this.genreId);
       });
     },

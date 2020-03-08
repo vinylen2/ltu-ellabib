@@ -125,6 +125,7 @@
 import Books from '@/api/services/books';
 import Urls from '@/assets/urls';
 import _ from 'lodash';
+import { mapGetters } from 'vuex';
 
 import AddAuthor from '@/components/Admin/AddAuthor';
 import ScannerButton from '@/components/ScannerButton';
@@ -141,6 +142,9 @@ export default {
     isAdmin() {
       return this.$store.state.isAdmin;
     },
+    ...mapGetters([
+      'token',
+    ]),
   },
   watch: {
     isbn: _.debounce(function () {
@@ -212,17 +216,17 @@ export default {
         title: this.book.title,
         pages: this.book.pages,
         description: this.book.description,
-      })
-      .then(() => {
-        this.$store.commit('showSnackbar', {
-          status: true,
-          value: 'Bok uppdaterad',
-          color: 'green lighten-2',
-          timeout: 5000,
-          hasLink: false,
-          linkUrl: '',
+      }, this.token)
+        .then(() => {
+          this.$store.commit('showSnackbar', {
+            status: true,
+            value: 'Bok uppdaterad',
+            color: 'green lighten-2',
+            timeout: 5000,
+            hasLink: false,
+            linkUrl: '',
+          });
         });
-      });
     },
     fetchBookInfo() {
       Books.getFromIsbn(this.book.isbn).then((result) => {
@@ -292,7 +296,7 @@ export default {
         pages: this.book.pages,
         genreId: this.book.genre.id,
         authorId: this.book.authors,
-      })
+      }, this.token)
         .then((result) => {
           this.$store.commit('showSnackbar',{
             status: true,

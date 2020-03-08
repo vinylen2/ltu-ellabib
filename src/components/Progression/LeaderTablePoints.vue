@@ -13,8 +13,8 @@
       <h3 v-else class="justify-center body-1">Klass</h3>
     </v-col>
     <v-col>
-      <h2 v-if="!isMobile" class="justify-center title">Sidor lästa</h2>
-      <h3 v-else class="justify-center body-1">Sidor lästa</h3>
+      <h2 v-if="!isMobile" class="justify-center title">Poäng</h2>
+      <h3 v-else class="justify-center body-1">Poäng</h3>
     </v-col>
   </v-row>
   <v-row>
@@ -23,14 +23,14 @@
 
   <v-row
     class="justify-center"
-    v-for="(classData, index) in sortedClassesPages"
+    v-for="(classData, index) in sortedByPoints"
     :key="classData.id"
   >
     <v-container class="pa-0" v-if="index < 5">
       <v-row class="pa-0">
         <v-col>
           <h2>
-            <v-btn class="ml-n8 pb-1" icon small id="user-icon-pages" ripple="false"
+            <v-btn class="ml-n8 pb-1" icon small id="user-icon-points" ripple="false"
               :to="{name: 'profile'}"
               v-if="classData.id == user.class.id">
             </v-btn>
@@ -41,13 +41,13 @@
           <h2 class="justify-center">{{classData.displayName}}</h2>
         </v-col>
         <v-col>
-          <h2 class="justify-center">{{classData.pagesRead}} sidor</h2>
+          <h2 class="justify-center">{{classData.points}} poäng</h2>
         </v-col>
         <v-col cols="12" class="pa-4">
           <v-progress-linear
             height="15"
             :color="colors[index]"
-            :value="percentage(classData.pagesRead, sortedClassesPages[0].pagesRead)"
+            :value="percentage(classData.points, sortedByPoints[0].points)"
           ></v-progress-linear>
         </v-col>
         <v-col>
@@ -59,7 +59,7 @@
       <v-row class="pa-0">
         <v-col>
           <h2>
-            <v-btn class="ml-n8 pb-1" icon small id="user-icon-pages"
+            <v-btn class="ml-n8 pb-1" icon small id="user-icon-points"
               :to="{name: 'profile'}"
               v-if="classData.id == user.class.id">
             </v-btn>
@@ -70,13 +70,13 @@
           <h2 class="justify-center">{{classData.displayName}}</h2>
         </v-col>
         <v-col>
-          <h2 class="justify-center">{{classData.pagesRead}} sidor</h2>
+          <h2 class="justify-center">{{classData.points}} poäng</h2>
         </v-col>
         <v-col cols="12">
           <v-progress-linear
             height="15"
             :color="colors[index]"
-            :value="percentage(classData.pagesRead, sortedClassesPages[0].pagesRead)"
+            :value="percentage(classData.points, sortedByPoints[0].points)"
           ></v-progress-linear>
         </v-col>
         <v-col>
@@ -93,13 +93,13 @@ import { mapGetters } from "vuex";
 import { appendIcon } from '@/assets/functions';
 
 export default {
-  name: "leadertablepages",
+  name: "leader-table-points",
   data: () => ({
     colors: ["green", "blue", "red", "indigo", "purple", "orange"],
   }),
   created() {
     setTimeout(() => {
-      appendIcon('user-icon-pages', this.user.avatarIcon, this.user.avatarColor);
+      appendIcon('user-icon-points', this.user.avatarIcon, this.user.avatarColor);
     }, 500);
   },
   methods: {
@@ -107,19 +107,9 @@ export default {
       return (nominator / denominator) * 100;
     }
   },
-
   computed: {
-    ...mapGetters(["sortedClassesPages", "user", "isMobile"]),
-    test() {
-      return 10;
-    }
+    ...mapGetters(["sortedByPoints", "user", "isMobile"]),
   },
-  mounted() {
-    this.interval = setInterval(() => {
-      if (this.value < 70) this.value += 3;
-      else clearInterval();
-    }, 100);
-  }
 };
 </script>
 

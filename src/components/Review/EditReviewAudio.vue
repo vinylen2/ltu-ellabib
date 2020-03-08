@@ -52,6 +52,8 @@ import AudioEditor from '@/components/Audio/AudioEditor';
 import Urls from '@/assets/urls';
 import moment from 'moment';
 
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'edit-review-audio',
   components: {
@@ -85,6 +87,9 @@ export default {
     review: Object,
   },
   computed: {
+    ...mapGetters([
+      'token',
+    ]),
     reviewFormData() {
       const formdata = new FormData();
       formdata.append('reviewId', this.reviewLocal.id);
@@ -110,11 +115,10 @@ export default {
       return moment(date).format('Do MMMM');
     },
     editReview() {
-      Reviews.editReviewAudio(this.reviewFormData)
+      Reviews.editReviewAudio(this.reviewFormData, this.token)
         .then(() => {
           this.$emit('closeDialog');
         });
-        // }).catch(e => console.log(e));
     },
   },
 };

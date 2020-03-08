@@ -1,45 +1,6 @@
 <template>
 <v-container fill-height>
   <v-row class="justify-center">
-    <v-col cols="12" sm="6" class="pb-0 pt-0">
-      <v-container class="pb-0">
-        <v-row class="justify-center pb-0">
-          <v-list color="rgb(255, 0, 0, 0)">
-            <v-list-item>
-              <v-list-item-icon class="pl-4">
-                <v-icon color="indigo">mdi-school</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content class="ma-0">
-                <v-list-item-title class="text-left">
-                  Ellagårdsskolan
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-icon class="pl-4">
-                <v-icon color="indigo">mdi-google-classroom</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title class="text-left">
-                  Klass {{user.classDisplayName}} 
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-icon class="pl-4" id="icon-button" @click="changeAvatarDialog = true">
-              </v-list-item-icon>
-              <v-list-item-content class="ma-0">
-                <v-list-item-title class="text-left">
-                  <v-btn text class="pa-0" @click="changeAvatarDialog = true">
-                    Ändra avatar
-                  </v-btn>
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-        </v-row>
-      </v-container>
-    </v-col>
     <v-col cols="12" sm="6" class="pt-0">
       <v-container>
         <v-row class="justify-center">
@@ -72,7 +33,7 @@
             </v-list-item>
             <v-list-item>
               <v-list-item-icon class="pl-4">
-                <v-icon color="indigo">mdi-microphone</v-icon>
+                <v-icon color="indigo">mdi-pencil</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title class="text-left">
@@ -81,6 +42,59 @@
                   </span>
                   recensioner
                   </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-icon class="pl-4">
+                <v-icon color="red">mdi-seal</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title class="text-left">
+                  <span class="font-weight-bold">
+                    {{user.points}}
+                  </span>
+                  poäng
+                  </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-row>
+      </v-container>
+    </v-col>
+    <v-col cols="12" sm="6" class="pb-0 pt-0">
+      <v-container class="pb-0">
+        <v-row class="justify-center pb-0">
+          <v-list color="rgb(255, 0, 0, 0)">
+            <v-list-item>
+              <v-list-item-icon class="pl-4">
+                <v-icon color="indigo">mdi-school</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content class="ma-0">
+                <v-list-item-title class="text-left">
+                  Ellagårdsskolan
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-icon class="pl-4">
+                <v-icon color="indigo">mdi-google-classroom</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title class="text-left">
+                  Klass {{user.classDisplayName}} 
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-icon class="pl-4" id="icon-button" @click="changeAvatarDialog = true">
+              </v-list-item-icon>
+              <v-list-item-content class="ma-0">
+                <v-list-item-title class="text-left">
+                  {{user.avatarColorDisplayName}} {{user.avatarDisplayName}}
+                  <v-btn icon class="pa-0 ml-3" @click="changeAvatarDialog = true">
+                    <v-icon>mdi-cached</v-icon>
+                  </v-btn>
+                </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
@@ -125,7 +139,7 @@
 <script>
 import Urls from '@/assets/urls';
 import ChangeAvatar from "@/components/User/ChangeAvatar";
-import { appendIcon } from '@/assets/functions';
+import { appendIcon, removeElement } from '@/assets/functions';
 
 import { mapGetters } from 'vuex';
 
@@ -147,13 +161,18 @@ export default {
     changeAvatarDialog: false,
   }),
   mounted() {
-    setTimeout(() => {
-      appendIcon('icon-button', this.user.avatarIcon, this.user.avatarColor);
-    }, 1000);
+    appendIcon('icon-button', this.user.avatarIcon, this.user.avatarColor);
   },
   methods: {
-    avatarUpdated() {
-      console.log('changeAvatar');
+    avatarUpdated(data) {
+      this.changeAvatarDialog = false;
+      removeElement(`icon-icon-button`);
+      this.$store.commit('updateNavbarIcon', data);
+      this.$store.commit('setNavbarIcon');
+      setTimeout(() => {
+        appendIcon('icon-button', data.avatarIcon, data.avatarColor);
+        // state.navbarIcon = true;
+      }, 500);
     },
   },
 };

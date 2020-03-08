@@ -37,6 +37,8 @@
 <script>
 import Reviews from '@/api/services/reviews';
 import Books from '@/api/services/books';
+
+import { mapGetters } from 'vuex';
 /* eslint-disable no-console */
 export default {
   name: 'simple-review',
@@ -47,6 +49,11 @@ export default {
     rating: 0,
     pages: null,
   }),
+  computed: {
+    ...mapGetters([
+      'token',
+    ]),
+  },
   methods: {
     publish() {
       if (this.rating == 0) {
@@ -63,7 +70,7 @@ export default {
       }
     },
     editPages() {
-      Books.editPages({ bookId: this.book.id, pages: this.pages })
+      Books.editPages({ bookId: this.book.id, pages: this.pages }, this.token)
         .then();
     },
     publishSimpleReview() {
@@ -71,7 +78,7 @@ export default {
         rating: this.rating,
         bookId: this.book.id,
         userId: this.$store.state.user.id,
-      }).then((result) => {
+      }, this.token).then((result) => {
         this.$emit('closeDialog', result);
       });
     },

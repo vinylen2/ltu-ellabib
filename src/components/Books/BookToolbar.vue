@@ -15,7 +15,7 @@
       <v-btn fab color="purple lighten-3" class="ma-2"
         @click="dialogAdvanced = true"
         @closeDialog="closeDialog">
-        <v-icon class="pt-2" large>mdi-border-color</v-icon>
+        <v-icon large>mdi-pencil</v-icon>
       </v-btn>
       <v-btn fab color="blue lighten-2" class="ma-2"
         @click="dialogSimple = true"

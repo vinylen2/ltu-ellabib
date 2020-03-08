@@ -44,14 +44,13 @@ export default {
   },
   components: {
     FrontHeader,
-    // 'book-list': BookList,
     BookListSmall,
     ScannerButton,
   },
   created() {
     this.getRecentlyReviewed();
     this.getHighestRated();
-    this.$store.dispatch('getClasses');
+    // this.$store.dispatch('getClasses');
   },
   data() {
     return {

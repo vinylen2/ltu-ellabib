@@ -3,6 +3,12 @@ import MobileDetect from 'mobile-detect';
 /* eslint-disable no-console */
 
 export const getters = {
+  navbarIcon: (state) => {
+    return state.navbarIcon;
+  },
+  token: (state) => {
+    return state.token;
+  },
   userId: (state) => {
     return state.user.id;
   },
@@ -31,7 +37,7 @@ export const getters = {
     if (state.user == null) {
       return false;
     }
-    if (state.user.roleType == 'admin' || state.user.roleId == 3) {
+    if (state.token && state.user.roleType == 'admin' || state.user.roleId == 3) {
       return true;
     }
     return false;
@@ -40,7 +46,7 @@ export const getters = {
   isDeviceWithMic: () => {
     navigator.getUserMedia = navigator.getUserMedia ||
       navigator.webkitGetUserMedia ||
-      navigator.mozGetUserMedia;
+      navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
     if (navigator.getUserMedia) {
       return true;
     }
@@ -57,6 +63,9 @@ export const getters = {
   },
   sortedClassesPages: (state) => {
     return _.orderBy(state.classes, ['pagesRead'], ['desc']);
+  },
+  sortedByPoints: (state) => {
+    return _.orderBy(state.classes, ['points'], ['desc']);
   },
   sortedClassesBooks: (state) => {
     return _.orderBy(state.classes, ['booksRead'], ['desc']);

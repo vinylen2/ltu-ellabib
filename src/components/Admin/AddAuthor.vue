@@ -36,6 +36,7 @@
 
 <script>
 import Authors from '@/api/services/authors';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'add-author',
@@ -54,6 +55,9 @@ export default {
         lastname: this.lastname,
       };
     },
+    ...mapGetters([
+      'token',
+    ]),
   },
   methods: {
     /* eslint-disable no-console */
@@ -66,7 +70,7 @@ export default {
       this.lastname = '';
     },
     addAuthor() {
-      Authors.create(this.author).then((result) => {
+      Authors.create(this.author, this.token).then((result) => {
         this.$emit('closeDialog', result.data);
         this.resetFields();
       });

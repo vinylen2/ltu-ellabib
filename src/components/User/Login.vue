@@ -22,10 +22,8 @@
 
 <script>
 /* eslint no-param-reassign: ["error", { "props": false }]*/
-  /* eslint-disable no-console */
 import Auth from '@/api/services/auth';
 
-import { appendIcon } from '@/assets/functions';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -49,18 +47,16 @@ export default {
     }
   },
   methods: {
-    addIcon() {
-      setTimeout(() => {
-        appendIcon('icon-nav', this.user.avatarIcon, this.user.avatarColor);
-      }, 1000);
-    },
     auth() {
       this.loading = true;
       Auth.loginSkolon(this.$route.query.code)
         .then((result) => {
           this.$store.commit('userLogin', result.data);
           this.$router.push('/');
-          this.addIcon();
+          this.$store.commit('setNavbarIcon');
+          this.$store.dispatch('getUser');
+          this.$store.dispatch('getClasses');
+          this.$store.dispatch('getSchoolUnits');
         });
     },
     loginSkolon() {

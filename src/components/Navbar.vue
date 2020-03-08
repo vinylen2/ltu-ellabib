@@ -24,10 +24,13 @@
     </v-toolbar-items>
     <v-spacer></v-spacer>
     <v-toolbar-items v-if="isLoggedIn">
-      <v-btn to="/leaderboard" text>Leaderboard</v-btn>
+      <v-btn to="/leaderboard" text v-if="isMobile">
+        <v-icon>mdi-seal</v-icon>
+      </v-btn>
+      <v-btn to="/leaderboard" text v-else>Leaderboard</v-btn>
     </v-toolbar-items>
     <v-toolbar-items
-      v-if="isAdmin && !isMobile">
+      v-if="isAdmin && !isMobile && isLoggedIn">
       <v-btn to="/admin/post-book" text>Lägg till bok</v-btn>
       <v-btn to="/admin/activate-reviews" text>Recensioner</v-btn>
       <v-btn text
@@ -39,6 +42,11 @@
       <v-btn to="/profile" text
         id="icon-nav"
         v-if="isLoggedIn">
+          <v-progress-circular
+            indeterminate
+            color="indigo"
+            v-if="!navbarIcon"
+          ></v-progress-circular>
       </v-btn>
     </v-toolbar-items>
     <v-toolbar-items>
@@ -50,8 +58,6 @@
 <script>
 import SkolonButton from '@/components/Skolon/SkolonButton';
 import Urls from '@/assets/urls';
-import { appendIcon } from '@/assets/functions';
-/* eslint-disable no-console */
 
 import { mapGetters } from 'vuex';
 
@@ -74,14 +80,10 @@ export default {
       'isMobile',
       'isAdmin',
       'isLoggedIn',
+      'navbarIcon',
     ]),
   },
   methods: {
-    addIcon() {
-      setTimeout(() => {
-        appendIcon('icon-nav', this.user.avatarIcon, this.user.avatarColor);
-      }, 1000);
-    },
     logout() {
       this.$store.commit('userLogout');
       this.$router.push({ name: 'frontpage' });

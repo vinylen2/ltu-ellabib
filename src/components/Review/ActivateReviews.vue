@@ -1,15 +1,15 @@
 <template>
 <v-container fluid>
   <v-container v-if="reviews.length == 0">
-    <h1>Inga recensioner att aktivera</h1>
+    <h1 class="headline">Inga recensioner att aktivera</h1>
   </v-container>
-  <v-container fluid class="pt-0" v-else>
+  <v-container class="pt-0" v-else justify="center">
     <v-row>
       <v-col>
-        <h1>Aktivera recensioner</h1>
+        <h1 class="headline">Aktivera recensioner</h1>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="pt-4" justify="center">
       <v-data-table
         disable-sort
         fixed-header
@@ -127,7 +127,6 @@
 
 <script>
 /* eslint no-param-reassign: ["error", { "props": false }]*/
-import Vue from 'vue';
 import Reviews from '@/api/services/reviews';
 import Urls from '@/assets/urls';
 import AudioPlayer from '@/components/Audio/AudioPlayer';
@@ -136,9 +135,8 @@ import EditReviewText from '@/components/Review/EditReviewText';
 import ConfirmDialog from '@/components/ConfirmDialog';
 import _ from 'lodash';
 import moment from 'moment';
-import VModal from 'vue-js-modal';
 
-Vue.use(VModal);
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -177,6 +175,11 @@ export default {
       imagesUrl: Urls.images,
       audioUrl: Urls.audio,
     };
+  },
+  computed: {
+    ...mapGetters([
+      'token',
+    ]),
   },
   created() {
     this.$nextTick(() => {
@@ -235,27 +238,29 @@ export default {
       this.editAudioDialog = true;
     },
     getReviews() {
-      Reviews.getInactive().then((result) => {
+      Reviews.getInactive(this.token).then((result) => {
         this.reviews = result.data;
       });
     },
     popReview(reviewId) {
       const index = _.findIndex(this.reviews, { id: reviewId });
+      const selectIndex = _.findIndex(this.selectedReviews, {id: reviewId });
       this.reviews.splice(index, 1);
+      this.selectedReviews.splice(selectIndex, 1);
     },
     activateReviews() {
-      Reviews.bulkActivate(this.selectedReviews).then(() => {
+      Reviews.bulkActivate(this.selectedReviews, this.token).then(() => {
         this.getReviews();
         this.selectedReviews = [];
       });
     },
     updateReviewRating(rating, id) {
-      Reviews.updateRating({ reviewId: id, rating }).then(() => {
+      Reviews.updateRating({ reviewId: id, rating }, this.token).then(() => {
       });
     },
     confirmDialogHandeler(confirmed) {
       if (confirmed) {
-        Reviews.deleteReview({ reviewId: this.dialogIdentifier }).then(() => {
+        Reviews.deleteReview({ reviewId: this.dialogIdentifier }, this.token).then(() => {
           this.popReview(this.dialogIdentifier);
         });
       }

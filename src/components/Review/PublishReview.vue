@@ -13,7 +13,7 @@
     <v-row class="pa-0" v-if="currentBook.description">
       <v-col class="pa-0">
         <vue-record class="pt-0 audio-recorder"
-          v-if="$store.getters.isDeviceWithMic"
+          v-if="isDeviceWithMic"
           :source="'description'"
           @updateBlob="updateAudio"
           :blob="audio.description">
@@ -71,6 +71,8 @@ import Books from '@/api/services/books';
 import Reviews from '@/api/services/reviews';
 import VueRecord from '@/components/Audio/VueRecord';
 
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'publish-review',
   components: {
@@ -98,6 +100,10 @@ export default {
     this.getData();
   },
   computed: {
+    ...mapGetters([
+      'token',
+      'isDeviceWithMic',
+    ]),
     reviewFormData() {
       const reviewFormData = new FormData();
       Object.keys(this.review).forEach((key) => {
@@ -155,7 +161,7 @@ export default {
 
         }
         this.publishing = true;
-        Reviews.create(this.reviewFormData)
+        Reviews.create(this.reviewFormData, this.token)
           .then((result) => {
             this.$emit('closeDialog', result);
             this.resetFields();
