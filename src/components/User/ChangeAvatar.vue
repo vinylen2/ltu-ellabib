@@ -1,9 +1,9 @@
 <template>
-<v-card>
-  <v-card-title>
+<v-card class="pa-3">
+  <v-card-title class="justify-center">
     Ändra avatar
   </v-card-title>
-  <v-container v-show="loading" class="pb-10">
+  <v-container v-show="loading" class="pb-10" >
     <v-progress-circular
       :size="50"
       color="indigo"
@@ -11,20 +11,29 @@
     ></v-progress-circular>
   </v-container>
   <v-container v-show="!loading">
-    <v-row class="justify-center">Välj avatar</v-row>
+    <v-row class="justify-center">Du har {{user.points}} poäng.</v-row>
     <v-row>
-      <v-col cols="1" v-for="avatar in avatars" :key="avatar.id" :id="avatar.id"
-        :class="{ selected: selectedAvatarId == avatar.id }"
-        @click="selectedAvatarId = avatar.id">
-      </v-col>
+      <div v-for="avatar in avatars" :key="avatar.id">
+        <v-avatar class="ma-1" cols="1" :id="avatar.id"
+            :class="{ selected: selectedAvatarId == avatar.id }"
+            @click="selectedAvatarId = avatar.id"
+            v-if="user.points > avatar.pointRequirement">
+        </v-avatar>
+        <v-tooltip bottom v-else>
+          <template v-slot:activator="{on}">
+            <v-avatar class="ma-1" cols="1" :id="avatar.id" v-on="on"></v-avatar>
+          </template>
+          <span>Du måste ha {{avatar.pointRequirement}} poäng för avataren {{avatar.displayName}}</span>
+        </v-tooltip>
+      </div>
     </v-row>
     <v-row class="justify-center">Välj färg</v-row>
     <v-row>
-      <v-row>
-        <v-col cols="1" height="20px"
-          v-for="color in colors" :key="color.id"
-          @click="toggleSelectedColor(color.id, color.color)"
-          :class="color.color">
+      <v-row class="justify-center">
+        <v-col>
+          <v-btn  class="ma-1 " rounded dark v-for="color in colors" :key="color.id"
+            @click="toggleSelectedColor(color.id, color.color)"
+            :class="color.color"> {{color.displayName}} </v-btn>
         </v-col>
       </v-row>
     </v-row>
@@ -39,9 +48,7 @@
 <script>
 import Avatars from '@/api/services/avatars';
 import { appendIcon, removeElement } from '@/assets/functions';
-
 import { mapGetters } from 'vuex';
-
 export default {
   name: 'change-avatar',
   data: () => ({
@@ -63,7 +70,8 @@ export default {
   mounted() {
     setTimeout(() => {
       this.avatars.forEach((avatar) => {
-        appendIcon(avatar.id, avatar.icon, 'grey');
+        let color = avatar.pointRequirement < this.user.points ? this.user.avatarColor : 'grey';
+        appendIcon(avatar.id, avatar.icon, color);
       });
       this.loading = false;
     }, 1000)
@@ -79,8 +87,9 @@ export default {
     toggleSelectedColor(colorId, color) {
       this.selectedColorId = colorId;
       this.avatars.forEach((avatar) => {
+        let iconColor = avatar.pointRequirement < this.user.points ? color : 'grey';
         removeElement(`icon-${avatar.id}`);
-        appendIcon(avatar.id, avatar.icon, color);
+        appendIcon(avatar.id, avatar.icon, iconColor);
       });
     },
     updateAvatar() {
@@ -105,5 +114,4 @@ export default {
   border-color: grey;
   border-width: thin;
 }
-
 </style>

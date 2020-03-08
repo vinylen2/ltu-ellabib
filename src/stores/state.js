@@ -15,7 +15,7 @@ export const state = {
     reviewsWritten: 0,
     points: 0,
     role: '', // student, teacher, admin
-    roleId: 0,
+    roleId: 1,
     roleType: '',
     avatarId: 1,
     avatarIcon: 'karate',
