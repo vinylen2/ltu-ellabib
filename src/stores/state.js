@@ -8,7 +8,7 @@ export const state = {
     linkUrl: '',
   },
   user: {
-    id: 1,
+    id: 2,
     firstname: '',
     school: '',
     pagesRead: 0,
@@ -30,10 +30,10 @@ export const state = {
       id: 0,
     },
   },
-  token: false,
+  token: true,
   navbarIcon: false,
   skolon: false,
-  adminLoginModal: true,
+  adminLoginModal: false,
   isLoading: false,
   userAgent: {
     isMobile: null,

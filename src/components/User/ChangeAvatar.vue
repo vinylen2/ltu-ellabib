@@ -1,9 +1,9 @@
 <template>
-<v-card>
-  <v-card-title>
+<v-card class="pa-3">
+  <v-card-title class="justify-center">
     Ändra avatar
   </v-card-title>
-  <v-container v-show="loading" class="pb-10">
+  <v-container v-show="loading" class="pb-10" >
     <v-progress-circular
       :size="50"
       color="indigo"
@@ -13,18 +13,18 @@
   <v-container v-show="!loading">
     <v-row class="justify-center">Välj avatar</v-row>
     <v-row>
-      <v-col cols="1" v-for="avatar in avatars" :key="avatar.id" :id="avatar.id"
+     <v-avatar class="ma-1" cols="1" v-for="avatar in avatars" :key="avatar.id" :id="avatar.id"
         :class="{ selected: selectedAvatarId == avatar.id }"
         @click="selectedAvatarId = avatar.id">
-      </v-col>
+      </v-avatar>
     </v-row>
     <v-row class="justify-center">Välj färg</v-row>
     <v-row>
-      <v-row>
-        <v-col cols="1" height="20px"
-          v-for="color in colors" :key="color.id"
+      <v-row class="justify-center">
+        <v-col>
+        <v-btn  class="ma-1 " rounded dark v-for="color in colors" :key="color.id"
           @click="toggleSelectedColor(color.id, color.color)"
-          :class="color.color">
+          :class="color.color"> {{color.displayName}} </v-btn>
         </v-col>
       </v-row>
     </v-row>
@@ -107,3 +107,4 @@ export default {
 }
 
 </style>
+

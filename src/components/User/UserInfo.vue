@@ -127,8 +127,8 @@
       </v-container>
     </v-col>
   </v-row>
-  <v-dialog v-model="changeAvatarDialog">
-    <change-avatar
+  <v-dialog width="600" v-model="changeAvatarDialog" >
+    <change-avatar max-width="600"
       @closeDialog="changeAvatarDialog = false"
       @updated="avatarUpdated">
     </change-avatar>
