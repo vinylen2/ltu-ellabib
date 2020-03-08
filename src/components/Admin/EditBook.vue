@@ -45,6 +45,7 @@
 import Books from '@/api/services/books';
 import Authors from '@/api/services/authors';
 import _ from 'lodash';
+import { mapGetters } from 'vuex';
 
 export default {
   /* eslint-disable no-console */
@@ -65,6 +66,11 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapGetters([
+      'token',
+    ]),
+  },
   created() {
     this.getAuthors();
   },
@@ -76,7 +82,7 @@ export default {
         genreId: this.local.genre,
         title: this.local.title,
         pages: this.local.pages,
-      })
+      }, this.token)
       .then(() => {
         let author = _.find(this.authors, {id: this.local.author});
         let genre = _.find(this.$store.state.genres, {id: this.local.genre});
