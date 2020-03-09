@@ -8,7 +8,7 @@
       <v-tab>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-icon class="pr-3" v-on="on">
+            <v-icon color="red" class="pr-3" v-on="on">
                 mdi-seal
             </v-icon>
           </template>
@@ -81,10 +81,10 @@ export default {
     LeaderTablePoints 
   },
   data: () => ({
-    pointsInfo: 'Antal recensioner som registrerats genom text, stjärnor eller inspelning hos de bästa klasserna på skolan ',
-    reviewsInfo: 'Antal recensioner som registrerats genom text, stjärnor eller inspelning hos de bästa klasserna på skolan ',
-    booksInfo: 'Antal böcker lästa hos de bästa klasserna på skolan',
-    pagesInfo: 'Antal sidor lästa hos de bästa klasserna på skolan'
+    pointsInfo: 'De fem klasserna som har flest poäng på skolan.',
+    reviewsInfo: 'De fem klasserna som skrivit flest recensioner på skolan.',
+    booksInfo: 'De fem klasserna som har läst flest böcker på skolan.',
+    pagesInfo: 'De fem klasserna som har läst flest sidor på skolan.',
   }),
   computed: {
     ...mapGetters(["isMobile"])

@@ -7,4 +7,13 @@ export default {
   loginAdmin(credentials) {
     return api.post('auth/admin', credentials).then(response => response.data);
   },
+  checkToken(token) {
+    return api.get('auth/activity', token)
+      .then(response => response.data)
+      .catch((error) => {
+        if (!error.status) {
+          return false;
+        }
+      })
+  },
 };

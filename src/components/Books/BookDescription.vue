@@ -84,7 +84,7 @@
       </v-card>
     </v-col>
   </v-row>
-  <v-row v-if="isAdmin" justify="">
+  <v-row v-if="isAdmin && isLoggedIn" justify="">
     <v-spacer></v-spacer>
     <v-btn text color="orange lighten-3" class="ma-2"
       :to="{ name: 'post-book', params: { slug: book.slug }}">

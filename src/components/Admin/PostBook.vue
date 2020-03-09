@@ -82,7 +82,6 @@
           <v-col>
             <v-autocomplete
               append-outer-icon="mdi-plus"
-              :class="'text-left'"
               dense
               @click:append-outer="authorDialog = true"
               :items="$store.state.authors"
