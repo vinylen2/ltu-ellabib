@@ -100,7 +100,7 @@ export default {
   created() {
     setTimeout(() => {
       appendIcon('user-icon-points', this.user.avatarIcon, this.user.avatarColor);
-    }, 1000);
+    }, 500);
   },
   methods: {
     percentage(nominator, denominator) {

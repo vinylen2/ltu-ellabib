@@ -109,7 +109,7 @@ export default {
   created() {
     setTimeout(() => {
       appendIcon('user-icon-reviews', this.user.avatarIcon, this.user.avatarColor);
-    }, 1000);
+    }, 500);
   },
   methods: {
     percentage(nominator, denominator) {

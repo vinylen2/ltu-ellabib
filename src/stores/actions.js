@@ -38,7 +38,7 @@ export const actions = {
         commit('errorSnackbar', 'Du har blivit utloggad.');
       } else {
         commit('setNavbarIcon');
-        dispatch('getClasses');
+        // dispatch('getClasses');
         dispatch('getUser');
         dispatch('authChecker');
       } 

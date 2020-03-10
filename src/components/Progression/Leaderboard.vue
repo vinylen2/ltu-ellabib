@@ -91,6 +91,9 @@ export default {
       'isMobile',
     ]),
   },
+  created() {
+    this.$store.dispatch('getClasses');
+  },
 };
 </script>
 
