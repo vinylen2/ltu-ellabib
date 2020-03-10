@@ -33,20 +33,18 @@
       v-if="isAdmin && !isMobile && isLoggedIn">
       <v-btn to="/admin/post-book" text>Lägg till bok</v-btn>
       <v-btn to="/admin/activate-reviews" text>Recensioner</v-btn>
-      <v-btn text
-      @click="logout">
-      Logga ut
-     </v-btn>
     </v-toolbar-items>
-    <v-toolbar-items>
+    <v-toolbar-items v-if="isLoggedIn">
       <v-btn to="/profile" text
-        id="icon-nav"
-        v-if="isLoggedIn">
+        id="icon-nav">
           <v-progress-circular
             indeterminate
             color="indigo"
             v-if="!navbarIcon"
           ></v-progress-circular>
+      </v-btn>
+      <v-btn text @click="logout">
+        <v-icon>mdi-logout</v-icon>
       </v-btn>
     </v-toolbar-items>
     <v-toolbar-items>

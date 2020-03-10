@@ -112,7 +112,7 @@ export default {
     captureUserMedia(mediaConstraints, successCallback, errorCallback) {
       var isBlackBerry = !!(/BB10|BlackBerry/i.test(navigator.userAgent || ''));
       if(isBlackBerry && !!(navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mediaDevices.getUserMedia || navigator.mozGetUserMedia)) {
-          navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
+          navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
           navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
           return
       }

@@ -14,7 +14,7 @@ export default new Vuex.Store({
   actions,
   mutations,
   plugins: [createPersistedState({
-    storage: window.sessionStorage,
+    // storage: window.sessionStorage,
     paths: [
       'user',
       'token',
