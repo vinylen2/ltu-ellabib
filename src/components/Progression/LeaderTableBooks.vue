@@ -109,7 +109,7 @@ export default {
   created() {
     setTimeout(() => {
       appendIcon('user-icon-book', this.user.avatarIcon, this.user.avatarColor);
-    }, 500);
+    }, 1000);
   },
   methods: {
     percentage(nominator, denominator) {
