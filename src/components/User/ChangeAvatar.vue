@@ -17,7 +17,7 @@
         <v-avatar class="ma-1" cols="1" :id="avatar.id"
             :class="{ selected: selectedAvatarId == avatar.id }"
             @click="selectedAvatarId = avatar.id"
-            v-if="user.points > avatar.pointRequirement">
+            v-if="user.points >= avatar.pointRequirement">
         </v-avatar>
         <v-tooltip bottom v-else>
           <template v-slot:activator="{on}">
@@ -70,7 +70,7 @@ export default {
   mounted() {
     setTimeout(() => {
       this.avatars.forEach((avatar) => {
-        let color = avatar.pointRequirement < this.user.points ? this.user.avatarColor : 'grey';
+        let color = avatar.pointRequirement <= this.user.points ? this.user.avatarColor : 'grey';
         appendIcon(avatar.id, avatar.icon, color);
       });
       this.loading = false;
@@ -87,7 +87,7 @@ export default {
     toggleSelectedColor(colorId, color) {
       this.selectedColorId = colorId;
       this.avatars.forEach((avatar) => {
-        let iconColor = avatar.pointRequirement < this.user.points ? color : 'grey';
+        let iconColor = avatar.pointRequirement <= this.user.points ? color : 'grey';
         removeElement(`icon-${avatar.id}`);
         appendIcon(avatar.id, avatar.icon, iconColor);
       });

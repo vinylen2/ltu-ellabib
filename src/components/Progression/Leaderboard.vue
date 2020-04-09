@@ -16,7 +16,7 @@
         </v-tooltip>
         <span v-if="!isMobile">Poäng</span>
       </v-tab>
-      <v-tab>
+      <!-- <v-tab>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-icon class="pr-3" v-on="on">
@@ -46,11 +46,11 @@
           <span>{{reviewsInfo}}</span>
         </v-tooltip>
         <span v-if="!isMobile">Recensioner</span>
-      </v-tab>
+      </v-tab> -->
       <v-tab-item>
         <LeaderTablePoints />
       </v-tab-item>
-      <v-tab-item>
+      <!-- <v-tab-item>
         <LeaderTablePages />
       </v-tab-item>
       <v-tab-item>
@@ -58,7 +58,7 @@
       </v-tab-item>
       <v-tab-item>
         <LeaderTableReviews />
-      </v-tab-item>
+      </v-tab-item> -->
     </v-tabs>
   </v-row>
 </v-container>
@@ -66,18 +66,18 @@
 
 <script>
 /* eslint-disable no-console */
-import LeaderTablePages from "@/components/Progression/LeaderTablePages";
-import LeaderTableBooks from "@/components/Progression/LeaderTableBooks";
-import LeaderTableReviews from "@/components/Progression/LeaderTableReviews";
+// import LeaderTablePages from "@/components/Progression/LeaderTablePages";
+// import LeaderTableBooks from "@/components/Progression/LeaderTableBooks";
+// import LeaderTableReviews from "@/components/Progression/LeaderTableReviews";
 import LeaderTablePoints from "@/components/Progression/LeaderTablePoints";
 
 import { mapGetters } from 'vuex';
 export default {
   name: "leaderboard",
   components: { 
-    LeaderTablePages, 
-    LeaderTableBooks, 
-    LeaderTableReviews,
+    // LeaderTablePages, 
+    // LeaderTableBooks, 
+    // LeaderTableReviews,
     LeaderTablePoints 
   },
   data: () => ({
