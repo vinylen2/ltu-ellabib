@@ -23,6 +23,9 @@
         <v-icon large>mdi-star</v-icon>
       </v-btn>
     </div>
+    <div v-if="$store.getters.isLoggedIn && isReviewedByUser" class="pt-5">
+      <span class="subtitle">Du har läst denna bok!</span>
+    </div>
   </v-row>
 </v-container>
 </template>
