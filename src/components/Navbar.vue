@@ -47,23 +47,28 @@
         <v-icon>mdi-logout</v-icon>
       </v-btn>
     </v-toolbar-items>
-    <v-toolbar-items>
-      <skolon-button></skolon-button>
+    <v-toolbar-items v-if="!isLoggedIn">
+      <v-btn text @click="$router.push({name: 'auth-skolon'})">
+        Logga in
+      </v-btn>
     </v-toolbar-items>
+    <!-- <v-toolbar-items>
+      <skolon-button></skolon-button>
+    </v-toolbar-items> -->
 </v-app-bar>
 </template>
 
 <script>
-import SkolonButton from '@/components/Skolon/SkolonButton';
+// import SkolonButton from '@/components/Skolon/SkolonButton';
 import Urls from '@/assets/urls';
 
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'navbar',
-  components: {
-    SkolonButton,
-  },
+  // components: {
+  //   SkolonButton,
+  // },
   data() {
     return {
       imagesUrl: Urls.images,
