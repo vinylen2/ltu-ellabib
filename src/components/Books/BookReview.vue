@@ -46,6 +46,7 @@
 
 <script>
 import AudioPlayer from '@/components/Audio/AudioPlayer';
+import Urls from '@/assets/urls';
 
 import moment from 'moment';
 import 'moment/locale/sv';
@@ -59,7 +60,7 @@ export default {
     book: Object,
   },
   data: () => ({
-
+    audioUrl: Urls.audio,
   }),
   methods: {
     formattedDate(date) {
