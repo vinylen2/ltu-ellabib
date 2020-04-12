@@ -1,7 +1,7 @@
 <template>
 <v-container fluid>
   <v-row class="justify-center pt-4">
-    <span class="headline">Leaderboard</span>
+    <span class="headline">Ledartavla</span>
   </v-row>
   <v-row class="justify-center pt-4">
     <v-tabs color="teal darken-4" grow>

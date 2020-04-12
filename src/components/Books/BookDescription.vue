@@ -234,12 +234,19 @@ export default {
         timeout: 5000,
         hasLink: false,
       });
+      setTimeout(() => {
+        this.$router.go();
+      }, 3000)
     },
     formattedAudioUrl(endingOfUrl) {
       return [this.audioUrl + endingOfUrl];
     },
     getBookFromSlug() {
-      Books.getFromSlug(this.$route.params.slug, this.$store.state.user.id)
+      let userId = null;
+      if (this.isLoggedIn) {
+        userId = this.$store.state.user.id;
+      }
+      Books.getFromSlug(this.$route.params.slug, userId)
         .then((result) => {
           this.book = result.data.book;
           this.isReviewedByUser = result.data.isReviewedByUser;

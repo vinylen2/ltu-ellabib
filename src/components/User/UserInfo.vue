@@ -65,7 +65,7 @@
       <v-container class="pb-0">
         <v-row class="justify-center pb-0">
           <v-list color="rgb(255, 0, 0, 0)">
-            <v-list-item>
+            <!-- <v-list-item>
               <v-list-item-icon class="pl-4">
                 <v-icon color="indigo">mdi-school</v-icon>
               </v-list-item-icon>
@@ -74,7 +74,7 @@
                   Ellagårdsskolan
                 </v-list-item-title>
               </v-list-item-content>
-            </v-list-item>
+            </v-list-item> -->
             <v-list-item>
               <v-list-item-icon class="pl-4">
                 <v-icon color="indigo">mdi-google-classroom</v-icon>
@@ -97,9 +97,9 @@
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item>
+            <v-list-item v-if="favouriteGenre.genreId">
               <v-list-item-icon class="mr-4 mt-0">
-                <v-btn icon
+                <v-btn icon 
                   :to="{ name: 'books', params: 
                     { 
                       genre: { 

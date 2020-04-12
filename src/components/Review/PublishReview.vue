@@ -5,7 +5,7 @@
   </v-card-title>
 <v-container>
   <v-form>
-    <v-row v-if="currentBook.description">
+    <!-- <v-row v-if="currentBook.description">
       <v-col class="text-left">
         {{ currentBook.description }}
       </v-col>
@@ -19,7 +19,7 @@
           :blob="audio.description">
         </vue-record>
       </v-col>
-    </v-row>
+    </v-row> -->
     <v-row class="pb-0">
       <v-col class="pb-0">
         <span class="pb-2">Recension</span>

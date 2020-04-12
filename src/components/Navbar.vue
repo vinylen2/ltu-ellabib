@@ -27,7 +27,7 @@
       <v-btn to="/leaderboard" text v-if="isMobile">
         <v-icon>mdi-seal</v-icon>
       </v-btn>
-      <v-btn to="/leaderboard" text v-else>Leaderboard</v-btn>
+      <v-btn to="/leaderboard" text v-else>Ledartavla</v-btn>
     </v-toolbar-items>
     <v-toolbar-items
       v-if="isAdmin && !isMobile && isLoggedIn">
