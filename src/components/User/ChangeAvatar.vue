@@ -56,7 +56,7 @@ export default {
     avatars: [],
     colors: [],
     selectedAvatarId: 1,
-    selectedColorId: null,
+    selectedColorId: 1,
   }),
   created() {
     this.getAllAvatars();
