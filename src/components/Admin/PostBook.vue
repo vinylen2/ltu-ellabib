@@ -295,6 +295,8 @@ export default {
         pages: this.book.pages,
         genreId: this.book.genre.id,
         authorId: this.book.authors,
+        imageUrl: this.book.imageUrl,
+        description: this.book.description,
       }, this.token)
         .then((result) => {
           this.$store.commit('showSnackbar',{
@@ -303,7 +305,7 @@ export default {
             color: 'green lighten-2',
             timeout: 3000,
             hasLink: true,
-            linkUrl: `localhost:8080/book/${result.data.slug}`,
+            linkUrl: `https://ellabib.se/book/${result.data.slug}`,
           });
           // this.resetFields();
         });
