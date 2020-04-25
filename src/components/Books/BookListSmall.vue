@@ -87,7 +87,7 @@ export default {
     bookTitle(title) {
       if (this.$store.state.userAgent.isMobile) {
         return title.slice(0, 15);
-      } return title;
+      } return title.slice(0,20);
     },
   },
 };
