@@ -16,7 +16,7 @@
     "blob-to-arraybuffer": "0.0.1",
     "core-js": "^3.4.3",
     "countup.js": "^2.0.4",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "minimal-timer": "^4.1.0",
     "mobile-detect": "^1.4.4",
     "moment": "^2.24.0",
