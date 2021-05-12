@@ -22,7 +22,7 @@
     "moment": "^2.24.0",
     "quagga": "^0.12.1",
     "recordrtc": "^5.5.8",
-    "swiper": "^5.2.1",
+    "swiper": "^6.5.1",
     "v-autocomplete": "^1.8.2",
     "v-tooltip": "^2.0.2",
     "vee-validate": "^3.2.0",
