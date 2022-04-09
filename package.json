@@ -19,7 +19,7 @@
     "lodash": "^4.17.15",
     "minimal-timer": "^4.1.0",
     "mobile-detect": "^1.4.4",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "quagga": "^0.12.1",
     "recordrtc": "^5.5.8",
     "swiper": "^5.2.1",
